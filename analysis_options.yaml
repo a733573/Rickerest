@@ -1,0 +1,12 @@
+include: package:pedantic_mono/analysis_options.yaml
+
+analyzer:
+  strong-mode:
+    implicit-dynamic: true
+  language:
+    strict-inference: false
+
+linter:
+  rules:
+    unnecessary_lambdas: false
+    omit_local_variable_types: false

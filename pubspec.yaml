@@ -1,0 +1,21 @@
+name: rickerest
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment: 
+  sdk: '>=2.16.2 <3.0.0'
+
+dependencies: 
+  cupertino_icons: ^1.0.4
+  flutter:
+    sdk: flutter
+  get: 4.6.1
+
+dev_dependencies: 
+  flutter_test:
+    sdk: flutter
+  pedantic_mono: 1.17.0
+
+flutter: 
+  uses-material-design: true
+
