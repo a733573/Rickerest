@@ -14,6 +14,8 @@ class SignInView extends GetView<SignInController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign in'),
+        elevation: 0,
+        backgroundColor: Colors.brown.withOpacity(0.5),
       ),
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),

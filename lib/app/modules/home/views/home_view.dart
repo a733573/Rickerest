@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rickerest/app/global_widgets/sign_out_icon_button.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -12,15 +13,11 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-              Get.offNamed('/sign-in');
-            },
-            icon: const Icon(Icons.logout),
-          ),
+        actions: const [
+          SignOutIconButton(),
         ],
+        elevation: 0,
+        backgroundColor: Colors.brown.withOpacity(0.5),
       ),
       body: Center(
         child: Column(
@@ -28,8 +25,15 @@ class HomeView extends GetView<HomeController> {
           children: [
             Text(
               'User: ${FirebaseAuth.instance.currentUser?.email}',
-              style: const TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 30),
             ),
+            ElevatedButton(
+              onPressed: () => Get.toNamed('/chats'),
+              child: const Text(
+                'chats page',
+                style: TextStyle(fontSize: 30),
+              ),
+            )
           ],
         ),
       ),
