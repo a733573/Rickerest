@@ -1,5 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:get/get.dart';
 
+import '../global_widgets/not_found_view.dart';
 import '../modules/chats/bindings/chats_binding.dart';
 import '../modules/chats/views/chats_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -16,6 +19,9 @@ class AppPages {
   AppPages._();
 
   static const INITIAL = Routes.HOME;
+
+  static final NOT_FOUND =
+      GetPage(name: '/not-found', page: () => NotFoundView());
 
   static final routes = [
     GetPage(
