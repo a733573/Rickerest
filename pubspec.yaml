@@ -7,14 +7,17 @@ environment:
 
 dependencies: 
   cupertino_icons: ^1.0.4
-  flutter:
-    sdk: flutter
+  firebase_auth: ^3.3.13
+  firebase_core: 1.14.0
   get: 4.6.1
+  flutterfire_ui: 0.4.0+1
+  flutter: 
+    sdk: flutter
 
 dev_dependencies: 
-  flutter_test:
-    sdk: flutter
   pedantic_mono: 1.17.0
+  flutter_test: 
+    sdk: flutter
 
 flutter: 
   uses-material-design: true
