@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1039744153156",
+    "firebase_url": "https://rickerest-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "rickerest",
+    "storage_bucket": "rickerest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039744153156:android:36be99bbd0dff1c228ee11",
+        "android_client_info": {
+          "package_name": "com.rickerest.rickerest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039744153156-0ft17rmikskq69f7fmrb36bon4dls584.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rickerest.rickerest",
+            "certificate_hash": "03b1ea246132deb4f432f885e5cb6de300f52368"
+          }
+        },
+        {
+          "client_id": "1039744153156-56ibedqkldacjspcgb35nbqaq325d023.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVHm-nVXBfAFCawF0uBpxI0JkVmDDm8Xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039744153156-56ibedqkldacjspcgb35nbqaq325d023.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1039744153156-f2826k20iogpjibkt8cc5mmmil7bcf50.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rickerest.rickerest"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
