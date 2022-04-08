@@ -10,7 +10,7 @@ class SenbeiBayashiImage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Image.asset(
-        'assets/images/senbei_bayashi.png',
+        'assets/icon/senbei_bayashi_icon.png',
       ),
     );
   }

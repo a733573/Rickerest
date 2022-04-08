@@ -11,3 +11,4 @@ linter:
   rules:
     unnecessary_lambdas: false
     omit_local_variable_types: false
+    sort_pub_dependencies: false
