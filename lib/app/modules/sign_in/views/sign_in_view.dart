@@ -13,8 +13,7 @@ class SignInView extends GetView<SignInController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SignInView'),
-        centerTitle: true,
+        title: const Text('Sign in'),
       ),
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
@@ -34,7 +33,7 @@ class SignInView extends GetView<SignInController> {
             ],
             actions: [
               AuthStateChangeAction<SignedIn>((context, state) {
-                Get.offNamed('/home');
+                Get.offNamed('/');
               }),
             ],
           );

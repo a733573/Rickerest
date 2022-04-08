@@ -11,6 +11,6 @@ abstract class Routes {
 
 abstract class _Paths {
   _Paths._();
-  static const HOME = '/home';
+  static const HOME = '/';
   static const SIGN_IN = '/sign-in';
 }

@@ -21,11 +21,13 @@ class AppPages {
       page: () => HomeView(),
       binding: HomeBinding(),
       middlewares: [AuthMiddleware()],
+      transitionDuration: Duration(seconds: 0),
     ),
     GetPage(
       name: _Paths.SIGN_IN,
       page: () => SignInView(),
       binding: SignInBinding(),
+      transitionDuration: Duration(seconds: 0),
     ),
   ];
 }

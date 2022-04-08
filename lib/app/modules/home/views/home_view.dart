@@ -11,8 +11,16 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomeView'),
-        centerTitle: true,
+        title: const Text('Home'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              Get.offNamed('/sign-in');
+            },
+            icon: const Icon(Icons.logout),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -22,13 +30,6 @@ class HomeView extends GetView<HomeController> {
               'User: ${FirebaseAuth.instance.currentUser?.email}',
               style: const TextStyle(fontSize: 20),
             ),
-            ElevatedButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-                Get.offNamed('/sign-in');
-              },
-              child: const Text('ログアウト'),
-            )
           ],
         ),
       ),
