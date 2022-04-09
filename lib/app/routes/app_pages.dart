@@ -1,8 +1,5 @@
 import 'package:get/get.dart';
 
-import '../global/middleware/auth_middleware.dart';
-import '../modules/auth/views/forgot_password_view.dart';
-import '../modules/auth/views/sign_in_view.dart';
 import '../modules/chats/bindings/chats_binding.dart';
 import '../modules/chats/views/chats_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -27,24 +24,12 @@ class AppPages {
       name: _Paths.home,
       page: () => const HomeView(),
       binding: HomeBinding(),
-      middlewares: [AuthMiddleware()],
-      transitionDuration: Duration.zero,
-    ),
-    GetPage(
-      name: _Paths.signIn,
-      page: () => const SignInView(),
-      transitionDuration: Duration.zero,
-    ),
-    GetPage(
-      name: _Paths.forgotPassword,
-      page: () => const ForgotPasswordView(),
       transitionDuration: Duration.zero,
     ),
     GetPage(
       name: _Paths.chats,
       page: () => const ChatsView(),
       binding: ChatsBinding(),
-      middlewares: [AuthMiddleware()],
       transitionDuration: Duration.zero,
     ),
   ];

@@ -13,7 +13,7 @@ class SignOutIconButton extends StatelessWidget {
     return IconButton(
       onPressed: () {
         FirebaseAuth.instance.signOut();
-        Get.offNamed(Routes.signIn);
+        Get.offAllNamed(Routes.home);
       },
       icon: const Icon(Icons.logout),
     );
