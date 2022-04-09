@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rickerest/app/routes/app_pages.dart';
 
 class SignOutIconButton extends StatelessWidget {
   const SignOutIconButton({
@@ -12,7 +13,7 @@ class SignOutIconButton extends StatelessWidget {
     return IconButton(
       onPressed: () {
         FirebaseAuth.instance.signOut();
-        Get.offNamed('/sign-in');
+        Get.offNamed(Routes.signIn);
       },
       icon: const Icon(Icons.logout),
     );

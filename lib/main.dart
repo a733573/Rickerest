@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Rickerest',
       theme: ThemeData(primarySwatch: Colors.brown),
-      initialRoute: AppPages.INITIAL,
+      initialRoute: AppPages.initial,
       getPages: AppPages.routes,
-      unknownRoute: AppPages.NOT_FOUND,
+      unknownRoute: AppPages.notFound,
     );
   }
 }

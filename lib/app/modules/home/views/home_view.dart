@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rickerest/app/global_widgets/sign_out_icon_button.dart';
 
+import '../../../global/widgets/sign_out_icon_button.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -27,8 +28,9 @@ class HomeView extends GetView<HomeController> {
               'User: ${FirebaseAuth.instance.currentUser?.email}',
               style: const TextStyle(fontSize: 30),
             ),
-            ElevatedButton(
-              onPressed: () => Get.toNamed('/chats'),
+            const SizedBox(height: 20),
+            TextButton(
+              onPressed: () => Get.toNamed(Routes.chats),
               child: const Text(
                 'chats page',
                 style: TextStyle(fontSize: 30),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rickerest/app/global_widgets/sign_out_icon_button.dart';
 
+import '../../../global/widgets/sign_out_icon_button.dart';
 import '../controllers/chats_controller.dart';
 
 class ChatsView extends GetView<ChatsController> {

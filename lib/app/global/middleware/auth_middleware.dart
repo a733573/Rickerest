@@ -8,7 +8,7 @@ class AuthMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
     if (FirebaseAuth.instance.currentUser == null) {
-      return const RouteSettings(name: Routes.SIGN_IN);
+      return const RouteSettings(name: Routes.signIn);
     }
     return null;
   }

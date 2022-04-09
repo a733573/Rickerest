@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../routes/app_pages.dart';
+
 class NotFoundView extends StatelessWidget {
   const NotFoundView({Key? key}) : super(key: key);
 
@@ -34,7 +36,7 @@ class NotFoundView extends StatelessWidget {
                   style: TextStyle(fontSize: 30),
                 ),
                 TextButton(
-                  onPressed: () => Get.toNamed('/'),
+                  onPressed: () => Get.toNamed(Routes.home),
                   child: const Text(
                     'Home',
                     style: TextStyle(fontSize: 30),
