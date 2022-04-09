@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../routes/app_pages.dart';
+import '../../../routes/app_pages.dart';
 
 class NotFoundView extends StatelessWidget {
   const NotFoundView({Key? key}) : super(key: key);

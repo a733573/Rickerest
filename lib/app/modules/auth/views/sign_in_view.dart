@@ -2,12 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:get/get.dart';
-import 'package:rickerest/app/modules/sign_in/views/widgets/senbei_bayashi_image.dart';
 import 'package:rickerest/app/routes/app_pages.dart';
 
-import '../controllers/sign_in_controller.dart';
+import 'widgets/senbei_bayashi_image.dart';
 
-class SignInView extends GetView<SignInController> {
+class SignInView extends StatelessWidget {
   const SignInView({Key? key}) : super(key: key);
 
   @override
@@ -37,6 +36,9 @@ class SignInView extends GetView<SignInController> {
             actions: [
               AuthStateChangeAction<SignedIn>((context, state) {
                 Get.offNamed(Routes.home);
+              }),
+              ForgotPasswordAction((context, email) {
+                Get.toNamed(Routes.forgotPassword, arguments: {'email': email});
               }),
             ],
           );

@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
 
 import '../global/middleware/auth_middleware.dart';
-import '../global/views/not_found_view.dart';
+import '../modules/auth/views/forgot_password_view.dart';
+import '../modules/auth/views/sign_in_view.dart';
 import '../modules/chats/bindings/chats_binding.dart';
 import '../modules/chats/views/chats_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
-import '../modules/sign_in/bindings/sign_in_binding.dart';
-import '../modules/sign_in/views/sign_in_view.dart';
+import '../modules/not_found/views/not_found_view.dart';
 
 part 'app_routes.dart';
 
@@ -33,7 +33,11 @@ class AppPages {
     GetPage(
       name: _Paths.signIn,
       page: () => const SignInView(),
-      binding: SignInBinding(),
+      transitionDuration: Duration.zero,
+    ),
+    GetPage(
+      name: _Paths.forgotPassword,
+      page: () => const ForgotPasswordView(),
       transitionDuration: Duration.zero,
     ),
     GetPage(
