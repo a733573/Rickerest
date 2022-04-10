@@ -26,10 +26,7 @@ class HomeView extends GetView<HomeController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'HomeView is working',
-                style: TextStyle(fontSize: 30),
-              ),
+              // GetUserName(),
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () => Get.toNamed(Routes.chats),

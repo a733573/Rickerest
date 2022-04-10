@@ -12,6 +12,7 @@ dependencies:
   flutterfire_ui: 0.4.0+1
   get: 4.6.1
   url_strategy: 0.2.0
+  cloud_firestore: 3.1.11
   flutter: 
     sdk: flutter
 
@@ -27,8 +28,8 @@ flutter:
     - assets/icon/
   uses-material-design: true
 
-flutter_icons:
-  android: "launcher_icon"
+flutter_icons: 
+  android: launcher_icon
+  image_path: assets/icon/senbei_bayashi_icon.png
   ios: true
-  image_path: "assets/icon/senbei_bayashi_icon.png"
 

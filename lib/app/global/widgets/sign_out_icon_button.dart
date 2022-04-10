@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rickerest/app/global/controllers/auth_controller.dart';
 import 'package:rickerest/app/routes/app_pages.dart';
 
 class SignOutIconButton extends StatelessWidget {
@@ -12,8 +12,15 @@ class SignOutIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        FirebaseAuth.instance.signOut();
-        Get.offAllNamed(Routes.home);
+        Get.defaultDialog(
+          title: 'Alert',
+          content: const Text('Do you want to sign out?'),
+          onCancel: () => Get.back(),
+          onConfirm: () {
+            AuthController.to.signOut();
+            Get.offAllNamed(Routes.home);
+          },
+        );
       },
       icon: const Icon(Icons.logout),
     );
