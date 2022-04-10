@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/global/widgets/auth_gate.dart';
+import 'package:rickerest/app/global/widgets/custom_bottom_navigation_bar.dart';
 
 import '../../../global/widgets/sign_out_icon_button.dart';
 import '../../../routes/app_pages.dart';
@@ -14,7 +15,10 @@ class HomeView extends GetView<HomeController> {
     return AuthGate(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Home'),
+          title: const Text(
+            'Home',
+            //style: TextStyle(color: Colors.white),
+          ),
           actions: const [
             SignOutIconButton(),
           ],
@@ -37,6 +41,9 @@ class HomeView extends GetView<HomeController> {
               )
             ],
           ),
+        ),
+        bottomNavigationBar: const CustomBottomNavigationBar(
+          selectedIndex: 0,
         ),
       ),
     );

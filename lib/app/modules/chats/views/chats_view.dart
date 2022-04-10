@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/global/widgets/auth_gate.dart';
 
+import '../../../global/widgets/custom_bottom_navigation_bar.dart';
 import '../../../global/widgets/sign_out_icon_button.dart';
 import '../controllers/chats_controller.dart';
 
@@ -27,6 +28,7 @@ class ChatsView extends GetView<ChatsController> {
             style: TextStyle(fontSize: 30),
           ),
         ),
+        bottomNavigationBar: const CustomBottomNavigationBar(selectedIndex: 1,),
       ),
     );
   }
