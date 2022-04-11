@@ -15,6 +15,7 @@ class SignOutIconButton extends StatelessWidget {
         Get.defaultDialog(
           title: 'Alert',
           content: const Text('Do you want to sign out?'),
+          barrierDismissible: false,
           onCancel: () => Get.back(),
           onConfirm: () {
             AuthController.to.signOut();
