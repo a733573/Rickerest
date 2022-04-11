@@ -22,7 +22,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
         Get.toNamed(Routes.chats);
       }
       if (index == 2) {
-        return;
+        Get.toNamed(Routes.settings);
       }
     }
   }

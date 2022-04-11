@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rickerest/app/global/widgets/auth_gate.dart';
-import 'package:rickerest/app/global/widgets/custom_bottom_navigation_bar.dart';
 
+import '../../../global/widgets/auth_gate.dart';
+import '../../../global/widgets/custom_bottom_navigation_bar.dart';
 import '../../../global/widgets/sign_out_icon_button.dart';
-import '../controllers/home_controller.dart';
+import '../controllers/settings_controller.dart';
 
-class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+class SettingsView extends GetView<SettingsController> {
+  const SettingsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class HomeView extends GetView<HomeController> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Home',
+            'Settings',
             //style: TextStyle(color: Colors.white),
           ),
           actions: const [
@@ -26,7 +26,7 @@ class HomeView extends GetView<HomeController> {
           automaticallyImplyLeading: false,
         ),
         body: const SizedBox(),
-        bottomNavigationBar: const CustomBottomNavigationBar(selectedIndex: 0),
+        bottomNavigationBar: const CustomBottomNavigationBar(selectedIndex: 2),
       ),
     );
   }
