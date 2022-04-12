@@ -18,17 +18,12 @@ class ChatsView extends GetView<ChatsController> {
           actions: const [
             SignOutIconButton(),
           ],
-          elevation: 0,
-          backgroundColor: Colors.brown.withOpacity(0.5),
           automaticallyImplyLeading: false,
         ),
-        body: const Center(
-          child: Text(
-            'ChatsView is working',
-            style: TextStyle(fontSize: 30),
-          ),
+        body: const Center(),
+        bottomNavigationBar: const CustomBottomNavigationBar(
+          selectedIndex: 1,
         ),
-        bottomNavigationBar: const CustomBottomNavigationBar(selectedIndex: 1,),
       ),
     );
   }

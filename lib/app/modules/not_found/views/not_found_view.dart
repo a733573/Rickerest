@@ -11,8 +11,6 @@ class NotFoundView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('404 ERROR'),
-        elevation: 0,
-        backgroundColor: Colors.brown.withOpacity(0.5),
       ),
       body: Center(
         child: Column(
@@ -36,7 +34,7 @@ class NotFoundView extends StatelessWidget {
                   style: TextStyle(fontSize: 30),
                 ),
                 TextButton(
-                  onPressed: () => Get.toNamed(Routes.home),
+                  onPressed: () => Get.offNamed(Routes.home),
                   child: const Text(
                     'Home',
                     style: TextStyle(fontSize: 30),

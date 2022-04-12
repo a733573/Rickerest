@@ -12,6 +12,13 @@ dependencies:
   flutterfire_ui: 0.4.0+1
   get: 4.6.1
   cloud_firestore: 3.1.11
+  getwidget: 2.0.5
+  flex_color_scheme: 4.2.0
+  google_fonts: 2.3.1
+  adaptive_theme: 2.3.1
+  styled_widget: 0.4.0+3
+  settings_ui: 2.0.2
+  shared_preferences: 2.0.13
   flutter: 
     sdk: flutter
 
@@ -29,6 +36,6 @@ flutter:
 
 flutter_icons: 
   android: launcher_icon
-  image_path: assets/icon/senbei_bayashi_icon.png
+  image_path: assets/icon/icon.png
   ios: true
 

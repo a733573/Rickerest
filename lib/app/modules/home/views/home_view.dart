@@ -16,13 +16,10 @@ class HomeView extends GetView<HomeController> {
         appBar: AppBar(
           title: const Text(
             'Home',
-            //style: TextStyle(color: Colors.white),
           ),
           actions: const [
             SignOutIconButton(),
           ],
-          elevation: 0,
-          backgroundColor: Colors.brown.withOpacity(0.5),
           automaticallyImplyLeading: false,
         ),
         body: const SizedBox(),

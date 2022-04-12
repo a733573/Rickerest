@@ -5,6 +5,7 @@ import '../../../global/widgets/auth_gate.dart';
 import '../../../global/widgets/custom_bottom_navigation_bar.dart';
 import '../../../global/widgets/sign_out_icon_button.dart';
 import '../controllers/settings_controller.dart';
+import 'widgets/custom_settings_list.dart';
 
 class SettingsView extends GetView<SettingsController> {
   const SettingsView({Key? key}) : super(key: key);
@@ -16,16 +17,13 @@ class SettingsView extends GetView<SettingsController> {
         appBar: AppBar(
           title: const Text(
             'Settings',
-            //style: TextStyle(color: Colors.white),
           ),
           actions: const [
             SignOutIconButton(),
           ],
-          elevation: 0,
-          backgroundColor: Colors.brown.withOpacity(0.5),
           automaticallyImplyLeading: false,
         ),
-        body: const SizedBox(),
+        body: const CustomSettingsList(),
         bottomNavigationBar: const CustomBottomNavigationBar(selectedIndex: 2),
       ),
     );

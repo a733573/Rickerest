@@ -16,13 +16,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
         return;
       }
       if (index == 0) {
-        Get.toNamed(Routes.home);
+        Get.offNamed(Routes.home);
       }
       if (index == 1) {
-        Get.toNamed(Routes.chats);
+        Get.offNamed(Routes.chats);
       }
       if (index == 2) {
-        Get.toNamed(Routes.settings);
+        Get.offNamed(Routes.settings);
       }
     }
   }
@@ -49,9 +49,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
       showUnselectedLabels: false,
       showSelectedLabels: false,
       type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.brown.withOpacity(0.5),
-      selectedIconTheme: const IconThemeData(size: 30, color: Colors.white),
-      unselectedIconTheme: const IconThemeData(size: 25, color: Colors.brown),
+      selectedIconTheme: const IconThemeData(size: 30),
+      unselectedIconTheme: const IconThemeData(size: 25),
     );
   }
 }
