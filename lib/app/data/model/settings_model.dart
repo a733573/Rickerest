@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 class SettingsModel {
-  late final SharedPreferences _prefs;
-  final RxInt _themeModeIndex = 0.obs;
-
-  Future<void> init() async {
-    _prefs = await SharedPreferences.getInstance();
-    _themeModeIndex.value = _prefs.getInt('themeModeIndex') ?? 0;
+  SettingsModel() {
+    _themeModeIndex.value = _box.read('themeModeIndex') ?? 0;
   }
+
+  final _box = GetStorage();
+  final RxInt _themeModeIndex = 0.obs;
 
   int get themeModeIndex => _themeModeIndex.value;
 
-  Future<void> setThemeModeIndex(int value) async {
+  set themeModeIndex(int value) {
     if (_themeModeIndex.value == value || value > 2) {
       return;
     }
     _themeModeIndex.value = value;
-    await _prefs.setInt('themeModeIndex', value);
+    _box.write('themeModeIndex', value);
     Get.changeThemeMode(ThemeMode.values[value]);
+    // SettingsController.to.updateIsDarkMode;
   }
 }
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/modules/settings/controllers/settings_controller.dart';
-import 'package:rickerest/app/modules/settings/views/settings_theme_view.dart';
-import 'package:rickerest/app/routes/app_pages.dart';
+import 'package:rickerest/app/modules/settings/views/widgets/settings_theme_dropdown.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 import '../../../../global/controllers/auth_controller.dart';
+import '../../../../routes/app_pages.dart';
 
 class CustomSettingsList extends StatefulWidget {
   const CustomSettingsList({Key? key}) : super(key: key);
@@ -26,17 +26,15 @@ class _CustomSettingsListState extends State<CustomSettingsList> {
           tiles: <SettingsTile>[
             SettingsTile(
               title: const Text('Theme'),
-              value: Obx(
-                () => Text(
-                  themeModeIndexToString(
-                    SettingsController.to.settingsModel.themeModeIndex,
-                  ),
-                ),
-              ),
               leading: const Icon(Icons.format_paint),
-              onPressed: (_) => Get.to(const SettingsThemeView()),
+              trailing: Container(
+                height: 50,
+                width: 200,
+                margin: const EdgeInsets.all(20),
+                child: const SettingsThemeDropdown(),
+              ),
             ),
-            SettingsTile(
+            SettingsTile.navigation(
               title: const Text('Licenses'),
               leading: const Icon(Icons.text_snippet),
               onPressed: (context) => showLicensePage(context: context),
@@ -50,16 +48,6 @@ class _CustomSettingsListState extends State<CustomSettingsList> {
         ),
       ],
     );
-  }
-
-  String themeModeIndexToString(int index) {
-    if (ThemeMode.values[index] == ThemeMode.light) {
-      return 'Light';
-    }
-    if (ThemeMode.values[index] == ThemeMode.dark) {
-      return 'Dark';
-    }
-    return 'System default';
   }
 
   void signOut() {

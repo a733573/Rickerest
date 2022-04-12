@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:rickerest/app/modules/settings/controllers/settings_controller.dart';
 import 'package:rickerest/firebase_options.dart';
 
@@ -12,7 +13,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await Get.put(SettingsController()).initModel();
+  await GetStorage.init();
+  Get.put(SettingsController());
   runApp(const MyApp());
 }
 

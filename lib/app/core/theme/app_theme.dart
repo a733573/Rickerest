@@ -1,5 +1,6 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 abstract class AppTheme {
@@ -24,4 +25,8 @@ abstract class AppTheme {
     visualDensity: VisualDensity.standard,
     fontFamily: GoogleFonts.notoSans().fontFamily,
   ).toTheme;
+
+  static ThemeData current() {
+    return Get.isDarkMode ? dark : light;
+  }
 }

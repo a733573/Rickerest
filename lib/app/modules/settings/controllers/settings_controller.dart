@@ -5,10 +5,19 @@ import '../../../data/model/settings_model.dart';
 class SettingsController extends GetxController {
   static SettingsController get to => Get.find();
 
-  late final SettingsModel settingsModel;
+  final SettingsModel settingsModel = SettingsModel();
+  bool isDarkMode = Get.isDarkMode;
 
-  Future<void> initModel() async {
-    settingsModel = SettingsModel();
-    await settingsModel.init();
-  }
+// void updateIsDarkMode() {
+//   if (settingsModel.themeModeIndex == ThemeMode.dark.toInt()) {
+//     isDarkMode = true;
+//     print(true);
+//   } else if (settingsModel.themeModeIndex == ThemeMode.light.toInt()) {
+//     isDarkMode = false;
+//     print(false);
+//   } else if (Get.isPlatformDarkMode) {
+//     // isDarkMode = false;
+//     print('else');
+//   }
+// }
 }
