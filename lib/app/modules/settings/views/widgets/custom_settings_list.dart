@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/modules/settings/controllers/settings_controller.dart';
+import 'package:rickerest/app/modules/settings/views/settings_theme_view.dart';
 import 'package:rickerest/app/routes/app_pages.dart';
 import 'package:settings_ui/settings_ui.dart';
 
@@ -33,13 +34,18 @@ class _CustomSettingsListState extends State<CustomSettingsList> {
                 ),
               ),
               leading: const Icon(Icons.format_paint),
-              onPressed: (_) => Get.toNamed(Routes.settingsTheme),
+              onPressed: (_) => Get.to(const SettingsThemeView()),
+            ),
+            SettingsTile(
+              title: const Text('Licenses'),
+              leading: const Icon(Icons.text_snippet),
+              onPressed: (context) => showLicensePage(context: context),
             ),
             SettingsTile(
               title: const Text('Sign out'),
               leading: const Icon(Icons.logout),
               onPressed: (_) => signOut(),
-            )
+            ),
           ],
         ),
       ],
