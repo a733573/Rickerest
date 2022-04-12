@@ -4,6 +4,8 @@ import 'package:rickerest/app/modules/settings/controllers/settings_controller.d
 import 'package:rickerest/app/routes/app_pages.dart';
 import 'package:settings_ui/settings_ui.dart';
 
+import '../../../../global/controllers/auth_controller.dart';
+
 class CustomSettingsList extends StatefulWidget {
   const CustomSettingsList({Key? key}) : super(key: key);
 
@@ -31,8 +33,13 @@ class _CustomSettingsListState extends State<CustomSettingsList> {
                 ),
               ),
               leading: const Icon(Icons.format_paint),
-              onPressed: (context) => Get.toNamed(Routes.settingsTheme),
+              onPressed: (_) => Get.toNamed(Routes.settingsTheme),
             ),
+            SettingsTile(
+              title: const Text('Sign out'),
+              leading: const Icon(Icons.logout),
+              onPressed: (_) => signOut(),
+            )
           ],
         ),
       ],
@@ -47,5 +54,17 @@ class _CustomSettingsListState extends State<CustomSettingsList> {
       return 'Dark';
     }
     return 'System default';
+  }
+
+  void signOut() {
+    Get.defaultDialog(
+      title: 'Sign out',
+      middleText: 'Do you want to sign out?',
+      onConfirm: () {
+        AuthController.to.signOut();
+        Get.offAllNamed(Routes.home);
+      },
+      onCancel: () => Get.back(),
+    );
   }
 }

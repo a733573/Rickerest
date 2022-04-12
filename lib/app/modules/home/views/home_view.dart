@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:rickerest/app/global/widgets/auth_gate.dart';
 import 'package:rickerest/app/global/widgets/custom_bottom_navigation_bar.dart';
 
-import '../../../global/widgets/sign_out_icon_button.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -17,9 +16,6 @@ class HomeView extends GetView<HomeController> {
           title: const Text(
             'Home',
           ),
-          actions: const [
-            SignOutIconButton(),
-          ],
           automaticallyImplyLeading: false,
         ),
         body: const SizedBox(),
