@@ -24,7 +24,7 @@ class SettingsView extends GetView<SettingsController> {
         body: Center(
           child: SizedBox(
             width: 600,
-            child: Column(
+            child: ListView(
               children: const [
                 Divider(),
                 ThemeSettingsItem(),

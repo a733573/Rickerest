@@ -1,8 +1,6 @@
 import 'package:awesome_select/awesome_select.dart';
+import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:rickerest/app/data/model/settings_model.dart';
-
-import '../../controllers/settings_controller.dart';
 
 class ThemeSettingsItem extends StatelessWidget {
   const ThemeSettingsItem({Key? key}) : super(key: key);
@@ -12,13 +10,13 @@ class ThemeSettingsItem extends StatelessWidget {
     return SmartSelect.single(
       title: 'Theme',
       choiceItems: [
-        S2Choice(value: ThemeModeIndex.dark, title: 'Dark'),
-        S2Choice(value: ThemeModeIndex.light, title: 'Light'),
-        S2Choice(value: ThemeModeIndex.system, title: 'System default'),
+        S2Choice(value: ThemeMode.dark, title: 'Dark'),
+        S2Choice(value: ThemeMode.light, title: 'Light'),
+        S2Choice(value: ThemeMode.system, title: 'System default'),
       ],
-      selectedValue: SettingsController.to.settingsModel.currentThemeModeIndex,
-      onChange: (choiceItem) => SettingsController
-          .to.settingsModel.currentThemeModeIndex = choiceItem.value! as int,
+      selectedValue: EasyDynamicTheme.of(context).themeMode!,
+      onChange: (choiceItem) =>
+          changeTheme(context, choiceItem.value! as ThemeMode),
       modalType: S2ModalType.popupDialog,
       modalStyle: S2ModalStyle(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -30,5 +28,19 @@ class ThemeSettingsItem extends StatelessWidget {
         );
       },
     );
+  }
+
+  void changeTheme(BuildContext context, ThemeMode choiceItem) {
+    switch (choiceItem) {
+      case ThemeMode.dark:
+        EasyDynamicTheme.of(context).changeTheme(dark: true);
+        break;
+      case ThemeMode.light:
+        EasyDynamicTheme.of(context).changeTheme(dark: false);
+        break;
+      case ThemeMode.system:
+        EasyDynamicTheme.of(context).changeTheme(dynamic: true);
+        break;
+    }
   }
 }
