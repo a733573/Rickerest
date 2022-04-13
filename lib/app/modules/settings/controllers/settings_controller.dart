@@ -5,11 +5,15 @@ import 'package:rickerest/app/core/theme/app_theme.dart';
 import '../../../data/model/settings_model.dart';
 
 class SettingsController extends GetxController {
+  SettingsController() {
+    updateIsDarkMode();
+  }
+
   static SettingsController get to => Get.find();
 
   final SettingsModel settingsModel = SettingsModel();
 
-  final RxBool _isDarkMode = Get.isDarkMode.obs;
+  final RxBool _isDarkMode = false.obs;
 
   bool get isDarkMode => _isDarkMode.value;
 

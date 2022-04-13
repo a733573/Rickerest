@@ -29,7 +29,7 @@ class _CustomSettingsListState extends State<CustomSettingsList> {
               leading: const Icon(Icons.format_paint),
               trailing: Container(
                 height: 50,
-                width: 200,
+                width: 170,
                 margin: const EdgeInsets.all(20),
                 child: const SettingsThemeDropdown(),
               ),

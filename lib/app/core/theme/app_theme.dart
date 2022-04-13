@@ -27,7 +27,4 @@ abstract class AppTheme {
     visualDensity: VisualDensity.standard,
     fontFamily: GoogleFonts.notoSans().fontFamily,
   );
-
-  // static ThemeData get current =>
-  //     SettingsController.to.isDarkMode ? dark : light;
 }
