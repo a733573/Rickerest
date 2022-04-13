@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rickerest/app/modules/settings/views/widgets/licenses_settings_item.dart';
+import 'package:rickerest/app/modules/settings/views/widgets/sign_out_settings_item.dart';
+import 'package:rickerest/app/modules/settings/views/widgets/theme_settings_item.dart';
 
 import '../../../global/widgets/auth_gate.dart';
 import '../../../global/widgets/custom_bottom_navigation_bar.dart';
 import '../controllers/settings_controller.dart';
-import 'widgets/custom_settings_list.dart';
 
 class SettingsView extends GetView<SettingsController> {
   const SettingsView({Key? key}) : super(key: key);
@@ -19,7 +21,13 @@ class SettingsView extends GetView<SettingsController> {
           ),
           automaticallyImplyLeading: false,
         ),
-        body: const CustomSettingsList(),
+        body: Column(
+          children: const [
+            ThemeSettingsItem(),
+            LicensesSettingsItem(),
+            SignOutSettingsItem(),
+          ],
+        ),
         bottomNavigationBar: const CustomBottomNavigationBar(selectedIndex: 2),
       ),
     );

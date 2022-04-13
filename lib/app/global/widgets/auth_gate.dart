@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
+import 'package:nil/nil.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({Key? key, required this.child}) : super(key: key);
@@ -18,7 +19,7 @@ class AuthGate extends StatelessWidget {
         }
         // ローディング中
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const SizedBox();
+          return nil;
         }
         // 未ログイン
         return const SignInScreen(
