@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
-import 'package:rickerest/app/global/widgets/icon_image.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({Key? key, required this.child}) : super(key: key);
@@ -22,10 +21,10 @@ class AuthGate extends StatelessWidget {
           return const SizedBox();
         }
         // 未ログイン
-        return SignInScreen(
-          headerBuilder: (context, constraints, _) => const IconImage(),
-          sideBuilder: (context, constraints) => const IconImage(),
-          providerConfigs: const [
+        return const SignInScreen(
+          // headerBuilder: (context, constraints, _) => const IconImage(),
+          // sideBuilder: (context, constraints) => const IconImage(),
+          providerConfigs: [
             GoogleProviderConfiguration(
               clientId: '1039744153156-56ibedqkldacjspcgb35nbqaq325d023'
                   '.apps.googleusercontent.com',

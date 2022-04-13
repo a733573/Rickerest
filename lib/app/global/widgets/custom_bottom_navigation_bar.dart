@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rickerest/app/modules/settings/controllers/settings_controller.dart';
 import 'package:rickerest/app/routes/app_pages.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -29,28 +30,35 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: selectedIndex,
-      onTap: _onItemTapped,
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: '',
+    return Obx(() {
+      return BottomNavigationBar(
+        currentIndex: selectedIndex,
+        onTap: _onItemTapped,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_outlined),
+            activeIcon: Icon(Icons.chat),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings_outlined),
+            activeIcon: Icon(Icons.settings),
+            label: '',
+          ),
+        ],
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
+        selectedIconTheme: IconThemeData(
+          size: 30,
+          color: SettingsController.to.currentThemeData.iconTheme.color,
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.wechat),
-          label: '',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: '',
-        ),
-      ],
-      showUnselectedLabels: false,
-      showSelectedLabels: false,
-      type: BottomNavigationBarType.fixed,
-      selectedIconTheme: const IconThemeData(size: 30),
-      unselectedIconTheme: const IconThemeData(size: 25),
-    );
+        unselectedIconTheme: const IconThemeData(size: 25),
+      );
+    });
   }
 }

@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
       title: 'Rickerest',
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      themeMode:
-          ThemeMode.values[SettingsController.to.settingsModel.themeModeIndex],
+      themeMode: ThemeMode
+          .values[SettingsController.to.settingsModel.currentThemeModeIndex],
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
       unknownRoute: AppPages.notFound,

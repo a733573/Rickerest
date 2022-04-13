@@ -1,6 +1,5 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 abstract class AppTheme {
@@ -10,23 +9,25 @@ abstract class AppTheme {
     scheme: FlexScheme.espresso,
     surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
     blendLevel: 8,
-    appBarElevation: 0.5,
-    appBarOpacity: 0.5,
+    appBarElevation: 0,
+    appBarOpacity: 0,
+    appBarStyle: FlexAppBarStyle.surface,
+    bottomAppBarElevation: 0,
     visualDensity: VisualDensity.standard,
     fontFamily: GoogleFonts.notoSans().fontFamily,
   );
 
-  static final ThemeData dark = FlexColorScheme.dark(
+  static final ThemeData dark = FlexThemeData.dark(
     scheme: FlexScheme.espresso,
     surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
     blendLevel: 18,
-    appBarElevation: 1,
-    appBarOpacity: 0.5,
+    appBarElevation: 0,
+    appBarOpacity: 0,
+    bottomAppBarElevation: 0,
     visualDensity: VisualDensity.standard,
     fontFamily: GoogleFonts.notoSans().fontFamily,
-  ).toTheme;
+  );
 
-  static ThemeData current() {
-    return Get.isDarkMode ? dark : light;
-  }
+  // static ThemeData get current =>
+  //     SettingsController.to.isDarkMode ? dark : light;
 }

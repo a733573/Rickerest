@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/dropdown/gf_dropdown.dart';
-import 'package:rickerest/app/core/theme/app_theme.dart';
 import 'package:rickerest/app/data/model/settings_model.dart';
 import 'package:rickerest/app/modules/settings/controllers/settings_controller.dart';
 
@@ -17,24 +16,27 @@ class SettingsThemeDropdown extends StatelessWidget {
         return GFDropdown(
           padding: const EdgeInsets.all(15),
           borderRadius: BorderRadius.circular(5),
-          border:
-              BorderSide(width: 1, color: AppTheme.current().highlightColor),
-          dropdownButtonColor: AppTheme.current().backgroundColor,
-          value: SettingsController.to.settingsModel.themeModeIndex,
+          border: BorderSide(
+            width: 1,
+            color: SettingsController.to.currentThemeData.highlightColor,
+          ),
+          dropdownButtonColor:
+              SettingsController.to.currentThemeData.backgroundColor,
+          value: SettingsController.to.settingsModel.currentThemeModeIndex,
           onChanged: (value) => SettingsController
-              .to.settingsModel.themeModeIndex = value! as int,
-          items: [
+              .to.settingsModel.currentThemeModeIndex = value! as int,
+          items: const [
             DropdownMenuItem(
-              value: ThemeMode.dark.toInt(),
-              child: const Text('Dark'),
+              value: ThemeModeIndex.dark,
+              child: Text('Dark'),
             ),
             DropdownMenuItem(
-              value: ThemeMode.light.toInt(),
-              child: const Text('Light'),
+              value: ThemeModeIndex.light,
+              child: Text('Light'),
             ),
             DropdownMenuItem(
-              value: ThemeMode.system.toInt(),
-              child: const Text('System default'),
+              value: ThemeModeIndex.system,
+              child: Text('System default'),
             ),
           ],
         );

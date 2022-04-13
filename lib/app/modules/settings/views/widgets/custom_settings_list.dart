@@ -34,7 +34,7 @@ class _CustomSettingsListState extends State<CustomSettingsList> {
                 child: const SettingsThemeDropdown(),
               ),
             ),
-            SettingsTile.navigation(
+            SettingsTile(
               title: const Text('Licenses'),
               leading: const Icon(Icons.text_snippet),
               onPressed: (context) => showLicensePage(context: context),
