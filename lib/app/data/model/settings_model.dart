@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../modules/settings/controllers/settings_controller.dart';
-
 class SettingsModel {
   SettingsModel() {
     _currentThemeModeIndex.value =
@@ -15,14 +13,10 @@ class SettingsModel {
 
   int get currentThemeModeIndex => _currentThemeModeIndex.value;
 
-  set currentThemeModeIndex(int value) {
-    if (_currentThemeModeIndex.value == value || value > 2) {
-      return;
-    }
-    _currentThemeModeIndex.value = value;
-    _box.write('themeModeIndex', value);
-    Get.changeThemeMode(ThemeMode.values[value]);
-    SettingsController.to.updateIsDarkMode();
+  set currentThemeModeIndex(int index) {
+    _currentThemeModeIndex.value = index;
+    _box.write('themeModeIndex', index);
+    Get.changeThemeMode(ThemeMode.values[index]);
   }
 }
 
