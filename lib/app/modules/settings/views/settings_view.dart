@@ -21,12 +21,21 @@ class SettingsView extends GetView<SettingsController> {
           ),
           automaticallyImplyLeading: false,
         ),
-        body: Column(
-          children: const [
-            ThemeSettingsItem(),
-            LicensesSettingsItem(),
-            SignOutSettingsItem(),
-          ],
+        body: Center(
+          child: SizedBox(
+            width: 600,
+            child: Column(
+              children: const [
+                Divider(),
+                ThemeSettingsItem(),
+                Divider(),
+                LicensesSettingsItem(),
+                Divider(),
+                SignOutSettingsItem(),
+                Divider(),
+              ],
+            ),
+          ),
         ),
         bottomNavigationBar: const CustomBottomNavigationBar(selectedIndex: 2),
       ),
