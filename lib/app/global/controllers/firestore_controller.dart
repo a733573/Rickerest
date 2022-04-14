@@ -1,17 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class FirestoreController extends GetxController {
   static FirestoreController get to => Get.find();
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<void> addToFirestore({
     required String colId,
-    required String docID,
+    required String docId,
     required Map<String, dynamic> data,
   }) {
-    final docRef = firestore.collection(colId).doc(docID);
-    return docRef.set(data);
+    final docRef = firestore.collection(colId).doc(docId);
+    return docRef
+        .set(data)
+        .then(
+          (value) =>
+              debugPrint('Added to firestore: colId="$colId", docId="$docId"'),
+        )
+        .catchError(
+          (error) => debugPrint('Failed to add to firestore: $error'),
+        );
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getFromFirestore({
@@ -24,9 +34,18 @@ class FirestoreController extends GetxController {
 
   Future<void> deleteFirestoreDoc({
     required String colId,
-    required String docID,
+    required String docId,
   }) {
-    final docRef = firestore.collection(colId).doc(docID);
-    return docRef.delete();
+    final docRef = firestore.collection(colId).doc(docId);
+    return docRef
+        .delete()
+        .then(
+          (value) => debugPrint(
+            'Deleted firestore document: colId="$colId", docId="$docId"',
+          ),
+        )
+        .catchError(
+          (error) => debugPrint('Failed to delete firestore document: $error'),
+        );
   }
 }

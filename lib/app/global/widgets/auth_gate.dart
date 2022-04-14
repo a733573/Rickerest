@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:nil/nil.dart';
+import 'package:rickerest/app/global/controllers/user_controller.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({Key? key, required this.child}) : super(key: key);
@@ -22,15 +23,23 @@ class AuthGate extends StatelessWidget {
           return nil;
         }
         // 未ログイン
-        return const SignInScreen(
+        return SignInScreen(
           // headerBuilder: (context, constraints, _) => const IconImage(),
           // sideBuilder: (context, constraints) => const IconImage(),
-          providerConfigs: [
+          providerConfigs: const [
             GoogleProviderConfiguration(
               clientId: '1039744153156-56ibedqkldacjspcgb35nbqaq325d023'
                   '.apps.googleusercontent.com',
             ),
             EmailProviderConfiguration(),
+          ],
+          actions: [
+            AuthStateChangeAction<UserCreated>((context, userCreated) async {
+              await UserController.to.createUser(
+                uid: userCreated.credential.user!.uid,
+                name: 'Yamada Taro',
+              );
+            }),
           ],
         );
       },
