@@ -12,6 +12,8 @@ class UserController extends GetxController {
 
   String get uid => user?.uid ?? '';
 
+  // Future<Map<String, dynamic>> get getCurrentUserData {}
+
   Future<void> createUser({
     required String uid,
     required String name,
@@ -51,7 +53,7 @@ class UserController extends GetxController {
     final friendData = {
       'friends.$friendUid': {
         'name': friendDoc.data()?['name'],
-        'iconUrl': friendDoc.data()?['iconUrl']
+        'avatarImageUrl': friendDoc.data()?['avatarImageUrl']
       }
     };
     await FirestoreController.to.updateDoc(
@@ -65,7 +67,7 @@ class UserController extends GetxController {
     final userData = {
       'friends.$uid': {
         'name': userDoc.data()?['name'],
-        'iconUrl': userDoc.data()?['iconUrl']
+        'avatarImageUrl': userDoc.data()?['avatarImageUrl']
       }
     };
     return FirestoreController.to.updateDoc(
