@@ -2,6 +2,7 @@ import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rickerest/app/global/bindings/initial_binding.dart';
 import 'package:rickerest/firebase_options.dart';
 
 import 'app/core/theme/app_theme.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.dark,
       themeMode: EasyDynamicTheme.of(context).themeMode!,
       initialRoute: AppPages.initial,
+      initialBinding: InitialBinding(),
       getPages: AppPages.routes,
       unknownRoute: AppPages.notFound,
     );

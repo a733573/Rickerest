@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rickerest/app/modules/settings/views/widgets/delete_account_settings_item.dart';
 import 'package:rickerest/app/modules/settings/views/widgets/licenses_settings_item.dart';
 import 'package:rickerest/app/modules/settings/views/widgets/sign_out_settings_item.dart';
 import 'package:rickerest/app/modules/settings/views/widgets/theme_settings_item.dart';
@@ -26,13 +27,10 @@ class SettingsView extends GetView<SettingsController> {
             width: 600,
             child: ListView(
               children: const [
-                Divider(),
                 ThemeSettingsItem(),
-                Divider(),
                 LicensesSettingsItem(),
-                Divider(),
                 SignOutSettingsItem(),
-                Divider(),
+                DeleteAccountSettingsItem(),
               ],
             ),
           ),

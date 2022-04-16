@@ -7,20 +7,19 @@ environment:
 
 dependencies: 
   cupertino_icons: ^1.0.4
-  firebase_auth: ^3.3.13
-  firebase_core: 1.14.0
-  flutterfire_ui: 0.4.0+1
+  firebase_auth: ^3.3.14
+  firebase_core: ^1.14.1
+  flutterfire_ui: ^0.4.0+2
   get: 4.6.1
-  cloud_firestore: 3.1.11
+  cloud_firestore: ^3.1.12
   getwidget: 2.0.5
   flex_color_scheme: 4.2.0
   google_fonts: 2.3.1
-  get_storage: 2.0.3
   awesome_select: 5.2.0
   nil: 1.1.1
   convex_bottom_bar: 3.0.0
-#  adaptive_theme: 2.3.1
   easy_dynamic_theme: 2.2.0
+  search_widget: 1.0.2
   flutter: 
     sdk: flutter
 

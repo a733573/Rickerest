@@ -15,8 +15,10 @@ class ThemeSettingsItem extends StatelessWidget {
         S2Choice(value: ThemeMode.system, title: 'System default'),
       ],
       selectedValue: EasyDynamicTheme.of(context).themeMode!,
-      onChange: (choiceItem) =>
-          changeTheme(context, choiceItem.value! as ThemeMode),
+      onChange: (choiceItem) => _changeTheme(
+        context: context,
+        themeMode: choiceItem.value! as ThemeMode,
+      ),
       modalType: S2ModalType.popupDialog,
       modalStyle: S2ModalStyle(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -30,8 +32,11 @@ class ThemeSettingsItem extends StatelessWidget {
     );
   }
 
-  void changeTheme(BuildContext context, ThemeMode choiceItem) {
-    switch (choiceItem) {
+  void _changeTheme({
+    required BuildContext context,
+    required ThemeMode themeMode,
+  }) {
+    switch (themeMode) {
       case ThemeMode.dark:
         EasyDynamicTheme.of(context).changeTheme(dark: true);
         break;
