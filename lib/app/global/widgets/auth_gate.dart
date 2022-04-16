@@ -35,9 +35,11 @@ class AuthGate extends StatelessWidget {
           ],
           actions: [
             AuthStateChangeAction<UserCreated>((context, userCreated) async {
+              final user = userCreated.credential.user!;
               await UserController.to.createUser(
-                uid: userCreated.credential.user!.uid,
-                name: 'Yamada Taro',
+                uid: user.uid,
+                name: user.email!,
+                email: user.email!,
               );
             }),
           ],

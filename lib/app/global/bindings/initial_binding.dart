@@ -6,7 +6,7 @@ class InitialBinding extends Bindings {
   @override
   void dependencies() {
     Get
-      ..put<FirestoreController>(FirestoreController())
-      ..put<UserController>(UserController());
+      ..lazyPut(() => FirestoreController(), fenix: true)
+      ..lazyPut(() => UserController(), fenix: true);
   }
 }

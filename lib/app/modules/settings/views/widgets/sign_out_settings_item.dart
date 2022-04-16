@@ -14,12 +14,12 @@ class SignOutSettingsItem extends StatelessWidget {
     return S2Tile(
       title: const Text('Sign out'),
       value: nil,
-      onTap: () => _signOut(),
+      onTap: () => _signOutDialog(),
       leading: const Icon(Icons.logout),
     );
   }
 
-  void _signOut() {
+  void _signOutDialog() {
     Get.defaultDialog(
       title: 'Sign out',
       middleText: 'Do you want to sign out?',
@@ -27,7 +27,7 @@ class SignOutSettingsItem extends StatelessWidget {
         UserController.to.signOut();
         Get.offAllNamed(Routes.home);
       },
-      onCancel: () => Get.back(),
+      onCancel: () {},
     );
   }
 }

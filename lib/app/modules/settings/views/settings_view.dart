@@ -27,15 +27,10 @@ class SettingsView extends GetView<SettingsController> {
             width: 600,
             child: ListView(
               children: const [
-                Divider(),
                 ThemeSettingsItem(),
-                Divider(),
                 LicensesSettingsItem(),
-                Divider(),
                 SignOutSettingsItem(),
-                Divider(),
                 DeleteAccountSettingsItem(),
-                Divider(),
               ],
             ),
           ),

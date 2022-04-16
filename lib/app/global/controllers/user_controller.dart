@@ -8,22 +8,21 @@ class UserController extends GetxController {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  final User user = FirebaseAuth.instance.currentUser!;
+  final User? user = FirebaseAuth.instance.currentUser;
 
-  String get uid => user.uid;
+  String get uid => user?.uid ?? '';
 
   Future<void> createUser({
     required String uid,
     required String name,
-    String? avatarImageUrl,
+    required String email,
   }) {
-    return FirestoreController.to.addToFirestore(
+    return FirestoreController.to.setDoc(
       colId: 'users',
       docId: uid,
       data: {
         'name': name,
-        'avatarImageUrl': avatarImageUrl,
-        'friends': <String>[],
+        'email': email,
       },
     );
   }
@@ -31,9 +30,8 @@ class UserController extends GetxController {
   Future<void> deleteAccount() async {
     try {
       // user.reauthenticateWithCredential(credential);
-      await user.delete();
-      return FirestoreController.to
-          .deleteFirestoreDoc(colId: 'users', docId: uid);
+      await user?.delete();
+      return FirestoreController.to.deleteDoc(colId: 'users', docId: uid);
     } on Exception catch (e, s) {
       debugPrint('${e.toString()} $s');
     }
@@ -45,5 +43,35 @@ class UserController extends GetxController {
     } on Exception catch (e, s) {
       debugPrint('${e.toString()} $s');
     }
+  }
+
+  Future<void> addFriend({required String friendUid}) async {
+    final friendDoc = await FirestoreController.to
+        .getDocByDocId(colId: 'users', docId: friendUid);
+    final friendData = {
+      'friends.$friendUid': {
+        'name': friendDoc.data()?['name'],
+        'iconUrl': friendDoc.data()?['iconUrl']
+      }
+    };
+    await FirestoreController.to.updateDoc(
+      colId: 'users',
+      docId: uid,
+      data: friendData,
+    );
+
+    final userDoc =
+        await FirestoreController.to.getDocByDocId(colId: 'users', docId: uid);
+    final userData = {
+      'friends.$uid': {
+        'name': userDoc.data()?['name'],
+        'iconUrl': userDoc.data()?['iconUrl']
+      }
+    };
+    return FirestoreController.to.updateDoc(
+      colId: 'users',
+      docId: friendUid,
+      data: userData,
+    );
   }
 }

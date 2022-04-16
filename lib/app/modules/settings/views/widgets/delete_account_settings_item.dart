@@ -14,12 +14,12 @@ class DeleteAccountSettingsItem extends StatelessWidget {
     return S2Tile(
       title: const Text('Delete your account'),
       value: nil,
-      onTap: () => _deleteAccount(),
+      onTap: () => _deleteAccountDialog(),
       leading: const Icon(Icons.delete),
     );
   }
 
-  void _deleteAccount() {
+  void _deleteAccountDialog() {
     Get.defaultDialog(
       title: 'Delete your account',
       middleText: 'Do you want to delete your account?',
@@ -27,7 +27,7 @@ class DeleteAccountSettingsItem extends StatelessWidget {
         await UserController.to.deleteAccount();
         return Get.offAllNamed(Routes.home);
       },
-      onCancel: () => Get.back(),
+      onCancel: () {},
     );
   }
 }
