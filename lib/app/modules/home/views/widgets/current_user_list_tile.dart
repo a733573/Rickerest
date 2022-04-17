@@ -6,22 +6,23 @@ import 'package:rickerest/app/modules/home/controllers/home_controller.dart';
 class CurrentUserListTile extends StatelessWidget {
   CurrentUserListTile({Key? key}) : super(key: key);
 
-  final currentUserData = HomeController.to.currentUserData;
-
   @override
   Widget build(BuildContext context) {
     return GFListTile(
       title: Obx(() {
         return Text(
-          currentUserData['name'] ?? '',
+          HomeController.to.currentUserData['name']!,
           style: Theme.of(context).textTheme.headline6,
         );
       }),
       avatar: Obx(() {
         return GFAvatar(
           size: GFSize.LARGE,
-          backgroundImage: NetworkImage(currentUserData['avatarImageUrl'] ??
-              'https://firebasestorage.googleapis.com/v0/b/rickerest.appspot.com/o/default_profile_image.png?alt=media&token=372ebb78-6004-4850-ae9e-52f4b7b09cb8'),
+          backgroundImage: NetworkImage(
+            HomeController.to.currentUserData['avatarImageUrl']!.isNotEmpty
+                ? HomeController.to.currentUserData['avatarImageUrl']!
+                : 'https://firebasestorage.googleapis.com/v0/b/rickerest.appspot.com/o/default_profile_image.png?alt=media&token=372ebb78-6004-4850-ae9e-52f4b7b09cb8',
+          ),
         );
       }),
     );

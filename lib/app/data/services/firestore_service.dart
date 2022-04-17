@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class FirestoreController extends GetxController {
-  static FirestoreController get to => Get.find();
+class FirestoreService extends GetxService {
+  static FirestoreService get to => Get.find();
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 

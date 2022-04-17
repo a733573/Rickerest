@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rickerest/app/global/controllers/user_controller.dart';
+import 'package:rickerest/app/core/utils/user_util.dart';
+import 'package:rickerest/app/data/services/auth_service.dart';
 
-import '../../../../global/controllers/firestore_controller.dart';
+import '../../../../data/services/firestore_service.dart';
 
 class FindAccountTextField extends StatelessWidget {
   const FindAccountTextField({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class FindAccountTextField extends StatelessWidget {
   }
 
   Future<void> _findAccount(String email) async {
-    if (UserController.to.user?.email == email) {
+    if (AuthService.to.currentUser?.email == email) {
       Get.snackbar(
         'Error',
         'You can\'t add yourself to your friends.',
@@ -28,7 +29,7 @@ class FindAccountTextField extends StatelessWidget {
       return;
     }
 
-    final doc = await FirestoreController.to.findAccountByEmail(email);
+    final doc = await FirestoreService.to.findAccountByEmail(email);
     if (doc != null) {
       final name = doc.data()['name'];
       return Get.defaultDialog(
@@ -37,7 +38,7 @@ class FindAccountTextField extends StatelessWidget {
         onConfirm: () async {
           var snackbarTitle = '';
           var snackbarMessage = '';
-          await UserController.to.addFriend(friendUid: doc.id).then(
+          await addFriend(friendUid: doc.id).then(
             (value) {
               snackbarTitle = 'Success!';
               snackbarMessage = '"$name" was added to your friends.';

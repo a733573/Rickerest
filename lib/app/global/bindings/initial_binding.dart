@@ -1,12 +1,13 @@
 import 'package:get/get.dart';
-import 'package:rickerest/app/global/controllers/firestore_controller.dart';
-import 'package:rickerest/app/global/controllers/user_controller.dart';
+
+import '../../data/services/auth_service.dart';
+import '../../data/services/firestore_service.dart';
 
 class InitialBinding extends Bindings {
   @override
   void dependencies() {
     Get
-      ..lazyPut(() => FirestoreController(), fenix: true)
-      ..lazyPut(() => UserController(), fenix: true);
+      ..put(AuthService())
+      ..put(FirestoreService());
   }
 }

@@ -2,7 +2,7 @@ import 'package:awesome_select/awesome_select.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nil/nil.dart';
-import 'package:rickerest/app/global/controllers/user_controller.dart';
+import 'package:rickerest/app/core/utils/user_util.dart';
 
 import '../../../../routes/app_pages.dart';
 
@@ -24,7 +24,7 @@ class DeleteAccountSettingsItem extends StatelessWidget {
       title: 'Delete your account',
       middleText: 'Do you want to delete your account?',
       onConfirm: () async {
-        await UserController.to.deleteAccount();
+        await deleteAccount();
         return Get.offAllNamed(Routes.home);
       },
       onCancel: () {},

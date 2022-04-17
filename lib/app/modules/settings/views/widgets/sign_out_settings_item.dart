@@ -2,7 +2,7 @@ import 'package:awesome_select/awesome_select.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nil/nil.dart';
-import 'package:rickerest/app/global/controllers/user_controller.dart';
+import 'package:rickerest/app/data/services/auth_service.dart';
 
 import '../../../../routes/app_pages.dart';
 
@@ -24,7 +24,7 @@ class SignOutSettingsItem extends StatelessWidget {
       title: 'Sign out',
       middleText: 'Do you want to sign out?',
       onConfirm: () {
-        UserController.to.signOut();
+        AuthService.to.signOut();
         Get.offAllNamed(Routes.home);
       },
       onCancel: () {},

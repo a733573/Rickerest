@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:nil/nil.dart';
-import 'package:rickerest/app/global/controllers/user_controller.dart';
+import 'package:rickerest/app/core/utils/user_util.dart';
+
+import '../../data/services/auth_service.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({Key? key, required this.child}) : super(key: key);
@@ -11,8 +13,8 @@ class AuthGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      initialData: FirebaseAuth.instance.currentUser,
+      stream: AuthService.to.auth.authStateChanges(),
+      initialData: AuthService.to.currentUser,
       builder: (context, snapshot) {
         // ログイン済み
         if (snapshot.hasData) {
@@ -36,7 +38,7 @@ class AuthGate extends StatelessWidget {
           actions: [
             AuthStateChangeAction<UserCreated>((context, userCreated) async {
               final user = userCreated.credential.user!;
-              await UserController.to.createUser(
+              await createUser(
                 uid: user.uid,
                 name: user.email!,
                 email: user.email!,
