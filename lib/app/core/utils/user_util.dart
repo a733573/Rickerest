@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:rickerest/app/data/services/auth_service.dart';
 import 'package:rickerest/app/data/services/firestore_service.dart';
+import 'package:simple_logger/simple_logger.dart';
 
 import '../../data/services/auth_service.dart';
 
@@ -38,11 +38,11 @@ Future<void> deleteAccount() async {
     return FirestoreService.to
         .deleteDoc(colId: 'users', docId: AuthService.to.uid);
   } on Exception catch (e, s) {
-    debugPrint('${e.toString()} $s');
+    SimpleLogger().warning('${e.toString()} $s');
   }
 }
 
-Future<void> addFriend({required String friendUid}) async {
+Future<String?> addFriend({required String friendUid}) async {
   final friendDoc =
       await FirestoreService.to.getDocByDocId(colId: 'users', docId: friendUid);
   final friendData = {

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+
+import '../../core/utils/logger.dart';
 
 class FirestoreService extends GetxService {
   static FirestoreService get to => Get.find();
@@ -17,18 +18,18 @@ class FirestoreService extends GetxService {
         .doc(docId)
         .set(data)
         .then(
-          (_) => debugPrint(
-            'Set a document to firestore: colId=$colId, docId=$docId, '
+          (_) => logger.info(
+            'Set a document to firestore: colId="$colId", docId="$docId", '
             'data=$data',
           ),
         )
         .catchError(
           (error) =>
-              debugPrint('Failed to set a document to firestore: $error'),
+              logger.warning('Failed to set a document to firestore: $error'),
         );
   }
 
-  Future<void> updateDoc({
+  Future<String?> updateDoc({
     required String colId,
     required String docId,
     required Map<String, dynamic> data,
@@ -38,14 +39,14 @@ class FirestoreService extends GetxService {
         .doc(docId)
         .update(data)
         .then(
-          (_) => debugPrint(
-            'Updated a firestore document: colId=$colId, docId=$docId, '
+          (_) => logger.info(
+            'Updated a firestore document: colId="$colId", docId="$docId", '
             'data=$data',
           ),
         )
         .catchError(
           (error) =>
-              debugPrint('Failed to update a firestore document: $error'),
+              logger.warning('Failed to update a firestore document: $error'),
         );
   }
 
@@ -53,33 +54,39 @@ class FirestoreService extends GetxService {
     required String colId,
     required String docId,
   }) async {
-    final doc = firestore.collection(colId).doc(docId).get();
-    await doc
-        .then(
-          (_) => debugPrint(
-            'Got a firestore document: colId=$colId, docId=$docId',
-          ),
-        )
-        .catchError(
-          (error) => debugPrint('Failed to get a firestore document: $error'),
+    return firestore.collection(colId).doc(docId).get().then(
+      (value) {
+        logger.info(
+          'Got a firestore document: colId="$colId", docId="$docId"',
         );
-    return doc;
+        return value;
+      },
+    ).catchError(
+      (error) {
+        logger.warning('Failed to get a firestore document: $error');
+      },
+    );
   }
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getDocsByField({
     required String colId,
     required String key,
-    required dynamic value,
+    required dynamic val,
   }) async {
-    final querySnapshot =
-        await firestore.collection(colId).where(key, isEqualTo: value).get();
-    if (querySnapshot.docs.isNotEmpty) {
-      debugPrint(
-        'Got firestore documents: colId=$colId, where="$key=$value", '
-        'length=${querySnapshot.docs.length}',
-      );
-    }
-    return querySnapshot.docs;
+    return firestore.collection(colId).where(key, isEqualTo: val).get().then(
+      (value) {
+        logger.info(
+          'Got firestore documents: colId="$colId", where="$key=$val", '
+          'length=${value.docs.length}',
+        );
+        return value.docs;
+      },
+    ).catchError(
+      (error) {
+        logger.warning('Failed to get firestore documents: $error');
+        return (val as QuerySnapshot<Map<String, dynamic>>).docs;
+      },
+    );
   }
 
   Future<void> deleteDoc({
@@ -91,21 +98,20 @@ class FirestoreService extends GetxService {
         .doc(docId)
         .delete()
         .then(
-          (_) => debugPrint(
-            'Deleted a firestore document: colId=$colId, docId=$docId',
+          (_) => logger.info(
+            'Deleted a firestore document: colId="$colId", docId="$docId"',
           ),
         )
         .catchError(
           (error) =>
-              debugPrint('Failed to delete a firestore document: $error'),
+              logger.warning('Failed to delete a firestore document: $error'),
         );
   }
 
   Future<QueryDocumentSnapshot<Map<String, dynamic>>?> findAccountByEmail(
     String email,
   ) async {
-    final docs =
-        await getDocsByField(colId: 'users', key: 'email', value: email);
-    return docs.isNotEmpty ? docs[0] : null;
+    return getDocsByField(colId: 'users', key: 'email', val: email)
+        .then((value) => value.isNotEmpty ? value[0] : null);
   }
 }

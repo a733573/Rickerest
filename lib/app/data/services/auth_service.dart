@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:simple_logger/simple_logger.dart';
 
 class AuthService extends GetxService {
   static AuthService get to => Get.find();
@@ -15,7 +15,7 @@ class AuthService extends GetxService {
     try {
       return auth.signOut();
     } on Exception catch (e, s) {
-      debugPrint('${e.toString()} $s');
+      SimpleLogger().warning('${e.toString()} $s');
     }
   }
 }
