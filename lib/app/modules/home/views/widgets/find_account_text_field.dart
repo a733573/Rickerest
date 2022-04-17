@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/core/utils/user_util.dart';
 import 'package:rickerest/app/data/services/auth_service.dart';
+import 'package:simple_logger/simple_logger.dart';
 
 import '../../../../data/services/firestore_service.dart';
 
@@ -47,7 +48,7 @@ class FindAccountTextField extends StatelessWidget {
             (error) {
               snackbarTitle = 'Error';
               snackbarMessage = 'Failed to add friend.';
-              debugPrint('Failed to add friend: $error');
+              SimpleLogger().warning('Failed to add friend: $error');
             },
           );
           Get
