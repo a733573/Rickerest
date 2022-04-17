@@ -17,12 +17,14 @@ class FirestoreController extends GetxController {
         .doc(docId)
         .set(data)
         .then(
-          (value) => debugPrint(
-            'set to firestore: colId="$colId", docId="$docId", data=$data',
+          (_) => debugPrint(
+            'Set a document to firestore: colId=$colId, docId=$docId, '
+            'data=$data',
           ),
         )
         .catchError(
-          (error) => debugPrint('Failed to set to firestore: $error'),
+          (error) =>
+              debugPrint('Failed to set a document to firestore: $error'),
         );
   }
 
@@ -36,20 +38,32 @@ class FirestoreController extends GetxController {
         .doc(docId)
         .update(data)
         .then(
-          (value) => debugPrint(
-            'updated firestore: colId="$colId", docId="$docId", data=$data',
+          (_) => debugPrint(
+            'Updated a firestore document: colId=$colId, docId=$docId, '
+            'data=$data',
           ),
         )
         .catchError(
-          (error) => debugPrint('Failed to update firestore: $error'),
+          (error) =>
+              debugPrint('Failed to update a firestore document: $error'),
         );
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getDocByDocId({
     required String colId,
     required String docId,
-  }) {
-    return firestore.collection(colId).doc(docId).get();
+  }) async {
+    final doc = firestore.collection(colId).doc(docId).get();
+    await doc
+        .then(
+          (_) => debugPrint(
+            'Got a firestore document: colId=$colId, docId=$docId',
+          ),
+        )
+        .catchError(
+          (error) => debugPrint('Failed to get a firestore document: $error'),
+        );
+    return doc;
   }
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getDocsByField({
@@ -59,6 +73,12 @@ class FirestoreController extends GetxController {
   }) async {
     final querySnapshot =
         await firestore.collection(colId).where(key, isEqualTo: value).get();
+    if (querySnapshot.docs.isNotEmpty) {
+      debugPrint(
+        'Got firestore documents: colId=$colId, where="$key=$value", '
+        'length=${querySnapshot.docs.length}',
+      );
+    }
     return querySnapshot.docs;
   }
 
@@ -71,12 +91,13 @@ class FirestoreController extends GetxController {
         .doc(docId)
         .delete()
         .then(
-          (value) => debugPrint(
-            'Deleted firestore document: colId="$colId", docId="$docId"',
+          (_) => debugPrint(
+            'Deleted a firestore document: colId=$colId, docId=$docId',
           ),
         )
         .catchError(
-          (error) => debugPrint('Failed to delete firestore document: $error'),
+          (error) =>
+              debugPrint('Failed to delete a firestore document: $error'),
         );
   }
 

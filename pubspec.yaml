@@ -19,7 +19,8 @@ dependencies:
   nil: 1.1.1
   convex_bottom_bar: 3.0.0
   easy_dynamic_theme: 2.2.0
-  search_widget: 1.0.2
+  cached_network_image: 3.2.0
+  get_storage: 2.0.3
   flutter: 
     sdk: flutter
 

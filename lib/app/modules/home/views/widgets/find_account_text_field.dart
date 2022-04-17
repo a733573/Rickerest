@@ -11,17 +11,21 @@ class FindAccountTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onSubmitted: _findAccount,
-      decoration:
-          const InputDecoration(labelText: 'Find you friend by email...'),
+      decoration: const InputDecoration(
+        labelText: 'Find your new friend by email...',
+        alignLabelWithHint: true,
+      ),
     );
   }
 
   Future<void> _findAccount(String email) async {
     if (UserController.to.user?.email == email) {
-      return Get.defaultDialog(
-        title: 'Error',
-        middleText: 'You can\'t add yourself to your friends list.',
+      Get.snackbar(
+        'Error',
+        'You can\'t add yourself to your friends.',
+        duration: const Duration(seconds: 5),
       );
+      return;
     }
 
     final doc = await FirestoreController.to.findAccountByEmail(email);
@@ -29,14 +33,14 @@ class FindAccountTextField extends StatelessWidget {
       final name = doc.data()['name'];
       return Get.defaultDialog(
         title: 'User found!',
-        middleText: 'Do you want to add "$name" to your friends list?',
+        middleText: 'Do you want to add "$name" to your friends?',
         onConfirm: () async {
           var snackbarTitle = '';
           var snackbarMessage = '';
           await UserController.to.addFriend(friendUid: doc.id).then(
             (value) {
               snackbarTitle = 'Success!';
-              snackbarMessage = '"$name" was added to your friends list.';
+              snackbarMessage = '"$name" was added to your friends.';
             },
           ).catchError(
             (error) {
@@ -56,10 +60,10 @@ class FindAccountTextField extends StatelessWidget {
         onCancel: () {},
       );
     } else {
-      return Get.defaultDialog(
-        title: 'User not found.',
-        middleText: 'No user was found.',
-        onConfirm: () {},
+      Get.snackbar(
+        'User not found.',
+        'No user was found.',
+        duration: const Duration(seconds: 5),
       );
     }
   }
