@@ -12,7 +12,17 @@ class UserController extends GetxController {
 
   String get uid => user?.uid ?? '';
 
-  // Future<Map<String, dynamic>> get getCurrentUserData {}
+  Future<Map<String, String>?> get getCurrentUserProfileData async {
+    final documentSnapshot =
+        await FirestoreController.to.getDocByDocId(colId: 'users', docId: uid);
+    final data = documentSnapshot.data();
+    return data != null
+        ? {
+            'name': data['name'] as String,
+            'avatarImageUrl': data['avatarImageUrl'] as String,
+          }
+        : null;
+  }
 
   Future<void> createUser({
     required String uid,
