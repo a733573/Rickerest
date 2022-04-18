@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/data/services/auth_service.dart';
 import 'package:rickerest/app/data/services/firestore_service.dart';
@@ -20,6 +21,15 @@ class HomeController extends GetxController {
   }
 
   Future<void> findAccount(String email) async {
+    if (!EmailValidator.validate(email)) {
+      Get.snackbar(
+        'Error',
+        'Not a valid email.',
+        duration: const Duration(seconds: 5),
+      );
+      return;
+    }
+
     if (AuthService.to.currentUser?.email == email) {
       Get.snackbar(
         'Error',

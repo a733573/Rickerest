@@ -13,23 +13,29 @@ class FindAccountTextField extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: TextField(
             controller: controller,
-            onSubmitted: HomeController.to.findAccount,
+            onSubmitted: (email) {
+              controller.clear();
+              HomeController.to.findAccount(email);
+            },
             decoration: InputDecoration(
               labelText: 'Find by email',
-              suffixIcon: SizedBox(
-                width: 100,
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () => controller.clear(),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () =>
-                          HomeController.to.findAccount(controller.text),
-                    ),
-                  ],
+              suffixIcon: Visibility(
+                child: SizedBox(
+                  width: 100,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () => controller.clear(),
+                      ),
+                      IconButton(
+                          icon: const Icon(Icons.search),
+                          onPressed: () {
+                            controller.clear();
+                            HomeController.to.findAccount(controller.text);
+                          }),
+                    ],
+                  ),
                 ),
               ),
               alignLabelWithHint: true,
