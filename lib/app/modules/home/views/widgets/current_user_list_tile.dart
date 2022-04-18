@@ -3,8 +3,8 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:rickerest/app/modules/home/controllers/home_controller.dart';
 
-class CurrentUserListTile extends StatelessWidget {
-  CurrentUserListTile({Key? key}) : super(key: key);
+class CurrentUserTile extends StatelessWidget {
+  const CurrentUserTile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:nil/nil.dart';
-import 'package:rickerest/app/core/utils/user_util.dart';
+import 'package:rickerest/app/data/services/firestore_service.dart';
 
 import '../../data/services/auth_service.dart';
 
@@ -46,6 +46,21 @@ class AuthGate extends StatelessWidget {
             }),
           ],
         );
+      },
+    );
+  }
+
+  Future<void> createUser({
+    required String uid,
+    required String name,
+    required String email,
+  }) {
+    return FirestoreService.to.setDoc(
+      colId: 'users',
+      docId: AuthService.to.uid,
+      data: {
+        'name': name,
+        'email': email,
       },
     );
   }

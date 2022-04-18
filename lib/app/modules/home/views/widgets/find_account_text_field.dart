@@ -1,72 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:rickerest/app/core/utils/user_util.dart';
-import 'package:rickerest/app/data/services/auth_service.dart';
-import 'package:simple_logger/simple_logger.dart';
-
-import '../../../../data/services/firestore_service.dart';
+import 'package:rickerest/app/modules/home/controllers/home_controller.dart';
 
 class FindAccountTextField extends StatelessWidget {
   const FindAccountTextField({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onSubmitted: _findAccount,
-      decoration: const InputDecoration(
-        labelText: 'Find your new friend by email...',
-        alignLabelWithHint: true,
-      ),
+    final controller = TextEditingController();
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: TextField(
+            controller: controller,
+            onSubmitted: HomeController.to.findAccount,
+            decoration: InputDecoration(
+              labelText: 'Find by email',
+              suffixIcon: SizedBox(
+                width: 100,
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () => controller.clear(),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () =>
+                          HomeController.to.findAccount(controller.text),
+                    ),
+                  ],
+                ),
+              ),
+              alignLabelWithHint: true,
+            ),
+          ),
+        ),
+      ],
     );
-  }
-
-  Future<void> _findAccount(String email) async {
-    if (AuthService.to.currentUser?.email == email) {
-      Get.snackbar(
-        'Error',
-        'You can\'t add yourself to your friends.',
-        duration: const Duration(seconds: 5),
-      );
-      return;
-    }
-
-    final doc = await FirestoreService.to.findAccountByEmail(email);
-    if (doc != null) {
-      final name = doc.data()['name'];
-      return Get.defaultDialog(
-        title: 'User found!',
-        middleText: 'Do you want to add "$name" to your friends?',
-        onConfirm: () async {
-          var snackbarTitle = '';
-          var snackbarMessage = '';
-          await addFriend(friendUid: doc.id).then(
-            (value) {
-              snackbarTitle = 'Success!';
-              snackbarMessage = '"$name" was added to your friends.';
-            },
-          ).catchError(
-            (error) {
-              snackbarTitle = 'Error';
-              snackbarMessage = 'Failed to add friend.';
-              SimpleLogger().warning('Failed to add friend: $error');
-            },
-          );
-          Get
-            ..back()
-            ..snackbar(
-              snackbarTitle,
-              snackbarMessage,
-              duration: const Duration(seconds: 5),
-            );
-        },
-        onCancel: () {},
-      );
-    } else {
-      Get.snackbar(
-        'User not found.',
-        'No user was found.',
-        duration: const Duration(seconds: 5),
-      );
-    }
   }
 }
