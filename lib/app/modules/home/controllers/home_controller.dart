@@ -22,14 +22,8 @@ class HomeController extends GetxController {
 
   Future<void> findAccount(String email) async {
     if (!EmailValidator.validate(email)) {
-      Get.snackbar(
-        'Error',
-        'Not a valid email.',
-        duration: const Duration(seconds: 5),
-      );
       return;
     }
-
     if (AuthService.to.currentUser?.email == email) {
       Get.snackbar(
         'Error',

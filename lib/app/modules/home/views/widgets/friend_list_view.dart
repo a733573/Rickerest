@@ -6,7 +6,8 @@ class FriendListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        // child: ListView.builder(itemBuilder: itemBuilder),
-        child: SizedBox());
+      // child: ListView.builder(itemBuilder: itemBuilder),
+      child: SizedBox(),
+    );
   }
 }
