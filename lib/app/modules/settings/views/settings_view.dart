@@ -23,30 +23,27 @@ class SettingsView extends GetView<SettingsController> {
           automaticallyImplyLeading: false,
         ),
         body: Center(
-          child: SizedBox(
-            width: 600,
-            child: ListView(
-              children: const [
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Text('General'),
-                ),
-                ThemeSettingsItem(),
-                Divider(),
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Text('Account'),
-                ),
-                SignOutSettingsItem(),
-                DeleteAccountSettingsItem(),
-                Divider(),
-                Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Text('About Rickerest'),
-                ),
-                LicensesSettingsItem(),
-              ],
-            ),
+          child: ListView(
+            children: const [
+              Padding(
+                padding: EdgeInsets.all(8),
+                child: Text('General'),
+              ),
+              ThemeSettingsItem(),
+              Divider(),
+              Padding(
+                padding: EdgeInsets.all(8),
+                child: Text('Account'),
+              ),
+              SignOutSettingsItem(),
+              DeleteAccountSettingsItem(),
+              Divider(),
+              Padding(
+                padding: EdgeInsets.all(8),
+                child: Text('About Rickerest'),
+              ),
+              LicensesSettingsItem(),
+            ],
           ),
         ),
         bottomNavigationBar: const CustomBottomNavigationBar(selectedIndex: 2),

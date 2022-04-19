@@ -32,22 +32,19 @@ class HomeView extends GetView<HomeController> {
           ],
         ),
         body: Center(
-          child: SizedBox(
-            width: 600,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CurrentUserTile(),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Text(
-                    'Friends',
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CurrentUserTile(),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Text(
+                  'Friends',
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
-                const FriendListView(),
-              ],
-            ),
+              ),
+              const FriendListView(),
+            ],
           ),
         ),
         bottomNavigationBar: const CustomBottomNavigationBar(selectedIndex: 0),

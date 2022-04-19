@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:rickerest/app/modules/home/controllers/home_controller.dart';
 
 import '../../controllers/add_friends_controller.dart';
 
@@ -16,37 +15,38 @@ class FindAccountTextField extends StatelessWidget {
           child: Obx(() {
             return TextField(
               controller: AddFriendsController.to.textEditingController,
-              onChanged: AddFriendsController.to.emailValidate,
-              onSubmitted: (email) => HomeController.to.findAccount(email),
+              onChanged: (value) {
+                AddFriendsController.to.textIsEmpty = value.isEmpty;
+                AddFriendsController.to.validateText(value);
+              },
+              onSubmitted: (_) => AddFriendsController.to.findAccount(),
+              autofocus: true,
               decoration: InputDecoration(
                 labelText: 'Find by Email',
                 errorText: AddFriendsController.to.errorText,
                 suffixIcon: Visibility(
-                  child: SizedBox(
-                    width: 100,
-                    child: Row(
-                      children: [
-                        Visibility(
-                          visible: AddFriendsController
-                              .to.textEditingController.value.text.isNotEmpty,
-                          maintainState: true,
-                          maintainAnimation: true,
-                          maintainSize: true,
-                          child: IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () => AddFriendsController.to
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Visibility(
+                        visible: !AddFriendsController.to.textIsEmpty,
+                        maintainState: true,
+                        maintainAnimation: true,
+                        maintainSize: true,
+                        child: IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            AddFriendsController.to
                               ..textEditingController.clear()
-                              ..emailValidate(''),
-                          ),
+                              ..textIsEmpty = true;
+                          },
                         ),
-                        IconButton(
-                          icon: const Icon(Icons.search),
-                          onPressed: () => HomeController.to.findAccount(
-                            AddFriendsController.to.textEditingController.text,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () => AddFriendsController.to.findAccount(),
+                      ),
+                    ],
                   ),
                 ),
                 alignLabelWithHint: true,
