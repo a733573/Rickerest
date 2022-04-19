@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:get/get.dart';
-import 'package:rickerest/app/data/services/auth_service.dart';
-import 'package:rickerest/app/data/services/firestore_service.dart';
 
 import '../controllers/sign_in_controller.dart';
 
@@ -24,28 +22,13 @@ class SignInView extends GetView<SignInController> {
       actions: [
         AuthStateChangeAction<UserCreated>((context, userCreated) async {
           final user = userCreated.credential.user!;
-          await createUser(
+          await controller.createUser(
             uid: user.uid,
             name: user.email!,
             email: user.email!,
           );
         }),
       ],
-    );
-  }
-
-  Future<void> createUser({
-    required String uid,
-    required String name,
-    required String email,
-  }) {
-    return FirestoreService.to.setDoc(
-      colId: 'users',
-      docId: AuthService.to.uid,
-      data: {
-        'name': name,
-        'email': email,
-      },
     );
   }
 }

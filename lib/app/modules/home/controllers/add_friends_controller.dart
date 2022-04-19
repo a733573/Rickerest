@@ -39,6 +39,7 @@ class AddFriendsController extends GetxController {
       Get.snackbar(
         'Error',
         'You can\'t add yourself to your friends.',
+        snackPosition: SnackPosition.BOTTOM,
         duration: const Duration(seconds: 5),
       );
       return;
@@ -72,6 +73,7 @@ class AddFriendsController extends GetxController {
             ..snackbar(
               snackbarTitle,
               snackbarMessage,
+              snackPosition: SnackPosition.BOTTOM,
               duration: const Duration(seconds: 5),
             );
         },
@@ -107,7 +109,7 @@ class AddFriendsController extends GetxController {
       docId: AuthService.to.uid,
     );
     final userData = {
-      'friends.$AuthService.to.uid': {
+      'friends.${AuthService.to.uid}': {
         'name': userDoc.data()?['name'],
         'avatarImageUrl': userDoc.data()?['avatarImageUrl']
       }
