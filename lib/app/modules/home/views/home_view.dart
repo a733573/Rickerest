@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rickerest/app/global/widgets/auth_gate.dart';
 import 'package:rickerest/app/global/widgets/custom_bottom_navigation_bar.dart';
 import 'package:rickerest/app/modules/home/bindings/add_friends_binding.dart';
 import 'package:rickerest/app/modules/home/views/add_friends_view.dart';
@@ -15,40 +14,38 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return AuthGate(
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Home'),
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-              onPressed: () => Get.to(
-                () => const AddFriendsView(),
-                routeName: '${Routes.home}/add-friends',
-                binding: AddFriendsBinding(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home'),
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            onPressed: () => Get.to(
+              () => const AddFriendsView(),
+              routeName: '${Routes.home}/add-friends',
+              binding: AddFriendsBinding(),
+            ),
+            icon: const Icon(Icons.person_add),
+          )
+        ],
+      ),
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const CurrentUserTile(),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Text(
+                'Friends',
+                style: Theme.of(context).textTheme.subtitle1,
               ),
-              icon: const Icon(Icons.person_add),
-            )
+            ),
+            const FriendListView(),
           ],
         ),
-        body: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CurrentUserTile(),
-              Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: Text(
-                  'Friends',
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
-              ),
-              const FriendListView(),
-            ],
-          ),
-        ),
-        bottomNavigationBar: const CustomBottomNavigationBar(selectedIndex: 0),
       ),
+      bottomNavigationBar: const CustomBottomNavigationBar(selectedIndex: 0),
     );
   }
 }

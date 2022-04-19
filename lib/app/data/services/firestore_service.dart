@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:rickerest/app/data/services/auth_service.dart';
 
 import '../../core/utils/logger.dart';
 
@@ -7,6 +8,14 @@ class FirestoreService extends GetxService {
   static FirestoreService get to => Get.find();
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  late final Stream<DocumentSnapshot<Map<String, dynamic>>> userStream =
+      firestore.collection('users').doc(AuthService.to.uid).snapshots();
+
+  // void init() {
+  //   userStream =
+  //       firestore.collection('users').doc(AuthService.to.uid).snapshots();
+  // }
 
   Future<void> setDoc({
     required String colId,

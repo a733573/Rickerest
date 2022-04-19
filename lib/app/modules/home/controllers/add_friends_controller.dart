@@ -78,11 +78,12 @@ class AddFriendsController extends GetxController {
         onCancel: () {},
       );
     } else {
-      Get.snackbar(
-        'User not found.',
-        'No user was found.',
-        duration: const Duration(seconds: 5),
-      );
+      // Get.snackbar(
+      //   'User not found.',
+      //   'No user was found.',
+      //   duration: const Duration(seconds: 5),
+      // );
+      _errorText.value = 'User not found.';
     }
   }
 

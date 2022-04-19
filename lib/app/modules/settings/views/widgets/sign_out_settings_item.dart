@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:nil/nil.dart';
 import 'package:rickerest/app/data/services/auth_service.dart';
 
-import '../../../../routes/app_pages.dart';
-
 class SignOutSettingsItem extends StatelessWidget {
   const SignOutSettingsItem({Key? key}) : super(key: key);
 
@@ -25,7 +23,6 @@ class SignOutSettingsItem extends StatelessWidget {
       middleText: 'Do you want to sign out?',
       onConfirm: () {
         AuthService.to.signOut();
-        Get.offAllNamed(Routes.home);
       },
       onCancel: () {},
     );
