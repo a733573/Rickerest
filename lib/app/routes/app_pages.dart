@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:rickerest/app/modules/sign_in/bindings/sign_in_binding.dart';
+import 'package:rickerest/app/modules/sign_in/views/sign_in_view.dart';
 
 import '../modules/chats/bindings/chats_binding.dart';
 import '../modules/chats/views/chats_view.dart';
@@ -7,15 +9,13 @@ import '../modules/home/views/home_view.dart';
 import '../modules/not_found/views/not_found_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/views/settings_view.dart';
-import '../modules/sign_in/bindings/sign_in_binding.dart';
-import '../modules/sign_in/views/sign_in_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const initial = Routes.sign_in;
+  static const initial = Routes.signIn;
 
   static final notFound = GetPage(
     name: '/not-found',
@@ -43,7 +43,7 @@ class AppPages {
       transitionDuration: Duration.zero,
     ),
     GetPage(
-      name: _Paths.sign_in,
+      name: _Paths.signIn,
       page: () => const SignInView(),
       binding: SignInBinding(),
       transitionDuration: Duration.zero,

@@ -9,7 +9,7 @@ class FirestoreService extends GetxService {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  late final Stream<DocumentSnapshot<Map<String, dynamic>>> userStream =
+  Stream<DocumentSnapshot<Map<String, dynamic>>> get currentUserStream =>
       firestore.collection('users').doc(AuthService.to.uid).snapshots();
 
   // void init() {

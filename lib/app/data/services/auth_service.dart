@@ -21,7 +21,7 @@ class AuthService extends GetxService {
         Get.offAllNamed(Routes.home);
         logger.info('Signed in!');
       } else {
-        Get.offAllNamed(Routes.sign_in);
+        Get.offAllNamed(Routes.signIn);
         logger.info('Signed out!');
       }
     });
