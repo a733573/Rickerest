@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rickerest/app/data/services/firestore_service.dart';
 
+import 'widgets/crop_image_dialog.dart';
+
 class EditProfileView extends GetView<EditProfileView> {
   const EditProfileView({Key? key}) : super(key: key);
 
@@ -20,6 +22,11 @@ class EditProfileView extends GetView<EditProfileView> {
                 final ImagePicker picker = ImagePicker();
                 final XFile? image =
                     await picker.pickImage(source: ImageSource.gallery);
+                final imageBytes = await image!.readAsBytes();
+                await Get.to(
+                  () => CropImageDialog(imageBytes),
+                  fullscreenDialog: true,
+                );
               },
               child: Stack(
                 alignment: Alignment.center,

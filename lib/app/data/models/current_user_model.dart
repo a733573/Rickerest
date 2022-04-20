@@ -1,11 +1,13 @@
 import 'package:rickerest/app/data/models/friend_user_model.dart';
 import 'package:rickerest/app/data/services/auth_service.dart';
+import 'package:rickerest/app/data/services/storage_service.dart';
 
 class CurrentUserModel {
   CurrentUserModel(Map<String, dynamic> data) {
     name = data['name'] as String;
     email = data['email'] as String;
-    avatarImageUrl = data['avatarImageUrl'] as String? ?? defaultAvatarImageUrl;
+    avatarImageUrl = data['avatarImageUrl'] as String? ??
+        StorageService.to.defaultAvatarImageUrl;
     final friends = data['friends'] as Map<String, dynamic>?;
     friendsList = friends?.entries
             .map(
@@ -16,7 +18,6 @@ class CurrentUserModel {
             )
             .toList() ??
         [];
-    // logger.info('New instance has been created.');
   }
 
   final String uid = AuthService.to.uid!;

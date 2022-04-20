@@ -17,11 +17,6 @@ class FirestoreService extends GetxService {
 
   CurrentUserModel? currentUserModel;
 
-  // void init() {
-  //   userStream =
-  //       firestore.collection('users').doc(AuthService.to.uid).snapshots();
-  // }
-
   Future<void> setDoc({
     required String colId,
     required String docId,
