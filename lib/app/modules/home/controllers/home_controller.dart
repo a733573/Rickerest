@@ -6,15 +6,15 @@ class HomeController extends GetxController {
   // final RxMap<String, String> currentUserData =
   //     {'name': '', 'avatarImageUrl': ''}.obs;
 
-  @override
-  Future<void> onInit() async {
-    super.onInit();
+  // @override
+  // Future<void> onInit() async {
+  //   super.onInit();
 
-    // final Map<String, String>? data = await _getCurrentUserProfileData();
-    // if (data != null) {
-    //   currentUserData.value = data;
-    // }
-  }
+  // final Map<String, String>? data = await _getCurrentUserProfileData();
+  // if (data != null) {
+  //   currentUserData.value = data;
+  // }
+  // }
 
   // Future<Map<String, String>?> _getCurrentUserProfileData() async {
   //   final documentSnapshot = await FirestoreService.to

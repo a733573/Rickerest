@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:rickerest/app/data/services/auth_service.dart';
 
 import '../../core/utils/logger.dart';
+import 'auth_service.dart';
 
 class FirestoreService extends GetxService {
   static FirestoreService get to => Get.find();

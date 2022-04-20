@@ -21,9 +21,8 @@ class FriendsTile extends StatelessWidget {
       ),
       avatar: GFAvatar(
         size: GFSize.SMALL,
-        backgroundImage: avatarImageUrl != null
-            ? NetworkImage(avatarImageUrl!)
-            : Image.asset('assets/images/default_profile_image.png').image,
+        backgroundImage: NetworkImage(avatarImageUrl ??
+            'https://firebasestorage.googleapis.com/v0/b/rickerest.appspot.com/o/default_profile_image.png?alt=media&token=e941f785-39a5-4140-9215-ee4b339c2578'),
       ),
     );
   }

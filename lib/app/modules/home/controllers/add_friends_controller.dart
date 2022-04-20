@@ -100,13 +100,13 @@ class AddFriendsController extends GetxController {
     };
     await FirestoreService.to.updateDoc(
       colId: 'users',
-      docId: AuthService.to.uid,
+      docId: AuthService.to.uid!,
       data: friendData,
     );
 
     final userDoc = await FirestoreService.to.getDocByDocId(
       colId: 'users',
-      docId: AuthService.to.uid,
+      docId: AuthService.to.uid!,
     );
     final userData = {
       'friends.${AuthService.to.uid}': {

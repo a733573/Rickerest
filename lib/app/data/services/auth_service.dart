@@ -10,14 +10,13 @@ class AuthService extends GetxService {
 
   User? get currentUser => auth.currentUser;
 
-  String get uid => currentUser?.uid ?? '';
+  String? get uid => currentUser?.uid;
 
   @override
   void onInit() {
     super.onInit();
     auth.authStateChanges().listen((user) {
       if (user != null) {
-        // FirestoreService.to.init();
         Get.offAllNamed(Routes.home);
         logger.info('Signed in!');
       } else {
