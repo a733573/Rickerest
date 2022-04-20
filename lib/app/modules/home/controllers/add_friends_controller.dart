@@ -23,7 +23,6 @@ class AddFriendsController extends GetxController {
   bool _isNotSubmitted = true;
 
   void validateText(String value) {
-    // logger.info(textEditingController.value.text);
     _errorText.value = (_isNotSubmitted || EmailValidator.validate(value))
         ? ''
         : 'Not a valid Email.';
@@ -89,7 +88,7 @@ class AddFriendsController extends GetxController {
     }
   }
 
-  Future<String?> _addFriend({required String friendUid}) async {
+  Future<void> _addFriend({required String friendUid}) async {
     final friendDoc = await FirestoreService.to
         .getDocByDocId(colId: 'users', docId: friendUid);
     final friendData = {

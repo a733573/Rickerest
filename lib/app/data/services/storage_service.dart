@@ -31,32 +31,24 @@ class StorageService extends GetxService {
     }
   }
 
-  Future<void> uploadAvatarImage(Uint8List data) async {
-    try {
-      final imageRef =
-          avatarImageRef.child('avatar_image_${AuthService.to.uid!}.png');
-      await imageRef.putData(data);
-      logger.info('Uploaded an avatar image.');
+  Future<void> uploadAvatarImage(Uint8List imageBytes) async {
+    final imageRef =
+        avatarImageRef.child('avatar_image_${AuthService.to.uid!}.png');
+    await imageRef.putData(imageBytes);
+    logger.info('Uploaded an avatar image.');
 
-      final avatarImageUrl = await imageRef.getDownloadURL();
-      await FirestoreService.to.updateDoc(
-        colId: 'users',
-        docId: AuthService.to.uid!,
-        data: {'avatarImageUrl': avatarImageUrl},
+    final avatarImageUrl = await imageRef.getDownloadURL();
+    final data = [
+      MapEntry(AuthService.to.uid!, {'avatarImageUrl': avatarImageUrl})
+    ];
+    for (final friendUserModel
+        in FirestoreService.to.currentUserModel!.friendsList) {
+      final entry = MapEntry(
+        friendUserModel.uid,
+        {'friends.${AuthService.to.uid}.avatarImageUrl': avatarImageUrl},
       );
-
-      for (final friendUserModel
-          in FirestoreService.to.currentUserModel!.friendsList) {
-        await FirestoreService.to.updateDoc(
-          colId: 'users',
-          docId: friendUserModel.uid,
-          data: {
-            'friends.${AuthService.to.uid}.avatarImageUrl': avatarImageUrl
-          },
-        );
-      }
-    } on FirebaseException catch (e) {
-      logger.warning(e);
+      data.add(entry);
     }
+    return FirestoreService.to.batchUpdate(colId: 'users', data: data);
   }
 }

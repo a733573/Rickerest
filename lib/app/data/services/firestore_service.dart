@@ -38,11 +38,11 @@ class FirestoreService extends GetxService {
         );
   }
 
-  Future<String?> updateDoc({
+  Future<void> updateDoc({
     required String colId,
     required String docId,
     required Map<String, dynamic> data,
-  }) async {
+  }) {
     return firestore
         .collection(colId)
         .doc(docId)
@@ -59,10 +59,31 @@ class FirestoreService extends GetxService {
         );
   }
 
+  Future<void> batchUpdate({
+    required String colId,
+    required List<MapEntry<String, Map<String, dynamic>>> data,
+  }) {
+    final batch = firestore.batch();
+    final colRef = firestore.collection(colId);
+    for (final MapEntry<String, Map<String, dynamic>> entry in data) {
+      batch.update(colRef.doc(entry.key), entry.value);
+    }
+    return batch
+        .commit()
+        .then(
+          (_) => logger.info(
+            'Batch Updated: colId="$colId", length="${data.length}"',
+          ),
+        )
+        .catchError(
+          (error) => logger.warning('Failed to batch update: $error'),
+        );
+  }
+
   Future<DocumentSnapshot<Map<String, dynamic>>> getDocByDocId({
     required String colId,
     required String docId,
-  }) async {
+  }) {
     return firestore.collection(colId).doc(docId).get().then(
       (value) {
         logger.info(
@@ -81,7 +102,7 @@ class FirestoreService extends GetxService {
     required String colId,
     required String key,
     required dynamic val,
-  }) async {
+  }) {
     return firestore.collection(colId).where(key, isEqualTo: val).get().then(
       (value) {
         logger.info(
@@ -119,7 +140,7 @@ class FirestoreService extends GetxService {
 
   Future<QueryDocumentSnapshot<Map<String, dynamic>>?> findAccountByEmail(
     String email,
-  ) async {
+  ) {
     return getDocsByField(colId: 'users', key: 'email', val: email)
         .then((value) => value.isNotEmpty ? value[0] : null);
   }
