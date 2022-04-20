@@ -12,6 +12,8 @@ class FirestoreService extends GetxService {
   Stream<DocumentSnapshot<Map<String, dynamic>>> get currentUserStream =>
       firestore.collection('users').doc(AuthService.to.uid).snapshots();
 
+  DocumentSnapshot? currentUserDocumentCache;
+
   // void init() {
   //   userStream =
   //       firestore.collection('users').doc(AuthService.to.uid).snapshots();

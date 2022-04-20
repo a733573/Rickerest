@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rickerest/app/core/utils/logger.dart';
+import 'package:rickerest/app/data/models/current_user_model.dart';
 import 'package:rickerest/app/data/services/firestore_service.dart';
 import 'package:rickerest/app/global/widgets/custom_bottom_navigation_bar.dart';
 import 'package:rickerest/app/modules/home/bindings/add_friends_binding.dart';
@@ -31,35 +33,32 @@ class HomeView extends GetView<HomeController> {
         ],
       ),
       body: StreamBuilder<DocumentSnapshot>(
+        initialData: FirestoreService.to.currentUserDocumentCache,
         stream: FirestoreService.to.currentUserStream,
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          // if (snapshot.hasError) {
-          //   return const SizedBox();
-          // }
-          // if (snapshot.connectionState == ConnectionState.waiting) {
-          //   return const SizedBox();
-          // }
+          if (snapshot.hasError) {
+            logger.warning('Snapshot has error.');
+            return const SizedBox();
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SizedBox();
+          }
+
+          FirestoreService.to.currentUserDocumentCache = snapshot.data;
+          final isFromCache = snapshot.data?.metadata.isFromCache;
+          if (isFromCache != null && !isFromCache) {
+            logger.warning('This snapshot is NOT from cache!');
+          }
 
           final data = snapshot.data?.data()! as Map<String, dynamic>?;
-          final name = data?['name'] as String?;
-          final avatarImageUrl = data?['avatarImageUrl'] as String?;
-          final friends = data?['friends'] as Map<String, dynamic>?;
-          final friendsTileList = friends?.entries.map((e) {
-                final data = e.value as Map<String, dynamic>?;
-                return FriendsTile(
-                  name: data?['name'] as String?,
-                  avatarImageUrl: data?['avatarImageUrl'] as String?,
-                );
-              }).toList() ??
-              [];
+          final currentUserModel = CurrentUserModel(data!);
+          final friendTiles = currentUserModel.friendsList
+              .map((friendUserModel) => FriendTile(friendUserModel));
 
           return ListView(
             children: [
-              CurrentUserTile(
-                name: name,
-                avatarImageUrl: avatarImageUrl,
-              ),
+              CurrentUserTile(currentUserModel),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: Text(
@@ -67,7 +66,7 @@ class HomeView extends GetView<HomeController> {
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
               ),
-              ...friendsTileList
+              ...friendTiles
             ],
           );
         },

@@ -14,7 +14,7 @@ class ChatsView extends GetView<ChatsController> {
         title: const Text('Chats'),
         automaticallyImplyLeading: false,
       ),
-      body: const SizedBox(),
+      body: const Placeholder(),
       bottomNavigationBar: const CustomBottomNavigationBar(
         selectedIndex: 1,
       ),
