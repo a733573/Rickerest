@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:rickerest/app/data/models/current_user_model.dart';
 
 import '../../core/utils/logger.dart';
 import 'auth_service.dart';
@@ -13,6 +14,8 @@ class FirestoreService extends GetxService {
       firestore.collection('users').doc(AuthService.to.uid).snapshots();
 
   DocumentSnapshot? currentUserDocumentCache;
+
+  CurrentUserModel? currentUserModel;
 
   // void init() {
   //   userStream =

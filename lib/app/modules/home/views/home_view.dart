@@ -25,7 +25,7 @@ class HomeView extends GetView<HomeController> {
           IconButton(
             onPressed: () => Get.to(
               () => const AddFriendsView(),
-              routeName: '${Routes.home}/add-friends',
+              routeName: Routes.addFriends,
               binding: AddFriendsBinding(),
             ),
             icon: const Icon(Icons.person_add),
@@ -48,17 +48,17 @@ class HomeView extends GetView<HomeController> {
           FirestoreService.to.currentUserDocumentCache = snapshot.data;
           final isFromCache = snapshot.data?.metadata.isFromCache;
           if (isFromCache != null && !isFromCache) {
-            logger.warning('This snapshot is NOT from cache!');
+            logger.warning('isFromCache=$isFromCache');
           }
 
           final data = snapshot.data?.data()! as Map<String, dynamic>?;
-          final currentUserModel = CurrentUserModel(data!);
-          final friendTiles = currentUserModel.friendsList
+          FirestoreService.to.currentUserModel = CurrentUserModel(data!);
+          final friendTiles = FirestoreService.to.currentUserModel!.friendsList
               .map((friendUserModel) => FriendTile(friendUserModel));
 
           return ListView(
             children: [
-              CurrentUserTile(currentUserModel),
+              CurrentUserTile(FirestoreService.to.currentUserModel!),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: Text(
