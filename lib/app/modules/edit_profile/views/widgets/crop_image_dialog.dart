@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rickerest/app/data/services/storage_service.dart';
 import 'package:rickerest/app/modules/edit_profile/controllers/edit_profile_controller.dart';
 
 class CropImageDialog extends StatelessWidget {
@@ -29,18 +28,10 @@ class CropImageDialog extends StatelessWidget {
         aspectRatio: 1,
         withCircleUi: true,
         baseColor: Colors.black,
-        onCropped: (data) async {
-          try {
-            EditProfileController.to.avatarImageUrl =
-                await StorageService.to.uploadAvatarImage(data);
-            Get
-              ..back()
-              ..snackbar('Success!', 'Uploaded your avatar image.');
-          } on Exception catch (_) {
-            Get
-              ..back()
-              ..snackbar('Error!', 'Failed to upload your avatar image.');
-          }
+        onCropped: (data) {
+          EditProfileController.to.avatarImageByte = data;
+          EditProfileController.to.isChanged = true;
+          Get.back();
         },
       ),
     );

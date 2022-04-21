@@ -106,7 +106,7 @@ class AddFriendsController extends GetxController {
         'avatarImageUrl': currentUserModel.avatarImageUrl
       }
     });
-    return FirestoreService.to
-        .batchUpdate(colId: 'users', data: [currentUserEntry, friendUserEntry]);
+    return FirestoreService.to.batchUpdate(
+        colId: 'users', entries: [currentUserEntry, friendUserEntry]);
   }
 }

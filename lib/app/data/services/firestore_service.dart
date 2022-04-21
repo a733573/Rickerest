@@ -61,17 +61,17 @@ class FirestoreService extends GetxService {
 
   Future<void> batchUpdate({
     required String colId,
-    required List<MapEntry<String, Map<String, dynamic>>> data,
+    required List<MapEntry<String, Map<String, dynamic>>> entries,
   }) {
     final batch = firestore.batch();
-    for (final entry in data) {
-      batch.update(firestore.collection(colId).doc(entry.key), entry.value);
+    for (final e in entries) {
+      batch.update(firestore.collection(colId).doc(e.key), e.value);
     }
     return batch
         .commit()
         .then(
           (_) => logger.info(
-            'Batch Updated: colId="$colId", length="${data.length}"',
+            'Batch Updated: colId="$colId", length="${entries.length}"',
           ),
         )
         .catchError(
