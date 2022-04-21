@@ -32,16 +32,10 @@ class AddFriendsController extends GetxController {
   Future<void> findAccount() async {
     _isNotSubmitted = false;
     validateText(textEditingController.value.text);
-    if (_errorText.value.isNotEmpty) {
-      return;
-    }
     if (AuthService.to.currentUser?.email == textEditingController.value.text) {
-      Get.snackbar(
-        'Error',
-        'You can\'t add yourself to your friends.',
-        snackPosition: SnackPosition.BOTTOM,
-        duration: const Duration(seconds: 5),
-      );
+      _errorText.value = 'You can\'t add yourself to your friends.';
+    }
+    if (_errorText.value.isNotEmpty) {
       return;
     }
 
@@ -49,6 +43,12 @@ class AddFriendsController extends GetxController {
         .findAccountByEmail(textEditingController.value.text);
     if (doc != null) {
       textEditingController.clear();
+      if (FirestoreService.to.currentUserModel?.friendsList
+              .firstWhere((e) => e.uid == doc.id) !=
+          null) {
+        _errorText.value = '"${doc.data()['name']}" is already your friend.';
+        return;
+      }
       final friendUserModel = FriendUserModel(
         uid: doc.id,
         data: {
@@ -88,11 +88,6 @@ class AddFriendsController extends GetxController {
         onCancel: () {},
       );
     } else {
-      // Get.snackbar(
-      //   'User not found.',
-      //   'No user was found.',
-      //   duration: const Duration(seconds: 5),
-      // );
       _errorText.value = 'User not found.';
     }
   }

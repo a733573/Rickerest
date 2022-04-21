@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rickerest/app/data/services/firestore_service.dart';
+import 'package:rickerest/app/modules/settings/controllers/edit_profile_controller.dart';
 
 import 'widgets/crop_image_dialog.dart';
 
-class EditProfileView extends GetView<EditProfileView> {
+class EditProfileView extends GetView<EditProfileController> {
   const EditProfileView({Key? key}) : super(key: key);
 
   @override
@@ -36,13 +36,15 @@ class EditProfileView extends GetView<EditProfileView> {
                       Colors.grey.shade600,
                       BlendMode.modulate,
                     ),
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundImage: NetworkImage(
-                        FirestoreService.to.currentUserModel!.avatarImageUrl,
-                      ),
-                      backgroundColor: Colors.white,
-                    ),
+                    child: Obx(() {
+                      return CircleAvatar(
+                        radius: 40,
+                        backgroundImage: NetworkImage(
+                          controller.avatarImageUrl,
+                        ),
+                        backgroundColor: Colors.white,
+                      );
+                    }),
                   ),
                   const Icon(
                     Icons.camera_enhance_outlined,

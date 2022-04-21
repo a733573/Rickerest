@@ -64,9 +64,8 @@ class FirestoreService extends GetxService {
     required List<MapEntry<String, Map<String, dynamic>>> data,
   }) {
     final batch = firestore.batch();
-    final colRef = firestore.collection(colId);
-    for (final MapEntry<String, Map<String, dynamic>> entry in data) {
-      batch.update(colRef.doc(entry.key), entry.value);
+    for (final entry in data) {
+      batch.update(firestore.collection(colId).doc(entry.key), entry.value);
     }
     return batch
         .commit()

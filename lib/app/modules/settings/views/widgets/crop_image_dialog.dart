@@ -4,6 +4,7 @@ import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/data/services/storage_service.dart';
+import 'package:rickerest/app/modules/settings/controllers/edit_profile_controller.dart';
 
 class CropImageDialog extends StatelessWidget {
   CropImageDialog(this.imageBytes, {Key? key}) : super(key: key);
@@ -30,7 +31,8 @@ class CropImageDialog extends StatelessWidget {
         baseColor: Colors.black,
         onCropped: (data) async {
           try {
-            await StorageService.to.uploadAvatarImage(data);
+            EditProfileController.to.avatarImageUrl =
+                await StorageService.to.uploadAvatarImage(data);
             Get
               ..back()
               ..snackbar('Success!', 'Uploaded your avatar image.');

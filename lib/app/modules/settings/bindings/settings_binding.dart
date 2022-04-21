@@ -7,7 +7,7 @@ class SettingsBinding extends Bindings {
   @override
   void dependencies() {
     Get
-      ..lazyPut(() => SettingsController())
-      ..lazyPut(() => EditProfileController());
+      ..lazyPut(() => SettingsController(), fenix: true)
+      ..lazyPut(() => EditProfileController(), fenix: true);
   }
 }

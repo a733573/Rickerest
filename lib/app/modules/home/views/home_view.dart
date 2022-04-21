@@ -5,7 +5,6 @@ import 'package:rickerest/app/core/utils/logger.dart';
 import 'package:rickerest/app/data/models/current_user_model.dart';
 import 'package:rickerest/app/data/services/firestore_service.dart';
 import 'package:rickerest/app/global/widgets/custom_bottom_navigation_bar.dart';
-import 'package:rickerest/app/modules/home/bindings/add_friends_binding.dart';
 import 'package:rickerest/app/modules/home/controllers/home_controller.dart';
 import 'package:rickerest/app/modules/home/views/add_friends_view.dart';
 import 'package:rickerest/app/modules/home/views/widgets/current_user_tile.dart';
@@ -26,7 +25,6 @@ class HomeView extends GetView<HomeController> {
             onPressed: () => Get.to(
               () => const AddFriendsView(),
               routeName: Routes.addFriends,
-              binding: AddFriendsBinding(),
             ),
             icon: const Icon(Icons.person_add),
           )

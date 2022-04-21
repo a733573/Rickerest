@@ -24,4 +24,11 @@ class CurrentUserModel {
   late final String email;
   late final String avatarImageUrl;
   late final List<FriendUserModel> friendsList;
+
+  Map<String, dynamic> get toJson => {
+        'name': name,
+        'email': email,
+        'avatarImageUrl': avatarImageUrl,
+        'friends': {...friendsList.map((e) => e.toJson)}
+      };
 }

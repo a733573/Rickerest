@@ -33,7 +33,7 @@ class StorageService extends GetxService {
   //   }
   // }
 
-  Future<void> uploadAvatarImage(Uint8List imageBytes) async {
+  Future<String> uploadAvatarImage(Uint8List imageBytes) async {
     final imageRef =
         avatarImageRef.child('avatar_image_${AuthService.to.uid!}.png');
     await imageRef.putData(imageBytes);
@@ -51,6 +51,7 @@ class StorageService extends GetxService {
       );
       data.add(entry);
     }
-    return FirestoreService.to.batchUpdate(colId: 'users', data: data);
+    await FirestoreService.to.batchUpdate(colId: 'users', data: data);
+    return avatarImageUrl;
   }
 }
