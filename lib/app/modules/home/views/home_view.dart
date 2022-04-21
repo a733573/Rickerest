@@ -6,7 +6,6 @@ import 'package:rickerest/app/data/models/current_user_model.dart';
 import 'package:rickerest/app/data/services/firestore_service.dart';
 import 'package:rickerest/app/global/widgets/custom_bottom_navigation_bar.dart';
 import 'package:rickerest/app/modules/home/controllers/home_controller.dart';
-import 'package:rickerest/app/modules/home/views/add_friends_view.dart';
 import 'package:rickerest/app/modules/home/views/widgets/current_user_tile.dart';
 import 'package:rickerest/app/modules/home/views/widgets/friends_tile.dart';
 import 'package:rickerest/app/routes/app_pages.dart';
@@ -22,10 +21,7 @@ class HomeView extends GetView<HomeController> {
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            onPressed: () => Get.to(
-              () => const AddFriendsView(),
-              routeName: Routes.addFriends,
-            ),
+            onPressed: () => Get.toNamed(Routes.addFriends),
             icon: const Icon(Icons.person_add),
           )
         ],

@@ -18,7 +18,10 @@ class AvatarImageDialog extends StatelessWidget {
             aspectRatio: 1,
             child: Container(
               color: Colors.white,
-              child: Image.network(avatarImageUrl),
+              child: Image.network(
+                avatarImageUrl,
+                fit: BoxFit.fitHeight,
+              ),
             ),
           ),
         ),

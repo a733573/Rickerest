@@ -4,7 +4,7 @@ import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/data/services/storage_service.dart';
-import 'package:rickerest/app/modules/settings/controllers/edit_profile_controller.dart';
+import 'package:rickerest/app/modules/edit_profile/controllers/edit_profile_controller.dart';
 
 class CropImageDialog extends StatelessWidget {
   CropImageDialog(this.imageBytes, {Key? key}) : super(key: key);

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:getwidget/components/list_tile/gf_list_tile.dart';
 import 'package:rickerest/app/data/models/current_user_model.dart';
 import 'package:rickerest/app/modules/home/views/widgets/avatar_image_dialog.dart';
-import 'package:rickerest/app/modules/settings/views/edit_profile_view.dart';
 import 'package:rickerest/app/routes/app_pages.dart';
 
 class CurrentUserTile extends StatelessWidget {
@@ -33,10 +32,7 @@ class CurrentUserTile extends StatelessWidget {
       ),
       icon: IconButton(
         icon: const Icon(Icons.manage_accounts),
-        onPressed: () => Get.to(
-          () => const EditProfileView(),
-          routeName: Routes.editProfile,
-        ),
+        onPressed: () => Get.toNamed(Routes.editProfile),
       ),
     );
   }
