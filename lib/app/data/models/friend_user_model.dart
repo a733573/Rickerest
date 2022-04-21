@@ -4,7 +4,7 @@ class FriendUserModel {
   FriendUserModel({required this.uid, required Map<String, dynamic> data}) {
     name = data['name'] as String;
     avatarImageUrl = data['avatarImageUrl'] as String? ??
-        StorageService.to.defaultAvatarImageUrl;
+        defaultAvatarImageUrl;
   }
 
   final String uid;

@@ -1,9 +1,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:rickerest/app/core/utils/logger.dart';
+import 'package:rickerest/app/data/models/friend_user_model.dart';
 import 'package:rickerest/app/data/services/auth_service.dart';
 import 'package:rickerest/app/data/services/firestore_service.dart';
-import 'package:simple_logger/simple_logger.dart';
 
 class AddFriendsController extends GetxController {
   static AddFriendsController get to => Get.find();
@@ -48,23 +49,31 @@ class AddFriendsController extends GetxController {
         .findAccountByEmail(textEditingController.value.text);
     if (doc != null) {
       textEditingController.clear();
-      final name = doc.data()['name'];
+      final friendUserModel = FriendUserModel(
+        uid: doc.id,
+        data: {
+          'name': doc.data()['name'],
+          'avatarImageUrl': doc.data()['avatarImageUrl']
+        },
+      );
       return Get.defaultDialog(
         title: 'User found!',
-        middleText: 'Do you want to add "$name" to your friends?',
+        middleText:
+            'Do you want to add "${friendUserModel.name}" to your friends?',
         onConfirm: () async {
           var snackbarTitle = '';
           var snackbarMessage = '';
-          await _addFriend(friendUid: doc.id).then(
-            (value) {
+          await _addFriend(friendUserModel).then(
+            (_) {
               snackbarTitle = 'Success!';
-              snackbarMessage = '"$name" was added to your friends.';
+              snackbarMessage =
+                  '"${friendUserModel.name}" was added to your friends.';
             },
           ).catchError(
             (error) {
               snackbarTitle = 'Error';
               snackbarMessage = 'Failed to add friend.';
-              SimpleLogger().warning('Failed to add friend: $error');
+              logger.warning('Failed to add friend: $error');
             },
           );
           Get
@@ -88,35 +97,21 @@ class AddFriendsController extends GetxController {
     }
   }
 
-  Future<void> _addFriend({required String friendUid}) async {
-    final friendDoc = await FirestoreService.to
-        .getDocByDocId(colId: 'users', docId: friendUid);
-    final friendData = {
-      'friends.$friendUid': {
-        'name': friendDoc.data()?['name'],
-        'avatarImageUrl': friendDoc.data()?['avatarImageUrl']
+  Future<void> _addFriend(FriendUserModel friendUserModel) {
+    final currentUserModel = FirestoreService.to.currentUserModel;
+    final currentUserEntry = MapEntry(AuthService.to.uid!, {
+      'friends.${friendUserModel.uid}': {
+        'name': friendUserModel.name,
+        'avatarImageUrl': friendUserModel.avatarImageUrl
       }
-    };
-    await FirestoreService.to.updateDoc(
-      colId: 'users',
-      docId: AuthService.to.uid!,
-      data: friendData,
-    );
-
-    final userDoc = await FirestoreService.to.getDocByDocId(
-      colId: 'users',
-      docId: AuthService.to.uid!,
-    );
-    final userData = {
-      'friends.${AuthService.to.uid}': {
-        'name': userDoc.data()?['name'],
-        'avatarImageUrl': userDoc.data()?['avatarImageUrl']
+    });
+    final friendUserEntry = MapEntry(friendUserModel.uid, {
+      'friends.${AuthService.to.uid!}': {
+        'name': currentUserModel!.name,
+        'avatarImageUrl': currentUserModel.avatarImageUrl
       }
-    };
-    return FirestoreService.to.updateDoc(
-      colId: 'users',
-      docId: friendUid,
-      data: userData,
-    );
+    });
+    return FirestoreService.to
+        .batchUpdate(colId: 'users', data: [currentUserEntry, friendUserEntry]);
   }
 }

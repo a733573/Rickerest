@@ -10,6 +10,6 @@ class InitialBinding extends Bindings {
     Get
       ..put(AuthService())
       ..put(FirestoreService())
-      ..put(StorageService());
+      ..lazyPut(() => StorageService());
   }
 }

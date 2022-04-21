@@ -6,8 +6,7 @@ class CurrentUserModel {
   CurrentUserModel(Map<String, dynamic> data) {
     name = data['name'] as String;
     email = data['email'] as String;
-    avatarImageUrl = data['avatarImageUrl'] as String? ??
-        StorageService.to.defaultAvatarImageUrl;
+    avatarImageUrl = data['avatarImageUrl'] as String? ?? defaultAvatarImageUrl;
     final friends = data['friends'] as Map<String, dynamic>?;
     friendsList = friends?.entries
             .map(

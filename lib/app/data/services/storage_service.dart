@@ -7,29 +7,31 @@ import 'package:rickerest/app/data/services/firestore_service.dart';
 
 import 'auth_service.dart';
 
+const defaultAvatarImageUrl =
+    'https://firebasestorage.googleapis.com/v0/b/rickerest.appspot.com/o/images%2Favatar%2Fdefault_avatar_image.png?alt=media&token=ca131581-df0c-42fb-9646-95afb3183f84';
+
 class StorageService extends GetxService {
   static StorageService get to => Get.find();
 
   final storage = FirebaseStorage.instance;
   late final Reference avatarImageRef;
-  late final String defaultAvatarImageUrl;
 
   @override
   Future<void> onInit() async {
     super.onInit();
     avatarImageRef = storage.ref().child('images/avatar');
-    defaultAvatarImageUrl =
-        await avatarImageRef.child('default_avatar_image.png').getDownloadURL();
+    // defaultAvatarImageUrl =
+    // await avatarImageRef.child('default_avatar_image.png').getDownloadURL();
   }
 
-  Future<String> avatarImageUrl(String uid) async {
-    try {
-      return avatarImageRef.child('$uid.png').getDownloadURL();
-    } on Exception catch (e) {
-      logger.warning(e);
-      return defaultAvatarImageUrl;
-    }
-  }
+  // Future<String> avatarImageUrl(String uid) async {
+  //   try {
+  //     return avatarImageRef.child('$uid.png').getDownloadURL();
+  //   } on Exception catch (e) {
+  //     logger.warning(e);
+  //     return defaultAvatarImageUrl;
+  //   }
+  // }
 
   Future<void> uploadAvatarImage(Uint8List imageBytes) async {
     final imageRef =
