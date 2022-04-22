@@ -24,6 +24,12 @@ class EditProfileController extends GetxController {
 
   set isChanged(bool value) => _isChanged.value = value;
 
+  final RxBool _textIsEmpty = false.obs;
+
+  bool get textIsEmpty => _textIsEmpty.value;
+
+  set textIsEmpty(bool value) => _textIsEmpty.value = value;
+
   Future<void> save() async {
     final Map<String, dynamic> data = {};
     data['name'] = textEditingController.value.text;

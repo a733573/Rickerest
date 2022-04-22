@@ -27,10 +27,29 @@ class EditProfileView extends GetView<EditProfileController> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: TextField(
               controller: controller.textEditingController,
+              maxLength: 20,
               onChanged: (value) {
-                controller.isChanged = controller.avatarImageByte.isNotEmpty ||
-                    FirestoreService.to.currentUserModel!.name != value;
+                controller
+                  ..isChanged = controller.avatarImageByte.isNotEmpty ||
+                      FirestoreService.to.currentUserModel!.name != value
+                  ..textIsEmpty =
+                      controller.textEditingController.value.text.isEmpty;
               },
+              decoration: InputDecoration(
+                suffixIcon: Obx(() {
+                  return Visibility(
+                    visible: !controller.textIsEmpty,
+                    child: IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        controller
+                          ..textEditingController.clear()
+                          ..textIsEmpty = true;
+                      },
+                    ),
+                  );
+                }),
+              ),
             ),
           ),
           const SizedBox(height: 30),

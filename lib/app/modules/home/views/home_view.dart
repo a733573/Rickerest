@@ -60,7 +60,8 @@ class HomeView extends GetView<HomeController> {
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
               ),
-              ...friendTiles
+              ...friendTiles,
+              const SizedBox(height: 20),
             ],
           );
         },

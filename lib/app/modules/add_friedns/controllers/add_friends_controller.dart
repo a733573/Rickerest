@@ -44,7 +44,7 @@ class AddFriendsController extends GetxController {
     if (doc != null) {
       textEditingController.clear();
       if (FirestoreService.to.currentUserModel?.friendsList
-              .firstWhere((e) => e.uid == doc.id) !=
+              .firstWhereOrNull((e) => e.uid == doc.id) !=
           null) {
         _errorText.value = '"${doc.data()['name']}" is already your friend.';
         return;
@@ -76,6 +76,7 @@ class AddFriendsController extends GetxController {
               logger.warning('Failed to add friend: $error');
             },
           );
+          _isNotSubmitted = true;
           Get
             ..back()
             ..snackbar(

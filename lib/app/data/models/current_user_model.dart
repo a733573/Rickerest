@@ -17,6 +17,7 @@ class CurrentUserModel {
             )
             .toList() ??
         [];
+    friendsList.sort((a, b) => a.name.compareTo(b.name));
   }
 
   final String uid = AuthService.to.uid!;
