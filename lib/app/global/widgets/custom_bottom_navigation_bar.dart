@@ -1,4 +1,3 @@
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/routes/app_pages.dart';
@@ -11,26 +10,32 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConvexAppBar(
-      initialActiveIndex: selectedIndex,
+    return BottomNavigationBar(
+      currentIndex: selectedIndex,
       onTap: _changeRoute,
-      color: Theme.of(context).primaryColor,
-      activeColor: Theme.of(context).primaryColor,
-      backgroundColor: Theme.of(context).bottomAppBarColor,
-      disableDefaultTabController: false,
-      style: TabStyle.react,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      selectedFontSize: 0,
+      unselectedFontSize: 0,
+      elevation: 0,
+      selectedIconTheme: IconTheme.of(context),
+      unselectedIconTheme: IconTheme.of(context),
       items: const [
-        TabItem(
-          icon: Icon(Icons.home),
-          title: 'Home',
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home_outlined),
+          activeIcon: Icon(
+            Icons.home,
+          ),
+          label: '',
         ),
-        TabItem(
-          icon: Icon(Icons.chat),
-          title: 'Chats',
+        BottomNavigationBarItem(
+          icon: Icon(Icons.chat_outlined),
+          activeIcon: Icon(Icons.chat),
+          label: '',
         ),
-        TabItem(
-          icon: Icon(Icons.settings),
-          title: 'Settings',
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings_outlined),
+          activeIcon: Icon(Icons.settings),
+          label: '',
         ),
       ],
     );

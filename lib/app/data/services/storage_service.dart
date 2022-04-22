@@ -23,7 +23,7 @@ class StorageService extends GetxService {
 
   Future<String> uploadAvatarImage(Uint8List imageBytes) async {
     final imageRef =
-        avatarImageRef.child('avatar_image_${AuthService.to.uid!}.png');
+        avatarImageRef.child('avatarImage_${AuthService.to.uid!}.png');
     await imageRef.putData(imageBytes);
     final url = await imageRef.getDownloadURL();
     logger.info('Uploaded an avatar image.: $url');

@@ -61,7 +61,6 @@ class HomeView extends GetView<HomeController> {
                 ),
               ),
               ...friendTiles,
-              const SizedBox(height: 20),
             ],
           );
         },
