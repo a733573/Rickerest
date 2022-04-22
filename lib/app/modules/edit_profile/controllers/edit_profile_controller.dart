@@ -30,6 +30,12 @@ class EditProfileController extends GetxController {
 
   set textIsEmpty(bool value) => _textIsEmpty.value = value;
 
+  final RxString _errorText = ''.obs;
+
+  String get errorText => _errorText.value;
+
+  set errorText(String value) => _errorText.value = value;
+
   Future<void> save() async {
     final Map<String, dynamic> data = {};
     data['name'] = textEditingController.value.text;
@@ -52,5 +58,14 @@ class EditProfileController extends GetxController {
     }
     await FirestoreService.to.batchUpdate(colId: 'users', entries: entries);
     Get.back();
+  }
+
+  void validate(String value) {
+    textIsEmpty = value.isEmpty;
+    if (textIsEmpty) {
+      errorText = 'Your name must be within 1-20 characters.';
+    } else {
+      errorText = '';
+    }
   }
 }

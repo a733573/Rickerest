@@ -25,38 +25,40 @@ class EditProfileView extends GetView<EditProfileController> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: TextField(
-              controller: controller.textEditingController,
-              maxLength: 20,
-              onChanged: (value) {
-                controller
-                  ..isChanged = controller.avatarImageByte.isNotEmpty ||
-                      FirestoreService.to.currentUserModel!.name != value
-                  ..textIsEmpty =
-                      controller.textEditingController.value.text.isEmpty;
-              },
-              decoration: InputDecoration(
-                suffixIcon: Obx(() {
-                  return Visibility(
+            child: Obx(() {
+              return TextField(
+                controller: controller.textEditingController,
+                maxLength: 20,
+                onChanged: (value) {
+                  controller
+                    ..isChanged = controller.avatarImageByte.isNotEmpty ||
+                        FirestoreService.to.currentUserModel!.name != value
+                    ..validate(value);
+                },
+                decoration: InputDecoration(
+                  errorText: controller.errorText.isNotEmpty
+                      ? controller.errorText
+                      : null,
+                  suffixIcon: Visibility(
                     visible: !controller.textIsEmpty,
                     child: IconButton(
                       icon: const Icon(Icons.clear),
                       onPressed: () {
                         controller
                           ..textEditingController.clear()
-                          ..textIsEmpty = true;
+                          ..validate('');
                       },
                     ),
-                  );
-                }),
-              ),
-            ),
+                  ),
+                ),
+              );
+            }),
           ),
           const SizedBox(height: 30),
           Center(
             child: Obx(() {
               return ElevatedButton(
-                onPressed: controller.isChanged
+                onPressed: controller.isChanged && controller.errorText.isEmpty
                     ? () => EditProfileController.to.save()
                     : null,
                 child: const Text('save'),
