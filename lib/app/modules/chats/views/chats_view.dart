@@ -47,17 +47,30 @@ class ChatsView extends GetView<ChatsController> {
                   room.name,
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
-                subTitle: Opacity(
-                  opacity: 0.6,
-                  child: Text(
-                    room.latestMessage.text,
-                    style: Theme.of(context).textTheme.subtitle2,
+                subTitle: Text(
+                  controller.limitText(room.latestMessage.text),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onBackground
+                        .withOpacity(0.6),
                   ),
                 ),
                 avatar: Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: CircleAvatar(
                     backgroundImage: NetworkImage(room.avatarImageUrl),
+                  ),
+                ),
+                icon: Text(
+                  controller.relativeTime(room.latestMessage.createdAt),
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onBackground
+                        .withOpacity(0.6),
                   ),
                 ),
                 onTap: () => Get.toNamed(
