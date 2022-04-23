@@ -1,7 +1,8 @@
+import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:rickerest/app/data/services/storage_service.dart';
 
-class FriendUserModel {
-  FriendUserModel({required this.uid, required Map<String, dynamic> data}) {
+class FriendUser {
+  FriendUser({required this.uid, required Map<String, dynamic> data}) {
     name = data['name'] as String;
     avatarImageUrl = data['avatarImageUrl'] as String? ?? defaultAvatarImageUrl;
   }
@@ -13,4 +14,7 @@ class FriendUserModel {
   Map<String, dynamic> get toJson => {
         uid: {'name': name, 'avatarImageUrl': avatarImageUrl}
       };
+
+  ChatUser get toChatUser =>
+      ChatUser(id: uid, firstName: name, profileImage: avatarImageUrl);
 }

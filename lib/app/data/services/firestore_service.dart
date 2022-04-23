@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:rickerest/app/data/models/current_user_model.dart';
+import 'package:rickerest/app/data/models/current_user.dart';
 
 import '../../core/utils/logger.dart';
 import 'auth_service.dart';
@@ -10,12 +10,29 @@ class FirestoreService extends GetxService {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> get currentUserStream =>
+  Stream<DocumentSnapshot> get currentUserStream =>
       firestore.collection('users').doc(AuthService.to.uid).snapshots();
 
   DocumentSnapshot? currentUserDocumentCache;
 
-  CurrentUserModel? currentUserModel;
+  CurrentUser? currentUser;
+
+  Stream<QuerySnapshot> get roomsStream => firestore
+      .collection('rooms')
+      .where('members', arrayContains: AuthService.to.uid)
+      .snapshots();
+
+  QuerySnapshot? roomsCache;
+
+  Stream<QuerySnapshot> messagesStream(String roomId) {
+    return firestore
+        .collection('rooms')
+        .doc(roomId)
+        .collection('messages')
+        .snapshots();
+  }
+
+  Map<String, QuerySnapshot?> messagesCache = {};
 
   Future<void> setDoc({
     required String colId,

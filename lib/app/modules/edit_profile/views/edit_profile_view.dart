@@ -32,7 +32,7 @@ class EditProfileView extends GetView<EditProfileController> {
                 onChanged: (value) {
                   controller
                     ..isChanged = controller.avatarImageByte.isNotEmpty ||
-                        FirestoreService.to.currentUserModel!.name != value
+                        FirestoreService.to.currentUser!.name != value
                     ..validate(value);
                 },
                 decoration: InputDecoration(

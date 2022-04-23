@@ -16,7 +16,7 @@ class EditProfileController extends GetxController {
   set avatarImageByte(Uint8List data) => _avatarImageByte.value = data;
 
   final textEditingController =
-      TextEditingController(text: FirestoreService.to.currentUserModel!.name);
+      TextEditingController(text: FirestoreService.to.currentUser!.name);
 
   final RxBool _isChanged = false.obs;
 
@@ -43,15 +43,13 @@ class EditProfileController extends GetxController {
       final url = await StorageService.to.uploadAvatarImage(avatarImageByte);
       data['avatarImageUrl'] = url;
     } else {
-      data['avatarImageUrl'] =
-          FirestoreService.to.currentUserModel!.avatarImageUrl;
+      data['avatarImageUrl'] = FirestoreService.to.currentUser!.avatarImageUrl;
     }
 
     final entries = [MapEntry(AuthService.to.uid!, data)];
-    for (final friendUserModel
-        in FirestoreService.to.currentUserModel!.friendsList) {
+    for (final friendUser in FirestoreService.to.currentUser!.friendsList) {
       final entry = MapEntry(
-        friendUserModel.uid,
+        friendUser.uid,
         {'friends.${AuthService.to.uid}': data},
       );
       entries.add(entry);

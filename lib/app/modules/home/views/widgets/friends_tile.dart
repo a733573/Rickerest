@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/list_tile/gf_list_tile.dart';
-import 'package:rickerest/app/data/models/friend_user_model.dart';
+import 'package:rickerest/app/data/models/friend_user.dart';
 
 import 'avatar_image_dialog.dart';
 
 class FriendTile extends StatelessWidget {
-  const FriendTile(this.friendUserModel, {Key? key}) : super(key: key);
-  final FriendUserModel friendUserModel;
+  const FriendTile(this.friendUser, {Key? key}) : super(key: key);
+  final FriendUser friendUser;
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +16,18 @@ class FriendTile extends StatelessWidget {
       title: Padding(
         padding: const EdgeInsets.only(left: 6),
         child: Text(
-          friendUserModel.name,
+          friendUser.name,
           style: Theme.of(context).textTheme.subtitle1,
         ),
       ),
       avatar: GestureDetector(
         onTap: () => Get.to(
-          () => AvatarImageDialog(friendUserModel.avatarImageUrl),
+          () => AvatarImageDialog(friendUser.avatarImageUrl),
           fullscreenDialog: true,
         ),
         child: CircleAvatar(
           radius: 20,
-          backgroundImage: NetworkImage(friendUserModel.avatarImageUrl),
+          backgroundImage: NetworkImage(friendUser.avatarImageUrl),
           backgroundColor: Colors.white,
         ),
       ),

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/core/utils/logger.dart';
-import 'package:rickerest/app/data/models/current_user_model.dart';
+import 'package:rickerest/app/data/models/current_user.dart';
 import 'package:rickerest/app/data/services/firestore_service.dart';
 import 'package:rickerest/app/global/widgets/custom_bottom_navigation_bar.dart';
 import 'package:rickerest/app/modules/home/controllers/home_controller.dart';
@@ -40,19 +40,19 @@ class HomeView extends GetView<HomeController> {
           }
 
           FirestoreService.to.currentUserDocumentCache = snapshot.data;
-          final isFromCache = snapshot.data?.metadata.isFromCache;
-          if (isFromCache != null && !isFromCache) {
-            logger.warning('isFromCache=$isFromCache');
-          }
+          // final isFromCache = snapshot.data?.metadata.isFromCache;
+          // if (isFromCache != null && !isFromCache) {
+          //   logger.info('isFromCache=$isFromCache');
+          // }
 
           final data = snapshot.data?.data()! as Map<String, dynamic>?;
-          FirestoreService.to.currentUserModel = CurrentUserModel(data!);
-          final friendTiles = FirestoreService.to.currentUserModel!.friendsList
-              .map((friendUserModel) => FriendTile(friendUserModel));
+          FirestoreService.to.currentUser = CurrentUser(data!);
+          final friendTiles = FirestoreService.to.currentUser!.friendsList
+              .map((friendUser) => FriendTile(friendUser));
 
           return ListView(
             children: [
-              CurrentUserTile(FirestoreService.to.currentUserModel!),
+              CurrentUserTile(FirestoreService.to.currentUser!),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: Text(

@@ -1,7 +1,8 @@
+// ignore_for_file: implicit_dynamic
 import 'package:get/get.dart';
-import 'package:rickerest/app/modules/add_friedns/views/add_friends_view.dart';
 
 import '../modules/add_friedns/bindings/add_friends_binding.dart';
+import '../modules/add_friedns/views/add_friends_view.dart';
 import '../modules/chats/bindings/chats_binding.dart';
 import '../modules/chats/views/chats_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
@@ -9,6 +10,8 @@ import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/not_found/views/not_found_view.dart';
+import '../modules/room/bindings/room_binding.dart';
+import '../modules/room/views/room_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/views/settings_view.dart';
 import '../modules/sign_in/bindings/sign_in_binding.dart';
@@ -61,6 +64,11 @@ class AppPages {
       name: _Paths.addFriends,
       page: () => const AddFriendsView(),
       binding: AddFriendsBinding(),
+    ),
+    GetPage(
+      name: _Paths.room,
+      page: () => const RoomView(),
+      binding: RoomBinding(),
     ),
   ];
 }
