@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/core/utils/logger.dart';
 import 'package:rickerest/app/data/services/firestore_service.dart';
+import 'package:rickerest/app/modules/home/views/widgets/avatar_image_dialog.dart';
 
 import '../controllers/room_controller.dart';
 
@@ -45,17 +46,24 @@ class RoomView extends GetView<RoomController> {
                     (data['createdAt'] as Timestamp).toDate();
                 final String text = data['text'] as String;
                 return ChatMessage(
-                    user: user, createdAt: createdAt, text: text);
+                  user: user,
+                  createdAt: createdAt,
+                  text: text,
+                );
               }).toList() ??
               [];
           return DashChat(
             currentUser: controller.currentChatUser,
-            onSend: (ChatMessage m) {
-              //
-            },
+            onSend: controller.sendMessage,
             messages: chatMessages,
             inputOptions: const InputOptions(
               inputTextStyle: TextStyle(color: Colors.black),
+            ),
+            messageOptions: MessageOptions(
+              onPressAvatar: (chatUser) => Get.to(
+                () => AvatarImageDialog(chatUser.profileImage!),
+                fullscreenDialog: true,
+              ),
             ),
           );
         },

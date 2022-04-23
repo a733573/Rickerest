@@ -8,38 +8,57 @@ import 'auth_service.dart';
 class FirestoreService extends GetxService {
   static FirestoreService get to => Get.find();
 
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore db = FirebaseFirestore.instance;
 
   Stream<DocumentSnapshot> get currentUserStream =>
-      firestore.collection('users').doc(AuthService.to.uid).snapshots();
+      db.collection('users').doc(AuthService.to.uid).snapshots();
 
   DocumentSnapshot? currentUserDocumentCache;
 
   CurrentUser? currentUser;
 
-  Stream<QuerySnapshot> get roomsStream => firestore
+  Stream<QuerySnapshot> get roomsStream => db
       .collection('rooms')
       .where('members', arrayContains: AuthService.to.uid)
+      .orderBy('latestMessage.createdAt', descending: true)
       .snapshots();
 
   QuerySnapshot? roomsCache;
 
   Stream<QuerySnapshot> messagesStream(String roomId) {
-    return firestore
+    return db
         .collection('rooms')
         .doc(roomId)
         .collection('messages')
+        .orderBy('createdAt', descending: true)
         .snapshots();
   }
 
   Map<String, QuerySnapshot?> messagesCache = {};
+
+  Future<void> addDoc({
+    required CollectionReference ref,
+    required Map<String, dynamic> data,
+  }) {
+    return ref
+        .add(data)
+        .then(
+          (_) => logger.info(
+            'Add a document to firestore: path="${ref.path}", data=$data',
+          ),
+        )
+        .catchError(
+          (error) =>
+              logger.warning('Failed to Add a document to firestore: $error'),
+        );
+  }
 
   Future<void> setDoc({
     required String colId,
     required String docId,
     required Map<String, dynamic> data,
   }) {
-    return firestore
+    return db
         .collection(colId)
         .doc(docId)
         .set(data)
@@ -60,7 +79,7 @@ class FirestoreService extends GetxService {
     required String docId,
     required Map<String, dynamic> data,
   }) {
-    return firestore
+    return db
         .collection(colId)
         .doc(docId)
         .update(data)
@@ -80,9 +99,9 @@ class FirestoreService extends GetxService {
     required String colId,
     required List<MapEntry<String, Map<String, dynamic>>> entries,
   }) {
-    final batch = firestore.batch();
+    final batch = db.batch();
     for (final e in entries) {
-      batch.update(firestore.collection(colId).doc(e.key), e.value);
+      batch.update(db.collection(colId).doc(e.key), e.value);
     }
     return batch
         .commit()
@@ -100,7 +119,7 @@ class FirestoreService extends GetxService {
     required String colId,
     required String docId,
   }) {
-    return firestore.collection(colId).doc(docId).get().then(
+    return db.collection(colId).doc(docId).get().then(
       (value) {
         logger.info(
           'Got a firestore document: colId="$colId", docId="$docId"',
@@ -119,7 +138,7 @@ class FirestoreService extends GetxService {
     required String key,
     required dynamic val,
   }) {
-    return firestore.collection(colId).where(key, isEqualTo: val).get().then(
+    return db.collection(colId).where(key, isEqualTo: val).get().then(
       (value) {
         logger.info(
           'Got firestore documents: colId="$colId", where="$key=$val", '
@@ -139,7 +158,7 @@ class FirestoreService extends GetxService {
     required String colId,
     required String docId,
   }) {
-    return firestore
+    return db
         .collection(colId)
         .doc(docId)
         .delete()

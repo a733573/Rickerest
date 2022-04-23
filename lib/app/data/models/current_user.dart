@@ -26,14 +26,18 @@ class CurrentUser {
   late final String email;
   late final String avatarImageUrl;
   late final List<FriendUser> friendsList;
+  late final List<String> rooms;
 
-  Map<String, dynamic> get toJson => {
-        'name': name,
-        'email': email,
-        'avatarImageUrl': avatarImageUrl,
-        'friends': {...friendsList.map((e) => e.toJson)}
-      };
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'email': email,
+      'avatarImageUrl': avatarImageUrl,
+      'friends': {...friendsList.map((e) => e.toMap)}
+    };
+  }
 
-  ChatUser get toChatUser =>
-      ChatUser(id: uid, firstName: name, profileImage: avatarImageUrl);
+  ChatUser toChatUser() {
+    return ChatUser(id: uid, firstName: name, profileImage: avatarImageUrl);
+  }
 }

@@ -11,10 +11,13 @@ class FriendUser {
   late final String name;
   late final String avatarImageUrl;
 
-  Map<String, dynamic> get toJson => {
-        uid: {'name': name, 'avatarImageUrl': avatarImageUrl}
-      };
+  Map<String, dynamic> toMap() {
+    return {
+      uid: {'name': name, 'avatarImageUrl': avatarImageUrl}
+    };
+  }
 
-  ChatUser get toChatUser =>
-      ChatUser(id: uid, firstName: name, profileImage: avatarImageUrl);
+  ChatUser toChatUser() {
+    return ChatUser(id: uid, firstName: name, profileImage: avatarImageUrl);
+  }
 }

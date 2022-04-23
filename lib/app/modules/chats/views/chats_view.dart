@@ -38,24 +38,10 @@ class ChatsView extends GetView<ChatsController> {
           //   logger.info('isFromCache=$isFromCache');
           // }
 
-          // final data = snapshot.data?.data()! as Map<String, dynamic>?;
-          // FirestoreService.to.currentUserModel = CurrentUserModel(data!);
-          // final friendTiles = FirestoreService.to.currentUserModel!.friendsList
-          //     .map((friendUserModel) => FriendTile(friendUserModel));
-
           return ListView(
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
               final data = document.data()! as Map<String, dynamic>;
               final room = Room.fromMap(document.id, data);
-              // final friendUid = (data['members'] as List<dynamic>)
-              //     .firstWhere((e) => e != AuthService.to.uid!) as String;
-              // final friendUserModel = FirestoreService
-              //     .to.currentUserModel!.friendsList
-              //     .firstWhere((e) {
-              //   return e.uid == friendUid;
-              // });
-              // final latestMessage =
-              //     data['latestMessage'] as Map<String, dynamic>;
               return GFListTile(
                 title: Text(
                   room.name,
