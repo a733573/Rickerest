@@ -49,9 +49,9 @@ class AddFriendsController extends GetxController {
         _errorText.value = '"${doc.data()['name']}" is already your friend.';
         return;
       }
-      final friendUser = FriendUser(
+      final friendUser = FriendUser.fromMap(
         uid: doc.id,
-        data: {
+        map: {
           'name': doc.data()['name'],
           'avatarImageUrl': doc.data()['avatarImageUrl']
         },

@@ -4,16 +4,24 @@ import 'package:rickerest/app/data/services/auth_service.dart';
 import 'package:rickerest/app/data/services/storage_service.dart';
 
 class CurrentUser {
-  CurrentUser(Map<String, dynamic> data) {
-    name = data['name'] as String;
-    email = data['email'] as String;
-    avatarImageUrl = data['avatarImageUrl'] as String? ?? defaultAvatarImageUrl;
-    final friends = data['friends'] as Map<String, dynamic>?;
+  CurrentUser(
+    this.name,
+    this.email,
+    this.avatarImageUrl,
+    this.friendsList,
+    this.rooms,
+  );
+
+  CurrentUser.fromMap(Map<String, dynamic> map) {
+    name = map['name'] as String;
+    email = map['email'] as String;
+    avatarImageUrl = map['avatarImageUrl'] as String? ?? defaultAvatarImageUrl;
+    final friends = map['friends'] as Map<String, dynamic>?;
     friendsList = friends?.entries
             .map(
-              (e) => FriendUser(
+              (e) => FriendUser.fromMap(
                 uid: e.key,
-                data: e.value as Map<String, dynamic>,
+                map: e.value as Map<String, dynamic>,
               ),
             )
             .toList() ??

@@ -46,7 +46,7 @@ class HomeView extends GetView<HomeController> {
           // }
 
           final data = snapshot.data?.data()! as Map<String, dynamic>?;
-          FirestoreService.to.currentUser = CurrentUser(data!);
+          FirestoreService.to.currentUser = CurrentUser.fromMap(data!);
           final friendTiles = FirestoreService.to.currentUser!.friendsList
               .map((friendUser) => FriendTile(friendUser));
 

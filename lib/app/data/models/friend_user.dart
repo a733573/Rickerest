@@ -2,9 +2,11 @@ import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:rickerest/app/data/services/storage_service.dart';
 
 class FriendUser {
-  FriendUser({required this.uid, required Map<String, dynamic> data}) {
-    name = data['name'] as String;
-    avatarImageUrl = data['avatarImageUrl'] as String? ?? defaultAvatarImageUrl;
+  FriendUser(this.uid, this.name, this.avatarImageUrl);
+
+  FriendUser.fromMap({required this.uid, required Map<String, dynamic> map}) {
+    name = map['name'] as String;
+    avatarImageUrl = map['avatarImageUrl'] as String? ?? defaultAvatarImageUrl;
   }
 
   final String uid;
@@ -20,4 +22,5 @@ class FriendUser {
   ChatUser toChatUser() {
     return ChatUser(id: uid, firstName: name, profileImage: avatarImageUrl);
   }
+
 }

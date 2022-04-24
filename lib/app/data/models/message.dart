@@ -4,6 +4,16 @@ import 'package:dash_chat_2/dash_chat_2.dart';
 class Message {
   Message(this._createdAt, this._sentBy, this._text);
 
+  Message.fromMap(Map<String, dynamic> map)
+      : _createdAt = (map['createdAt'] as Timestamp).toDate(),
+        _sentBy = map['sentBy'] as String,
+        _text = map['text'] as String;
+
+  Message.fromChatMessage(ChatMessage m)
+      : _createdAt = m.createdAt,
+        _sentBy = m.user.id,
+        _text = m.text;
+
   final DateTime _createdAt;
   final String _text;
   final String _sentBy;
@@ -20,17 +30,5 @@ class Message {
       'sentBy': _sentBy,
       'text': _text
     };
-  }
-
-  static Message fromMap(Map<String, dynamic> map) {
-    return Message(
-      (map['createdAt'] as Timestamp).toDate(),
-      map['sentBy'] as String,
-      map['text'] as String,
-    );
-  }
-
-  static Message fromChatMessage(ChatMessage m) {
-    return Message(m.createdAt, m.user.id, m.text);
   }
 }
