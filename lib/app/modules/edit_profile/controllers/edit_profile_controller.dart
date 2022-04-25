@@ -16,7 +16,7 @@ class EditProfileController extends GetxController {
   set avatarImageByte(Uint8List data) => _avatarImageByte.value = data;
 
   final textEditingController =
-      TextEditingController(text: FirestoreService.to.currentUser.name);
+      TextEditingController(text: FirestoreService.to.currentUser!.name);
 
   final RxBool _isChanged = false.obs;
 
@@ -39,7 +39,7 @@ class EditProfileController extends GetxController {
   Future<void> save() async {
     final Map<String, dynamic> data = {};
     if (textEditingController.value.text !=
-        FirestoreService.to.currentUser.name) {
+        FirestoreService.to.currentUser!.name) {
       data['name'] = textEditingController.value.text;
     }
     if (avatarImageByte.isNotEmpty) {

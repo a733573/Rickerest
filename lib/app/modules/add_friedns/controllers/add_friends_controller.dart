@@ -45,7 +45,7 @@ class AddFriendsController extends GetxController {
     if (doc != null) {
       final friendUser = User.fromMap(doc.data());
       textEditingController.clear();
-      if (FirestoreService.to.currentUser.friends.contains(friendUser.uid)) {
+      if (FirestoreService.to.currentUser!.friends.contains(friendUser.uid)) {
         _errorText.value =
             '"${doc.data()['name']}" ${'isAlreadyYourFriend'.tr}';
         return;

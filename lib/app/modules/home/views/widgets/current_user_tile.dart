@@ -10,33 +10,31 @@ class CurrentUserTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return GFListTile(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 14),
-          child: Text(
-            FirestoreService.to.currentUser.name,
-            style: Theme.of(context).textTheme.headline6,
-          ),
+    return GFListTile(
+      title: Padding(
+        padding: const EdgeInsets.only(left: 14),
+        child: Text(
+          FirestoreService.to.currentUser!.name,
+          style: Theme.of(context).textTheme.headline6,
         ),
-        avatar: GestureDetector(
-          onTap: () => Get.to(
-            () => AvatarImageDialog(
-                FirestoreService.to.currentUser.avatarImageUrl),
-            fullscreenDialog: true,
-          ),
-          child: CircleAvatar(
-            radius: 34,
-            backgroundImage:
-                NetworkImage(FirestoreService.to.currentUser.avatarImageUrl),
-            backgroundColor: Colors.white,
-          ),
+      ),
+      avatar: GestureDetector(
+        onTap: () => Get.to(
+          () => AvatarImageDialog(
+              FirestoreService.to.currentUser!.avatarImageUrl),
+          fullscreenDialog: true,
         ),
-        icon: IconButton(
-          icon: const Icon(Icons.manage_accounts),
-          onPressed: () => Get.toNamed(Routes.editProfile),
+        child: CircleAvatar(
+          radius: 34,
+          backgroundImage:
+              NetworkImage(FirestoreService.to.currentUser!.avatarImageUrl),
+          backgroundColor: Colors.white,
         ),
-      );
-    });
+      ),
+      icon: IconButton(
+        icon: const Icon(Icons.manage_accounts),
+        onPressed: () => Get.toNamed(Routes.editProfile),
+      ),
+    );
   }
 }

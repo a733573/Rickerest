@@ -38,7 +38,7 @@ class CircleAvatarEditItem extends StatelessWidget {
                   backgroundImage: EditProfileController
                           .to.avatarImageByte.isEmpty
                       ? NetworkImage(
-                          FirestoreService.to.currentUser.avatarImageUrl,
+                          FirestoreService.to.currentUser!.avatarImageUrl,
                         )
                       : Image.memory(EditProfileController.to.avatarImageByte)
                           .image,

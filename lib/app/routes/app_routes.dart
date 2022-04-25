@@ -6,6 +6,7 @@ abstract class Routes {
   static const home = _Paths.home;
   static const addFriends = _Paths.addFriends;
   static const chats = _Paths.chats;
+  static const createRoom = _Paths.createRoom;
   static const room = _Paths.room;
   static const settings = _Paths.settings;
   static const editProfile = _Paths.editProfile;
@@ -17,6 +18,7 @@ abstract class _Paths {
   static const home = '/home';
   static const addFriends = '/home/add-friends';
   static const chats = '/chats';
+  static const createRoom = '/chats/create-room';
   static const room = '/chats/room';
   static const settings = '/settings';
   static const editProfile = '/settings/edit-profile';

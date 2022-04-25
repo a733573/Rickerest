@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/core/utils/logger.dart';
-import 'package:rickerest/app/data/services/firestore_service.dart';
 import 'package:rickerest/app/routes/app_pages.dart';
 
 class AuthService extends GetxService {
@@ -18,11 +17,6 @@ class AuthService extends GetxService {
     super.onInit();
     auth.authStateChanges().listen((user) {
       if (user != null) {
-        if (FirestoreService.to.currentUser.uid.isNotEmpty &&
-            user.uid != FirestoreService.to.currentUser.uid) {
-          FirestoreService.to.onInit();
-          logger.info('FirestoreService.to.onInit()');
-        }
         Get.offAllNamed(Routes.home);
         logger.info('Signed in!');
       } else {

@@ -8,33 +8,4 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find();
-
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     FirestoreService.to.db
-//         .collection('users')
-//         .doc(AuthService.to.uid)
-//         .snapshots()
-//         .listen((documentSnapshot) {
-//       FirestoreService.to.currentUser =
-//           CurrentUser.fromMap(documentSnapshot.data()!);
-//     });
-//     FirestoreService.to.db
-//         .collection('users')
-//         .where(
-//           'uid',
-//           whereIn: FirestoreService.to.currentUser.friends.isEmpty
-//               ? ['']
-//               : FirestoreService.to.currentUser.friends,
-//         )
-//         .orderBy('name')
-//         .snapshots()
-//         .listen((querySnapshot) {
-//       FirestoreService.to.friendUsers.value = querySnapshot.docs.map((doc) {
-//         logger.info('friends lister: ${doc.data()}');
-//         return User.fromMap(doc.data());
-//       }).toList();
-//     });
-//   }
 }
