@@ -10,7 +10,7 @@ class SignOutSettingsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return S2Tile(
-      title: const Text('Sign out'),
+      title: Text('signOut'.tr),
       value: nil,
       onTap: () => _signOutDialog(),
       leading: const Icon(Icons.logout),
@@ -19,7 +19,7 @@ class SignOutSettingsItem extends StatelessWidget {
 
   void _signOutDialog() {
     Get.defaultDialog(
-      title: 'Sign out',
+      title: 'signOut'.tr,
       middleText: 'Do you want to sign out?',
       onConfirm: () {
         AuthService.to.signOut();

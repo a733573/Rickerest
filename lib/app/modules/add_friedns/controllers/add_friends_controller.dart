@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/core/utils/logger.dart';
-import 'package:rickerest/app/data/models/friend_user.dart';
+import 'package:rickerest/app/data/models/user.dart';
 import 'package:rickerest/app/data/services/auth_service.dart';
 import 'package:rickerest/app/data/services/firestore_service.dart';
 
@@ -26,14 +27,14 @@ class AddFriendsController extends GetxController {
   void validateText(String value) {
     _errorText.value = (_isNotSubmitted || EmailValidator.validate(value))
         ? ''
-        : 'Not a valid Email.';
+        : 'invalidEmail'.tr;
   }
 
   Future<void> findAccount() async {
     _isNotSubmitted = false;
     validateText(textEditingController.value.text);
     if (AuthService.to.currentUser?.email == textEditingController.value.text) {
-      _errorText.value = 'You can\'t add yourself to your friends.';
+      _errorText.value = 'youCan\'tAddYourself'.tr;
     }
     if (_errorText.value.isNotEmpty) {
       return;
@@ -42,27 +43,20 @@ class AddFriendsController extends GetxController {
     final doc = await FirestoreService.to
         .findAccountByEmail(textEditingController.value.text);
     if (doc != null) {
+      final friendUser = User.fromMap(doc.data());
       textEditingController.clear();
-      if (FirestoreService.to.currentUser?.friendsList
-              .firstWhereOrNull((e) => e.uid == doc.id) !=
-          null) {
-        _errorText.value = '"${doc.data()['name']}" is already your friend.';
+      if (FirestoreService.to.currentUser.friends.contains(friendUser.uid)) {
+        _errorText.value =
+            '"${doc.data()['name']}" ${'isAlreadyYourFriend'.tr}';
         return;
       }
-      final friendUser = FriendUser.fromMap(
-        uid: doc.id,
-        map: {
-          'name': doc.data()['name'],
-          'avatarImageUrl': doc.data()['avatarImageUrl']
-        },
-      );
       return Get.defaultDialog(
         title: 'User found!',
         middleText: 'Do you want to add "${friendUser.name}" to your friends?',
         onConfirm: () async {
           var snackbarTitle = '';
           var snackbarMessage = '';
-          await _addFriend(friendUser).then(
+          await _addFriend(friendUser.uid).then(
             (_) {
               snackbarTitle = 'Success!';
               snackbarMessage =
@@ -78,11 +72,10 @@ class AddFriendsController extends GetxController {
           _isNotSubmitted = true;
           Get
             ..back()
+            ..back()
             ..snackbar(
               snackbarTitle,
               snackbarMessage,
-              snackPosition: SnackPosition.BOTTOM,
-              duration: const Duration(seconds: 5),
             );
         },
         onCancel: () {},
@@ -92,19 +85,12 @@ class AddFriendsController extends GetxController {
     }
   }
 
-  Future<void> _addFriend(FriendUser friendUser) {
-    final currentUser = FirestoreService.to.currentUser;
+  Future<void> _addFriend(String friendUid) {
     final currentUserEntry = MapEntry(AuthService.to.uid!, {
-      'friends.${friendUser.uid}': {
-        'name': friendUser.name,
-        'avatarImageUrl': friendUser.avatarImageUrl
-      }
+      'friends': FieldValue.arrayUnion([friendUid])
     });
-    final friendUserEntry = MapEntry(friendUser.uid, {
-      'friends.${AuthService.to.uid!}': {
-        'name': currentUser!.name,
-        'avatarImageUrl': currentUser.avatarImageUrl
-      }
+    final friendUserEntry = MapEntry(friendUid, {
+      'friends': FieldValue.arrayUnion([AuthService.to.uid!])
     });
     return FirestoreService.to.batchUpdate(
       colId: 'users',

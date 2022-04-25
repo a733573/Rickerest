@@ -1,9 +1,16 @@
 import 'package:get/get.dart';
+import 'package:rickerest/app/data/models/room.dart';
 
 class ChatsController extends GetxController {
   static ChatsController get to => Get.find();
 
-  String limitText(String text) {
+  String latestMessageText(Room room) {
+    final sentBy = room.latestMessage.sentBy;
+    final text = _limitText(room.latestMessage.text);
+    return '$sentBy: $text';
+  }
+
+  String _limitText(String text) {
     return text.length > 70 ? '${text.substring(0, 70)}...' : text;
   }
 

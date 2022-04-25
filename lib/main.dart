@@ -6,6 +6,7 @@ import 'package:rickerest/app/global/bindings/initial_binding.dart';
 import 'package:rickerest/firebase_options.dart';
 
 import 'app/core/theme/app_theme.dart';
+import 'app/core/values/languages.dart';
 import 'app/routes/app_pages.dart';
 
 Future<void> main() async {
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: EasyDynamicTheme.of(context).themeMode!,
+      translations: Languages(),
+      locale: Get.deviceLocale,
+      fallbackLocale: const Locale('en', 'US'),
       initialRoute: AppPages.initial,
       initialBinding: InitialBinding(),
       getPages: AppPages.routes,

@@ -16,7 +16,7 @@ class EditProfileController extends GetxController {
   set avatarImageByte(Uint8List data) => _avatarImageByte.value = data;
 
   final textEditingController =
-      TextEditingController(text: FirestoreService.to.currentUser!.name);
+      TextEditingController(text: FirestoreService.to.currentUser.name);
 
   final RxBool _isChanged = false.obs;
 
@@ -38,30 +38,23 @@ class EditProfileController extends GetxController {
 
   Future<void> save() async {
     final Map<String, dynamic> data = {};
-    data['name'] = textEditingController.value.text;
+    if (textEditingController.value.text !=
+        FirestoreService.to.currentUser.name) {
+      data['name'] = textEditingController.value.text;
+    }
     if (avatarImageByte.isNotEmpty) {
       final url = await StorageService.to.uploadAvatarImage(avatarImageByte);
       data['avatarImageUrl'] = url;
-    } else {
-      data['avatarImageUrl'] = FirestoreService.to.currentUser!.avatarImageUrl;
     }
-
-    final entries = [MapEntry(AuthService.to.uid!, data)];
-    for (final friendUser in FirestoreService.to.currentUser!.friendsList) {
-      final entry = MapEntry(
-        friendUser.uid,
-        {'friends.${AuthService.to.uid}': data},
-      );
-      entries.add(entry);
-    }
-    await FirestoreService.to.batchUpdate(colId: 'users', entries: entries);
+    await FirestoreService.to
+        .updateDoc(colId: 'users', docId: AuthService.to.uid!, data: data);
     Get.back();
   }
 
   void validate(String value) {
     textIsEmpty = value.isEmpty;
     if (textIsEmpty) {
-      errorText = 'Your name must be within 1-20 characters.';
+      errorText = 'textIsEmpty'.tr;
     } else {
       errorText = '';
     }

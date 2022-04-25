@@ -16,33 +16,33 @@ class SettingsView extends GetView<SettingsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Settings',
+        title: Text(
+          'settings'.tr,
         ),
         automaticallyImplyLeading: false,
       ),
       body: Center(
         child: ListView(
-          children: const [
+          children: [
             Padding(
-              padding: EdgeInsets.all(8),
-              child: Text('General'),
+              padding: const EdgeInsets.all(8),
+              child: Text('general'.tr),
             ),
-            ThemeSettingsItem(),
-            Divider(),
+            const ThemeSettingsItem(),
+            const Divider(),
             Padding(
-              padding: EdgeInsets.all(8),
-              child: Text('Account'),
+              padding: const EdgeInsets.all(8),
+              child: Text('account'.tr),
             ),
-            EditProfileSettingsItem(),
-            SignOutSettingsItem(),
-            DeleteAccountSettingsItem(),
-            Divider(),
+            const EditProfileSettingsItem(),
+            const SignOutSettingsItem(),
+            const DeleteAccountSettingsItem(),
+            const Divider(),
             Padding(
-              padding: EdgeInsets.all(8),
-              child: Text('About Rickerest'),
+              padding: const EdgeInsets.all(8),
+              child: Text('about'.tr),
             ),
-            LicensesSettingsItem(),
+            const LicensesSettingsItem(),
           ],
         ),
       ),

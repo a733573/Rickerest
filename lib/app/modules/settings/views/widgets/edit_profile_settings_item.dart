@@ -10,7 +10,7 @@ class EditProfileSettingsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return S2Tile(
-      title: const Text('Edit profile'),
+      title: Text('editProfile'.tr),
       value: nil,
       onTap: () => Get.toNamed(Routes.editProfile),
       leading: const Icon(Icons.manage_accounts),

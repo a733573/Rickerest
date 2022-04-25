@@ -12,16 +12,16 @@ class EditProfileView extends GetView<EditProfileController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit profile'),
+        title: Text('editProfile'.tr),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const CircleAvatarEditItem(),
           const SizedBox(height: 30),
-          const Padding(
-            padding: EdgeInsets.only(left: 20),
-            child: Text('Name'),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Text('name'.tr),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -32,7 +32,7 @@ class EditProfileView extends GetView<EditProfileController> {
                 onChanged: (value) {
                   controller
                     ..isChanged = controller.avatarImageByte.isNotEmpty ||
-                        FirestoreService.to.currentUser!.name != value
+                        FirestoreService.to.currentUser.name != value
                     ..validate(value);
                 },
                 decoration: InputDecoration(
@@ -61,7 +61,7 @@ class EditProfileView extends GetView<EditProfileController> {
                 onPressed: controller.isChanged && controller.errorText.isEmpty
                     ? () => EditProfileController.to.save()
                     : null,
-                child: const Text('save'),
+                child: Text('save'.tr),
               );
             }),
           )

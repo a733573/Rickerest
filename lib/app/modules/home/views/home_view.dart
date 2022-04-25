@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rickerest/app/core/utils/logger.dart';
-import 'package:rickerest/app/data/models/current_user.dart';
+import 'package:rickerest/app/data/services/auth_service.dart';
 import 'package:rickerest/app/data/services/firestore_service.dart';
 import 'package:rickerest/app/global/widgets/custom_bottom_navigation_bar.dart';
 import 'package:rickerest/app/modules/home/controllers/home_controller.dart';
@@ -10,62 +8,47 @@ import 'package:rickerest/app/modules/home/views/widgets/current_user_tile.dart'
 import 'package:rickerest/app/modules/home/views/widgets/friends_tile.dart';
 import 'package:rickerest/app/routes/app_pages.dart';
 
+import 'widgets/loading.dart';
+
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () => Get.toNamed(Routes.addFriends),
-            icon: const Icon(Icons.person_add),
-          )
-        ],
-      ),
-      body: StreamBuilder<DocumentSnapshot>(
-        initialData: FirestoreService.to.currentUserDocumentCache,
-        stream: FirestoreService.to.currentUserStream,
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasError) {
-            logger.warning('Snapshot has error.');
-            return const SizedBox();
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SizedBox();
-          }
-
-          FirestoreService.to.currentUserDocumentCache = snapshot.data;
-          // final isFromCache = snapshot.data?.metadata.isFromCache;
-          // if (isFromCache != null && !isFromCache) {
-          //   logger.info('isFromCache=$isFromCache');
-          // }
-
-          final data = snapshot.data?.data()! as Map<String, dynamic>?;
-          FirestoreService.to.currentUser = CurrentUser.fromMap(data!);
-          final friendTiles = FirestoreService.to.currentUser!.friendsList
-              .map((friendUser) => FriendTile(friendUser));
-
-          return ListView(
-            children: [
-              CurrentUserTile(FirestoreService.to.currentUser!),
-              Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: Text(
-                  'Friends',
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
+    return Obx(() {
+      return FirestoreService.to.currentUser.uid != AuthService.to.uid
+          ? const Loading()
+          : Scaffold(
+              appBar: AppBar(
+                title: Text('home'.tr),
+                automaticallyImplyLeading: false,
+                actions: [
+                  IconButton(
+                    onPressed: () => Get.toNamed(Routes.addFriends),
+                    icon: const Icon(Icons.person_add),
+                  )
+                ],
               ),
-              ...friendTiles,
-            ],
-          );
-        },
-      ),
-      bottomNavigationBar: const CustomBottomNavigationBar(selectedIndex: 0),
-    );
+              body: Obx(() {
+                return ListView(
+                  children: [
+                    const CurrentUserTile(),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Text(
+                        'friends'.tr,
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ),
+                    ...FirestoreService.to.friendUsers.map((e) {
+                      return FriendTile(e);
+                    }),
+                  ],
+                );
+              }),
+              bottomNavigationBar:
+                  const CustomBottomNavigationBar(selectedIndex: 0),
+            );
+    });
   }
 }

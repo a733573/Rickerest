@@ -12,7 +12,7 @@ class DeleteAccountSettingsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return S2Tile(
-      title: const Text('Delete your account'),
+      title: Text('deleteAccount'.tr),
       value: nil,
       onTap: () => _deleteAccountDialog(),
       leading: const Icon(Icons.delete),
@@ -21,7 +21,7 @@ class DeleteAccountSettingsItem extends StatelessWidget {
 
   void _deleteAccountDialog() {
     Get.defaultDialog(
-      title: 'Delete your account',
+      title: 'deleteAccount'.tr,
       middleText: 'Do you want to delete your account?',
       onConfirm: () async {
         await SettingsController.to.deleteAccount();

@@ -1,51 +1,37 @@
-import 'package:dash_chat_2/dash_chat_2.dart';
-import 'package:rickerest/app/data/models/friend_user.dart';
-import 'package:rickerest/app/data/services/auth_service.dart';
-import 'package:rickerest/app/data/services/storage_service.dart';
+import 'package:rickerest/app/data/models/user.dart';
 
-class CurrentUser {
-  CurrentUser(
-    this.name,
-    this.email,
-    this.avatarImageUrl,
-    this.friendsList,
-    this.rooms,
-  );
-
-  CurrentUser.fromMap(Map<String, dynamic> map) {
-    name = map['name'] as String;
-    email = map['email'] as String;
-    avatarImageUrl = map['avatarImageUrl'] as String? ?? defaultAvatarImageUrl;
-    final friends = map['friends'] as Map<String, dynamic>?;
-    friendsList = friends?.entries
-            .map(
-              (e) => FriendUser.fromMap(
-                uid: e.key,
-                map: e.value as Map<String, dynamic>,
-              ),
-            )
-            .toList() ??
-        [];
-    friendsList.sort((a, b) => a.name.compareTo(b.name));
+class CurrentUser extends User {
+  CurrentUser({
+    required String uid,
+    required String name,
+    required String avatarImageUrl,
+    required this.email,
+    required this.friends,
+    required this.rooms,
+  }) : super(uid: uid, name: name, avatarImageUrl: avatarImageUrl) {
+    // logger.info('CurrentUser was created: ${toMap()}');
   }
 
-  final String uid = AuthService.to.uid!;
-  late final String name;
-  late final String email;
-  late final String avatarImageUrl;
-  late final List<FriendUser> friendsList;
-  late final List<String> rooms;
+  CurrentUser.fromMap(Map<String, dynamic> map)
+      : email = map['email'] as String,
+        friends =
+            (map['friends'] as List<dynamic>).map((e) => e.toString()).toList(),
+        rooms =
+            (map['rooms'] as List<dynamic>).map((e) => e.toString()).toList(),
+        super.fromMap(map) {
+    // logger.info('CurrentUser was created: ${toMap()}');
+  }
 
+  final String email;
+  final List<String> friends;
+  final List<String> rooms;
+
+  @override
   Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'email': email,
-      'avatarImageUrl': avatarImageUrl,
-      'friends': {...friendsList.map((e) => e.toMap)}
-    };
-  }
-
-  ChatUser toChatUser() {
-    return ChatUser(id: uid, firstName: name, profileImage: avatarImageUrl);
+    final map = super.toMap();
+    map['email'] = email;
+    map['friends'] = friends;
+    map['rooms'] = rooms;
+    return map;
   }
 }

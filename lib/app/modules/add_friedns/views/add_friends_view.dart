@@ -10,7 +10,7 @@ class AddFriendsView extends GetView<AddFriendsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add friends'),
+        title: Text('addFriends'.tr),
       ),
       body: const FindAccountTextField(),
     );

@@ -1,64 +1,46 @@
-import 'package:dash_chat_2/dash_chat_2.dart';
-import 'package:rickerest/app/core/utils/logger.dart';
-import 'package:rickerest/app/data/services/auth_service.dart';
-import 'package:rickerest/app/data/services/firestore_service.dart';
-
 import 'message.dart';
 
 class Room {
-  Room(
-    this._id,
-    this._latestMessage,
-    this._members,
+  Room({
+    required this.id,
+    required this.latestMessage,
+    required this.members,
     String? name,
     String? avatarImageUrl,
-  ) {
-    init(name, avatarImageUrl);
-  }
+  })  : _name = name,
+        _avatarImageUrl = avatarImageUrl;
 
-  Room.fromMap(this._id, Map<String, dynamic> map)
-      : _latestMessage =
+  Room.fromMap(Map<String, dynamic> map)
+      : id = map['id'] as String,
+        latestMessage =
             Message.fromMap(map['latestMessage'] as Map<String, dynamic>),
-        _members = (map['members'] as List<dynamic>)
-            .map((uid) => chatUserFromUid(uid as String))
-            .toList() {
-    init(map['name'] as String?, map['avatarImageUrl'] as String?);
-  }
+        members =
+            (map['members'] as List<dynamic>).map((e) => e.toString()).toList(),
+        _name = map['name'] as String?,
+        _avatarImageUrl = map['avatarImageUrl'] as String?;
 
-  final String _id;
-  final Message _latestMessage;
-  final List<ChatUser> _members;
-  late final String _name;
-  late final String _avatarImageUrl;
+  final String id;
+  final Message latestMessage;
+  final List<String> members;
+  final String? _name;
+  final String? _avatarImageUrl;
 
-  String get id => _id;
+  // TODO
+  String get name => _name ?? '';
 
-  Message get latestMessage => _latestMessage;
+  // TODO
+  String get avatarImageUrl => _avatarImageUrl ?? '';
 
-  List<ChatUser> get members => _members;
+  // static ChatUser chatUserFromUid(String uid) {
+  //   return FirestoreService.to.currentUser!.friends
+  //           .firstWhereOrNull((e) => e.uid == uid)
+  //           ?.toChatUser() ??
+  //       FirestoreService.to.currentUser!.toChatUser();
+  // }
 
-  String get name => _name;
-
-  String get avatarImageUrl => _avatarImageUrl;
-
-  static List<ChatUser> _friendMembers(List<ChatUser> members) {
-    logger.info('c');
-    return members.where((e) => e.id != AuthService.to.uid!).toList();
-  }
-
-  static ChatUser chatUserFromUid(String uid) {
-    logger.info('b');
-    final user = FirestoreService.to.currentUser!.friendsList
-        .firstWhere((e) => e.uid == uid);
-    logger.info('b');
-    return user.toChatUser();
-  }
-
-  void init(String? name, String? avatarImageUrl) {
-    logger.info('a');
-    final friendMember = _friendMembers(_members).first;
-    _name = name ?? friendMember.firstName!;
-    _avatarImageUrl = avatarImageUrl ?? friendMember.profileImage!;
-    logger.info('a');
-  }
+// void init(String? name, String? avatarImageUrl) {
+//   final friendMember = _friendMembers(members).first;
+//   this.name = name ?? friendMember.firstName!;
+//   this.avatarImageUrl = avatarImageUrl ?? friendMember.profileImage!;
+// }
 }

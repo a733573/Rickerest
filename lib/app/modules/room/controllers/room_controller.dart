@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/data/models/message.dart';
@@ -8,7 +7,7 @@ import 'package:rickerest/app/data/services/firestore_service.dart';
 class RoomController extends GetxController {
   RoomController get to => Get.find();
 
-  final currentChatUser = FirestoreService.to.currentUser!.toChatUser();
+  final currentChatUser = FirestoreService.to.currentUser.toChatUser();
 
   final Room room = Get.arguments as Room;
 
@@ -23,17 +22,12 @@ class RoomController extends GetxController {
     return FirestoreService.to.updateDoc(
       colId: 'rooms',
       docId: room.id,
-      data: {
-        'latestMessage': {
-          'createdAt': Timestamp.fromDate(m.createdAt),
-          'text': m.text
-        }
-      },
+      data: {'latestMessage': Message.fromChatMessage(m).toMap()},
     );
   }
 
-// @override
-// void onInit() {
-//   super.onInit();
-// }
+  @override
+  void onInit() {
+    super.onInit();
+  }
 }

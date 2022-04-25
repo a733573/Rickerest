@@ -1,6 +1,7 @@
 import 'package:awesome_select/awesome_select.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ThemeSettingsItem extends StatelessWidget {
   const ThemeSettingsItem({Key? key}) : super(key: key);
@@ -8,11 +9,11 @@ class ThemeSettingsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SmartSelect.single(
-      title: 'Theme',
+      title: 'theme'.tr,
       choiceItems: [
-        S2Choice(value: ThemeMode.dark, title: 'Dark'),
-        S2Choice(value: ThemeMode.light, title: 'Light'),
-        S2Choice(value: ThemeMode.system, title: 'System default'),
+        S2Choice(value: ThemeMode.dark, title: 'dark'.tr),
+        S2Choice(value: ThemeMode.light, title: 'light'.tr),
+        S2Choice(value: ThemeMode.system, title: 'systemDefault'.tr),
       ],
       selectedValue: EasyDynamicTheme.of(context).themeMode!,
       onChange: (choiceItem) => _changeTheme(

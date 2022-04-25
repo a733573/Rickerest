@@ -2,33 +2,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 
 class Message {
-  Message(this._createdAt, this._sentBy, this._text);
+  Message(this.createdAt, this.sentBy, this.text, this.readBy);
 
   Message.fromMap(Map<String, dynamic> map)
-      : _createdAt = (map['createdAt'] as Timestamp).toDate(),
-        _sentBy = map['sentBy'] as String,
-        _text = map['text'] as String;
+      : createdAt = (map['createdAt'] as Timestamp).toDate(),
+        sentBy = map['sentBy'] as String,
+        text = map['text'] as String,
+        readBy =
+            (map['readBy'] as List<dynamic>).map((e) => e.toString()).toList();
 
   Message.fromChatMessage(ChatMessage m)
-      : _createdAt = m.createdAt,
-        _sentBy = m.user.id,
-        _text = m.text;
+      : createdAt = m.createdAt,
+        sentBy = m.user.id,
+        text = m.text,
+        readBy = (m.customProperties?['readBy'] as List<dynamic>)
+            .map((e) => e.toString())
+            .toList();
 
-  final DateTime _createdAt;
-  final String _text;
-  final String _sentBy;
-
-  DateTime get createdAt => _createdAt;
-
-  String get text => _text;
-
-  String get sentBy => _sentBy;
+  final DateTime createdAt;
+  final String text;
+  final String sentBy;
+  final List<String> readBy;
 
   Map<String, dynamic> toMap() {
     return {
-      'createdAt': Timestamp.fromDate(_createdAt),
-      'sentBy': _sentBy,
-      'text': _text
+      'createdAt': Timestamp.fromDate(createdAt),
+      'sentBy': sentBy,
+      'text': text,
+      'readBy': readBy,
     };
   }
 }

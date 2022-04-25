@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/list_tile/gf_list_tile.dart';
-import 'package:rickerest/app/data/models/friend_user.dart';
+import 'package:rickerest/app/data/models/user.dart';
 
 import 'avatar_image_dialog.dart';
 
 class FriendTile extends StatelessWidget {
   const FriendTile(this.friendUser, {Key? key}) : super(key: key);
-  final FriendUser friendUser;
+  final User friendUser;
 
   @override
   Widget build(BuildContext context) {

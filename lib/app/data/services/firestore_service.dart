@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/data/models/current_user.dart';
+import 'package:rickerest/app/data/models/user.dart';
 
 import '../../core/utils/logger.dart';
 import 'auth_service.dart';
@@ -10,31 +13,75 @@ class FirestoreService extends GetxService {
 
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Stream<DocumentSnapshot> get currentUserStream =>
-      db.collection('users').doc(AuthService.to.uid).snapshots();
+  // Stream<DocumentSnapshot> get currentUserStream =>
+  //     db.collection('users').doc(AuthService.to.uid).snapshots();
 
-  DocumentSnapshot? currentUserDocumentCache;
+  // DocumentSnapshot? currentUserDocumentCache;
 
-  CurrentUser? currentUser;
+  final _currentUser = CurrentUser(
+    uid: '',
+    name: '',
+    avatarImageUrl: '',
+    email: '',
+    friends: [],
+    rooms: [],
+  ).obs;
 
-  Stream<QuerySnapshot> get roomsStream => db
-      .collection('rooms')
-      .where('members', arrayContains: AuthService.to.uid)
-      .orderBy('latestMessage.createdAt', descending: true)
-      .snapshots();
+  CurrentUser get currentUser => _currentUser.value;
+
+  set currentUser(CurrentUser value) => _currentUser.value = value;
+
+  final friendUsers = <User>[].obs;
+
+  // Stream<QuerySnapshot> get roomsStream => db
+  //     .collection('rooms')
+  //     .where('id', whereIn: currentUser!.rooms)
+  //     .orderBy('latestMessage.createdAt', descending: true)
+  //     .snapshots();
 
   QuerySnapshot? roomsCache;
 
-  Stream<QuerySnapshot> messagesStream(String roomId) {
-    return db
-        .collection('rooms')
-        .doc(roomId)
-        .collection('messages')
-        .orderBy('createdAt', descending: true)
-        .snapshots();
-  }
+  // Stream<QuerySnapshot> messagesStream(String roomId) {
+  //   return db
+  //       .collection('rooms')
+  //       .doc(roomId)
+  //       .collection('messages')
+  //       .orderBy('createdAt', descending: true)
+  //       .snapshots();
+  // }
 
   Map<String, QuerySnapshot?> messagesCache = {};
+
+  @override
+  void onInit() {
+    super.onInit();
+    StreamSubscription<QuerySnapshot>? friendsSub;
+    db
+        .collection('users')
+        .doc(AuthService.to.uid)
+        .snapshots()
+        .listen((documentSnapshot) {
+      logger.info('currentUser listener');
+      currentUser = CurrentUser.fromMap(documentSnapshot.data()!);
+      if (currentUser.friends.length != friendUsers.length) {
+        friendsSub?.cancel();
+        friendsSub = db
+            .collection('users')
+            .where(
+              'uid',
+              whereIn: currentUser.friends,
+            )
+            .orderBy('name')
+            .snapshots()
+            .listen((querySnapshot) {
+          logger.info('friendUsers listener');
+          friendUsers.value = querySnapshot.docs.map((doc) {
+            return User.fromMap(doc.data());
+          }).toList();
+        });
+      }
+    });
+  }
 
   Future<void> addDoc({
     required CollectionReference ref,
