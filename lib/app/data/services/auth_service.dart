@@ -17,11 +17,11 @@ class AuthService extends GetxService {
     super.onInit();
     auth.authStateChanges().listen((user) {
       if (user != null) {
-        Get.offAllNamed(Routes.home);
         logger.info('Signed in!');
+        Get.offAllNamed(Routes.home);
       } else {
-        Get.offAllNamed(Routes.signIn);
         logger.info('Signed out!');
+        Get.offAllNamed(Routes.signIn);
       }
     });
   }

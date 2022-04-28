@@ -27,10 +27,6 @@ class Languages extends Translations {
           'invalidEmail': 'Not a valid Email.',
           'youCan\'tAddYourself': 'You can\'t add yourself to your friends.',
           'isAlreadyYourFriend': ' is already your friend.',
-          'friendsIsEmpty':
-              'Let\'s add a friend from the icon in the upper right corner!',
-          'roomsIsEmpty':
-              'Let\'s send a message to your friend from the icon in the upper right corner!',
         },
         'ja_JP': {
           'home': 'ホーム',
@@ -56,8 +52,6 @@ class Languages extends Translations {
           'invalidEmail': '有効なメールアドレスではありません。',
           'youCan\'tAddYourself': '自分自身をフレンドに追加することはできません。',
           'isAlreadyYourFriend': 'は既にあなたのフレンドです。',
-          'friendsIsEmpty': '右上のアイコンからフレンドを追加してみよう！',
-          'roomsIsEmpty': '右上のアイコンから\nフレンドにメッセージを送ってみよう！',
         }
       };
 }

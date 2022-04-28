@@ -37,7 +37,7 @@ class EditProfileController extends GetxController {
   set errorText(String value) => _errorText.value = value;
 
   Future<void> save() async {
-    final Map<String, dynamic> data = {};
+    final JsonMap data = {};
     if (textEditingController.value.text !=
         FirestoreService.to.currentUser!.name) {
       data['name'] = textEditingController.value.text;

@@ -1,11 +1,24 @@
 import 'package:get/get.dart';
-// import 'package:rickerest/app/core/utils/logger.dart';
-// import 'package:rickerest/app/data/models/current_user.dart';
-// import 'package:rickerest/app/data/services/auth_service.dart';
-// import 'package:rickerest/app/data/services/firestore_service.dart';
-
-// import '../../../data/models/user.dart';
 
 class HomeController extends GetxController {
   static HomeController get to => Get.find();
+
+  // @override
+  // Future<void> onReady() async {
+  //   super.onReady();
+  //   await loadRooms();
+  // }
+  //
+  // Future<void> loadRooms() async {
+  //   FirestoreService.to.roomsCache = await FirestoreService.to.roomsQuery
+  //       ?.get(const GetOptions(source: Source.serverAndCache));
+  //   FirestoreService.to.rooms = FirestoreService.to.roomsCache?.docs
+  //           .map((doc) => Room.fromJson(doc.data()! as JsonMap))
+  //           .toList() ??
+  //       [];
+  //   logger.info(
+  //     'roomsCache: isFromCache='
+  //     '${FirestoreService.to.roomsCache?.metadata.isFromCache}',
+  //   );
+  // }
 }

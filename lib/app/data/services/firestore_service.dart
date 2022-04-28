@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:rickerest/app/data/models/current_user.dart';
 import 'package:rickerest/app/data/models/room.dart';
 import 'package:rickerest/app/data/models/user.dart';
+import 'package:rickerest/app/data/services/auth_service.dart';
 
 import '../../core/utils/logger.dart';
-import 'auth_service.dart';
 
 class FirestoreService extends GetxService {
   static FirestoreService get to => Get.find();
@@ -19,21 +19,27 @@ class FirestoreService extends GetxService {
   DocumentSnapshot? currentUserSnapshotCache;
   CurrentUser? currentUser;
 
-  Stream<QuerySnapshot> get friendUsersStream => db
-      .collection('users')
-      .where('uid', whereIn: currentUser!.friends)
-      .orderBy('name')
-      .snapshots();
-  QuerySnapshot? friendUsersSnapshotCache;
-  List<User>? friendUsers;
+  Query? get friendUsersQuery => currentUser!.friends.isEmpty
+      ? null
+      : db
+          .collection('users')
+          .where('uid', whereIn: currentUser!.friends)
+          .orderBy('name');
 
-  Stream<QuerySnapshot> get roomsStream => db
-      .collection('rooms')
-      .where('id', whereIn: currentUser!.rooms)
-      .orderBy('latestMessage.createdAt', descending: true)
-      .snapshots();
+  Stream<QuerySnapshot>? get friendUsersStream => friendUsersQuery?.snapshots();
+  QuerySnapshot? friendUsersSnapshotCache;
+  List<User> friendUsers = [];
+
+  Query? get roomsQuery => currentUser!.rooms.isEmpty
+      ? null
+      : db
+          .collection('rooms')
+          .where('id', whereIn: currentUser!.rooms)
+          .orderBy('latestMessage.createdAt', descending: true);
+
+  Stream<QuerySnapshot>? get roomsStream => roomsQuery?.snapshots();
   QuerySnapshot? roomsCache;
-  List<Room>? rooms;
+  List<Room> rooms = [];
 
   Stream<QuerySnapshot> messagesStream(String roomId) {
     return db
@@ -46,9 +52,35 @@ class FirestoreService extends GetxService {
 
   Map<String, QuerySnapshot?> messagesCache = {};
 
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    // currentUserSnapshotCache = await db
+    //     .collection('users')
+    //     .doc(AuthService.to.uid)
+    //     .get(const GetOptions(source: Source.cache));
+    // currentUser =
+    //     CurrentUser.fromMap(currentUserSnapshotCache!.data()! as JsonMap);
+    // friendUsersSnapshotCache =
+    //     await friendUsersQuery?.get(const GetOptions(source: Source.cache));
+    // friendUsers = friendUsersSnapshotCache?.docs
+    //         .map((doc) => User.fromMap(doc.data()! as JsonMap))
+    //         .toList() ??
+    //     [];
+    // logger
+    //   ..info(
+    //     'currentUserSnapshotCache: isFromCache='
+    //     '${currentUserSnapshotCache?.metadata.isFromCache}',
+    //   )
+    //   ..info(
+    //     'friendUsersSnapshotCache: isFromCache='
+    //     '${friendUsersSnapshotCache?.metadata.isFromCache}',
+    //   );
+  }
+
   Future<void> addDoc({
     required CollectionReference ref,
-    required Map<String, dynamic> data,
+    required JsonMap data,
   }) {
     return ref
         .add(data)
@@ -66,7 +98,7 @@ class FirestoreService extends GetxService {
   Future<void> setDoc({
     required String colId,
     required String docId,
-    required Map<String, dynamic> data,
+    required JsonMap data,
   }) {
     return db
         .collection(colId)
@@ -87,7 +119,7 @@ class FirestoreService extends GetxService {
   Future<void> updateDoc({
     required String colId,
     required String docId,
-    required Map<String, dynamic> data,
+    required JsonMap data,
   }) {
     return db
         .collection(colId)
@@ -105,27 +137,27 @@ class FirestoreService extends GetxService {
         );
   }
 
-  Future<void> batchUpdate({
-    required String colId,
-    required List<MapEntry<String, Map<String, dynamic>>> entries,
-  }) {
+  Future<void> batch(List<BatchCommand> batchCommands) {
     final batch = db.batch();
-    for (final e in entries) {
-      batch.update(db.collection(colId).doc(e.key), e.value);
+    for (final batchCommand in batchCommands) {
+      switch (batchCommand.batchOperation) {
+        case BatchOperation.set:
+          batch.set(batchCommand.docRef, batchCommand.data);
+          break;
+        case BatchOperation.update:
+          batch.update(batchCommand.docRef, batchCommand.data!);
+          break;
+        case BatchOperation.delete:
+          batch.delete(batchCommand.docRef);
+          break;
+      }
     }
-    return batch
-        .commit()
-        .then(
-          (_) => logger.info(
-            'Batch Updated: colId="$colId", length="${entries.length}"',
-          ),
-        )
-        .catchError(
-          (error) => logger.warning('Failed to batch update: $error'),
+    return batch.commit().then((_) => logger.info('Ran a batch.')).catchError(
+          (error) => logger.warning('Failed to run a batch: $error'),
         );
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getDocByDocId({
+  Future<DocumentSnapshot<JsonMap>> getDocByDocId({
     required String colId,
     required String docId,
   }) {
@@ -143,7 +175,7 @@ class FirestoreService extends GetxService {
     );
   }
 
-  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getDocsByField({
+  Future<List<QueryDocumentSnapshot<JsonMap>>> getDocsByField({
     required String colId,
     required String key,
     required dynamic val,
@@ -159,7 +191,7 @@ class FirestoreService extends GetxService {
     ).catchError(
       (error) {
         logger.warning('Failed to get firestore documents: $error');
-        return (val as QuerySnapshot<Map<String, dynamic>>).docs;
+        return (val as QuerySnapshot<JsonMap>).docs;
       },
     );
   }
@@ -183,10 +215,35 @@ class FirestoreService extends GetxService {
         );
   }
 
-  Future<QueryDocumentSnapshot<Map<String, dynamic>>?> findAccountByEmail(
+  Future<QueryDocumentSnapshot<JsonMap>?> findAccountByEmail(
     String email,
   ) {
     return getDocsByField(colId: 'users', key: 'email', val: email)
         .then((value) => value.isNotEmpty ? value[0] : null);
   }
 }
+
+class BatchCommand {
+  BatchCommand({
+    required this.docRef,
+    required this.batchOperation,
+    this.data,
+  })  : assert(
+          !((batchOperation == BatchOperation.update ||
+                  batchOperation == BatchOperation.set) &&
+              data == null),
+        ),
+        assert(!(batchOperation == BatchOperation.delete && data != null));
+
+  final DocumentReference docRef;
+  final BatchOperation batchOperation;
+  JsonMap? data;
+}
+
+enum BatchOperation {
+  set,
+  update,
+  delete,
+}
+
+typedef JsonMap = Map<String, dynamic>;

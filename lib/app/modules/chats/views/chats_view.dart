@@ -27,15 +27,14 @@ class ChatsView extends GetView<ChatsController> {
         ],
       ),
       body: FirestoreService.to.currentUser!.rooms.isEmpty
-          ? Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Center(child: Text('roomsIsEmpty'.tr)),
-            )
+          ? const SizedBox()
           : StreamBuilder<QuerySnapshot>(
               initialData: FirestoreService.to.roomsCache,
               stream: FirestoreService.to.roomsStream,
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
+              builder: (
+                BuildContext context,
+                AsyncSnapshot<QuerySnapshot> snapshot,
+              ) {
                 if (snapshot.hasError) {
                   logger.warning('Snapshot has error.');
                   return const SizedBox();
@@ -43,56 +42,60 @@ class ChatsView extends GetView<ChatsController> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const SizedBox();
                 }
+                final isFromCache = snapshot.data?.metadata.isFromCache;
+                if (isFromCache != null && !isFromCache) {
+                  logger.warning('isFromCache=$isFromCache');
+                }
 
                 FirestoreService.to.roomsCache = snapshot.data;
-                // final isFromCache = snapshot.data?.metadata.isFromCache;
-                // if (isFromCache != null && !isFromCache) {
-                //   logger.info('isFromCache=$isFromCache');
-                // }
-
+                FirestoreService.to.rooms = snapshot.data!.docs
+                    .map((doc) => Room.fromJson(doc.data()! as JsonMap))
+                    .toList();
                 return ListView(
-                  children:
-                      snapshot.data!.docs.map((DocumentSnapshot document) {
-                    final data = document.data()! as Map<String, dynamic>;
-                    final room = Room.fromMap(data);
-                    return GFListTile(
-                      title: Text(
-                        room.name,
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                      subTitle: Text(
-                        controller.latestMessageText(room),
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onBackground
-                              .withOpacity(0.6),
+                  children: FirestoreService.to.rooms
+                      .map(
+                        (room) => GFListTile(
+                          title: Text(
+                            room.name,
+                            style: Theme.of(context).textTheme.subtitle1,
+                          ),
+                          subTitle: Text(
+                            controller.latestMessageText(room),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.6),
+                            ),
+                          ),
+                          avatar: Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(room.avatarImageUrl),
+                              backgroundColor: Colors.white,
+                            ),
+                          ),
+                          icon: Text(
+                            controller.latestMessageCreatedAt(
+                              room.latestMessage!.createdAt,
+                            ),
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.6),
+                            ),
+                          ),
+                          onTap: () => Get.toNamed(
+                            Routes.room,
+                            arguments: room,
+                          ),
                         ),
-                      ),
-                      avatar: Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(room.avatarImageUrl),
-                          backgroundColor: Colors.white,
-                        ),
-                      ),
-                      icon: Text(
-                        controller.relativeTime(room.latestMessage.createdAt),
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onBackground
-                              .withOpacity(0.6),
-                        ),
-                      ),
-                      onTap: () => Get.toNamed(
-                        Routes.room,
-                        arguments: room,
-                      ),
-                    );
-                  }).toList(),
+                      )
+                      .toList(),
                 );
               },
             ),

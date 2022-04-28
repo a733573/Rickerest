@@ -1,5 +1,7 @@
 import 'package:rickerest/app/data/models/user.dart';
 
+import '../services/firestore_service.dart';
+
 class CurrentUser extends User {
   CurrentUser({
     required String uid,
@@ -12,7 +14,7 @@ class CurrentUser extends User {
     // logger.info('CurrentUser was created: ${toMap()}');
   }
 
-  CurrentUser.fromMap(Map<String, dynamic> map)
+  CurrentUser.fromMap(JsonMap map)
       : email = map['email'] as String,
         friends =
             (map['friends'] as List<dynamic>).map((e) => e.toString()).toList(),
@@ -27,7 +29,7 @@ class CurrentUser extends User {
   final List<String> rooms;
 
   @override
-  Map<String, dynamic> toMap() {
+  JsonMap toMap() {
     final map = super.toMap();
     map['email'] = email;
     map['friends'] = friends;

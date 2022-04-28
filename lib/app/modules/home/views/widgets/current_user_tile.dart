@@ -21,7 +21,8 @@ class CurrentUserTile extends StatelessWidget {
       avatar: GestureDetector(
         onTap: () => Get.to(
           () => AvatarImageDialog(
-              FirestoreService.to.currentUser!.avatarImageUrl),
+            FirestoreService.to.currentUser!.avatarImageUrl,
+          ),
           fullscreenDialog: true,
         ),
         child: CircleAvatar(

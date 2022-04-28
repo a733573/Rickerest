@@ -42,13 +42,24 @@ class HomeView extends GetView<HomeController> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SizedBox();
           }
+
           // final isFromCache = snapshot.data?.metadata.isFromCache;
           // if (isFromCache != null && !isFromCache) {
           //   logger.warning('isFromCache=$isFromCache');
           // }
+
+          // final previousRoomsLength =
+          //     FirestoreService.to.currentUser?.rooms.length;
+
           FirestoreService.to.currentUserSnapshotCache = snapshot.data;
-          final data = snapshot.data!.data()! as Map<String, dynamic>;
+          final data = snapshot.data!.data()! as JsonMap;
           FirestoreService.to.currentUser = CurrentUser.fromMap(data);
+
+          // if (FirestoreService.to.currentUser!.rooms.length !=
+          //     previousRoomsLength) {
+          //   controller.loadRooms();
+          //   logger.info('Loading rooms.');
+          // }
           return ListView(
             children: [
               // ignore: prefer_const_constructors
@@ -62,10 +73,7 @@ class HomeView extends GetView<HomeController> {
                 ),
               ),
               FirestoreService.to.currentUser!.friends.isEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Center(child: Text('friendsIsEmpty'.tr)),
-                    )
+                  ? const SizedBox()
                   : StreamBuilder<QuerySnapshot>(
                       initialData: FirestoreService.to.friendUsersSnapshotCache,
                       stream: FirestoreService.to.friendUsersStream,
@@ -81,20 +89,23 @@ class HomeView extends GetView<HomeController> {
                             ConnectionState.waiting) {
                           return const SizedBox();
                         }
-                        // final isFromCache = snapshot.data?.metadata.isFromCache;
-                        // if (isFromCache != null && !isFromCache) {
-                        //   logger.warning('isFromCache=$isFromCache');
-                        // }
+                        final isFromCache = snapshot.data?.metadata.isFromCache;
+                        if (isFromCache != null && !isFromCache) {
+                          logger.warning('isFromCache=$isFromCache');
+                        }
                         FirestoreService.to.friendUsersSnapshotCache =
                             snapshot.data;
+                        FirestoreService.to.friendUsers =
+                            snapshot.data!.docs.map((doc) {
+                          final data = doc.data()! as JsonMap;
+                          return User.fromMap(data);
+                        }).toList();
                         return ListView(
                           shrinkWrap: true,
                           physics: const ClampingScrollPhysics(),
-                          children: snapshot.data!.docs.map((doc) {
-                            final data = doc.data()! as Map<String, dynamic>;
-                            final friendUser = User.fromMap(data);
-                            return FriendTile(friendUser);
-                          }).toList(),
+                          children: FirestoreService.to.friendUsers
+                              .map((friendUser) => FriendTile(friendUser))
+                              .toList(),
                         );
                       },
                     ),

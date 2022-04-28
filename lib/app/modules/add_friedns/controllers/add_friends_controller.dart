@@ -3,6 +3,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:rickerest/app/core/utils/logger.dart';
+import 'package:rickerest/app/data/models/room.dart';
 import 'package:rickerest/app/data/models/user.dart';
 import 'package:rickerest/app/data/services/auth_service.dart';
 import 'package:rickerest/app/data/services/firestore_service.dart';
@@ -56,7 +57,7 @@ class AddFriendsController extends GetxController {
         onConfirm: () async {
           var snackbarTitle = '';
           var snackbarMessage = '';
-          await _addFriend(friendUser.uid).then(
+          await _addFriend(friendUser).then(
             (_) {
               snackbarTitle = 'Success!';
               snackbarMessage =
@@ -85,16 +86,30 @@ class AddFriendsController extends GetxController {
     }
   }
 
-  Future<void> _addFriend(String friendUid) {
-    final currentUserEntry = MapEntry(AuthService.to.uid!, {
-      'friends': FieldValue.arrayUnion([friendUid])
-    });
-    final friendUserEntry = MapEntry(friendUid, {
-      'friends': FieldValue.arrayUnion([AuthService.to.uid!])
-    });
-    return FirestoreService.to.batchUpdate(
-      colId: 'users',
-      entries: [currentUserEntry, friendUserEntry],
-    );
+  Future<void> _addFriend(User friendUser) {
+    final room = Room(members: [AuthService.to.uid!, friendUser.uid]);
+    return FirestoreService.to.batch([
+      BatchCommand(
+        docRef: room.ref,
+        batchOperation: BatchOperation.set,
+        data: room.toJson(),
+      ),
+      BatchCommand(
+        docRef: FirestoreService.to.currentUser!.ref,
+        batchOperation: BatchOperation.update,
+        data: {
+          'friends': FieldValue.arrayUnion([friendUser.uid]),
+          'rooms': FieldValue.arrayUnion([room.id]),
+        },
+      ),
+      BatchCommand(
+        docRef: friendUser.ref,
+        batchOperation: BatchOperation.update,
+        data: {
+          'friends': FieldValue.arrayUnion([AuthService.to.uid]),
+          'rooms': FieldValue.arrayUnion([room.id]),
+        },
+      )
+    ]);
   }
 }

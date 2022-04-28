@@ -9,7 +9,7 @@ class InitialBinding extends Bindings {
   void dependencies() {
     Get
       ..put(AuthService())
-      ..lazyPut(() => FirestoreService())
+      ..lazyPut(() => FirestoreService(), fenix: true)
       ..lazyPut(() => StorageService());
   }
 }
