@@ -46,8 +46,10 @@ class EditProfileController extends GetxController {
       final url = await StorageService.to.uploadAvatarImage(avatarImageByte);
       data['avatarImageUrl'] = url;
     }
-    await FirestoreService.to
-        .updateDoc(colId: 'users', docId: AuthService.to.uid!, data: data);
+    await FirestoreService.to.updateDoc(
+      ref: FirestoreService.to.db.collection('users').doc(AuthService.to.uid),
+      data: data,
+    );
     Get.back();
   }
 

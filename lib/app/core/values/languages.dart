@@ -27,6 +27,8 @@ class Languages extends Translations {
           'invalidEmail': 'Not a valid Email.',
           'youCan\'tAddYourself': 'You can\'t add yourself to your friends.',
           'isAlreadyYourFriend': ' is already your friend.',
+          'chooseFriends': 'Choose friends',
+          'create': 'create',
         },
         'ja_JP': {
           'home': 'ホーム',
@@ -52,6 +54,8 @@ class Languages extends Translations {
           'invalidEmail': '有効なメールアドレスではありません。',
           'youCan\'tAddYourself': '自分自身をフレンドに追加することはできません。',
           'isAlreadyYourFriend': 'は既にあなたのフレンドです。',
+          'chooseFriends': 'フレンド選択',
+          'create': '作成',
         }
       };
 }

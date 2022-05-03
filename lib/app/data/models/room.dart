@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rickerest/app/data/services/auth_service.dart';
+import 'package:rickerest/app/data/services/storage_service.dart';
 
 import '../services/firestore_service.dart';
 import 'message.dart';
@@ -35,17 +36,30 @@ class Room {
   final String? _name;
   final String? _avatarImageUrl;
 
-  String get name =>
-      _name ??
-      FirestoreService.to.friendUsers
-          .firstWhere((friendUser) => friendUser.uid == otherMembers.first)
-          .name;
+  String get name {
+    if (_name != null) {
+      return _name!;
+    } else {
+      final otherUsers = FirestoreService.to.friendUsers
+          .where((friendUser) => otherMembers.contains(friendUser.uid));
+      final name = otherUsers.map((user) => user.name).join(', ');
+      return name;
+    }
+  }
 
-  String get avatarImageUrl =>
-      _avatarImageUrl ??
-      FirestoreService.to.friendUsers
-          .firstWhere((friendUser) => friendUser.uid == otherMembers.first)
-          .avatarImageUrl;
+  String get avatarImageUrl {
+    if (_avatarImageUrl != null) {
+      return _avatarImageUrl!;
+    } else {
+      if (members.length == 2) {
+        return FirestoreService.to.friendUsers
+            .firstWhere((friendUser) => friendUser.uid == otherMembers.first)
+            .avatarImageUrl;
+      } else {
+        return defaultGroupAvatarImageUrl;
+      }
+    }
+  }
 
   List<String> get otherMembers =>
       members.where((uid) => uid != AuthService.to.uid).toList();
@@ -57,9 +71,7 @@ class Room {
 
   bool get isNew => _isNew;
 
-  bool get isPersonal => _name == null;
-
-  bool get isGroup => !isPersonal;
+  bool get isPersonal => _name == null && members.length == 2;
 
   JsonMap toJson() {
     return {

@@ -6,8 +6,8 @@ import 'package:rickerest/app/routes/app_pages.dart';
 
 import 'avatar_image_dialog.dart';
 
-class FriendTile extends StatelessWidget {
-  const FriendTile(this.friendUser, {Key? key}) : super(key: key);
+class HomeFriendTile extends StatelessWidget {
+  const HomeFriendTile(this.friendUser, {Key? key}) : super(key: key);
   final User friendUser;
 
   @override

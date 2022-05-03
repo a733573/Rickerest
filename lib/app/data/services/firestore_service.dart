@@ -96,18 +96,14 @@ class FirestoreService extends GetxService {
   }
 
   Future<void> setDoc({
-    required String colId,
-    required String docId,
+    required DocumentReference ref,
     required JsonMap data,
   }) {
-    return db
-        .collection(colId)
-        .doc(docId)
+    return ref
         .set(data)
         .then(
           (_) => logger.info(
-            'Set a document to firestore: colId="$colId", docId="$docId", '
-            'data=$data',
+            'Set a document to firestore: path="${ref.path}", data=$data',
           ),
         )
         .catchError(
@@ -117,18 +113,14 @@ class FirestoreService extends GetxService {
   }
 
   Future<void> updateDoc({
-    required String colId,
-    required String docId,
+    required DocumentReference ref,
     required JsonMap data,
   }) {
-    return db
-        .collection(colId)
-        .doc(docId)
+    return ref
         .update(data)
         .then(
           (_) => logger.info(
-            'Updated a firestore document: colId="$colId", docId="$docId", '
-            'data=$data',
+            'Updated a firestore document: path="${ref.path}", data=$data',
           ),
         )
         .catchError(
@@ -215,11 +207,30 @@ class FirestoreService extends GetxService {
         );
   }
 
-  Future<QueryDocumentSnapshot<JsonMap>?> findAccountByEmail(
-    String email,
-  ) {
+  Future<QueryDocumentSnapshot<JsonMap>?> findAccountByEmail(String email) {
     return getDocsByField(colId: 'users', key: 'email', val: email)
         .then((value) => value.isNotEmpty ? value[0] : null);
+  }
+
+  Future<Room> createRoom(List<String> members) async {
+    final room = Room(members: members);
+    await batch([
+      BatchCommand(
+        docRef: room.ref,
+        batchOperation: BatchOperation.set,
+        data: room.toJson(),
+      ),
+      ...members.map((uid) {
+        return BatchCommand(
+          docRef: db.collection('users').doc(uid),
+          batchOperation: BatchOperation.update,
+          data: {
+            'rooms': FieldValue.arrayUnion([room.id]),
+          },
+        );
+      })
+    ]);
+    return room;
   }
 }
 

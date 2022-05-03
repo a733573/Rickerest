@@ -12,8 +12,7 @@ class SignInController extends GetxController {
     String? avatarImageUrl,
   }) {
     return FirestoreService.to.setDoc(
-      colId: 'users',
-      docId: uid,
+      ref: FirestoreService.to.db.collection('users').doc(uid),
       data: {
         'uid': uid,
         'name': name,

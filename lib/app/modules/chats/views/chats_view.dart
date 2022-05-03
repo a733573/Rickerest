@@ -42,10 +42,10 @@ class ChatsView extends GetView<ChatsController> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const SizedBox();
                 }
-                final isFromCache = snapshot.data?.metadata.isFromCache;
-                if (isFromCache != null && !isFromCache) {
-                  logger.warning('isFromCache=$isFromCache');
-                }
+                // final isFromCache = snapshot.data?.metadata.isFromCache;
+                // if (isFromCache != null && !isFromCache) {
+                //   logger.warning('isFromCache=$isFromCache');
+                // }
 
                 FirestoreService.to.roomsCache = snapshot.data;
                 FirestoreService.to.rooms = snapshot.data!.docs

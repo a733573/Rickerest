@@ -7,7 +7,7 @@ import 'package:rickerest/app/data/services/firestore_service.dart';
 import 'package:rickerest/app/global/widgets/custom_bottom_navigation_bar.dart';
 import 'package:rickerest/app/modules/home/controllers/home_controller.dart';
 import 'package:rickerest/app/modules/home/views/widgets/current_user_tile.dart';
-import 'package:rickerest/app/modules/home/views/widgets/friends_tile.dart';
+import 'package:rickerest/app/modules/home/views/widgets/home_friend_tile.dart';
 import 'package:rickerest/app/routes/app_pages.dart';
 
 import '../../../data/models/current_user.dart';
@@ -104,7 +104,7 @@ class HomeView extends GetView<HomeController> {
                           shrinkWrap: true,
                           physics: const ClampingScrollPhysics(),
                           children: FirestoreService.to.friendUsers
-                              .map((friendUser) => FriendTile(friendUser))
+                              .map((friendUser) => HomeFriendTile(friendUser))
                               .toList(),
                         );
                       },

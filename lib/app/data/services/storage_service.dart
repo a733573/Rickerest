@@ -9,6 +9,9 @@ import 'auth_service.dart';
 const defaultAvatarImageUrl =
     'https://firebasestorage.googleapis.com/v0/b/rickerest.appspot.com/o/images%2Favatar%2Fdefault_avatar_image.png?alt=media&token=ca131581-df0c-42fb-9646-95afb3183f84';
 
+const defaultGroupAvatarImageUrl =
+    'https://firebasestorage.googleapis.com/v0/b/rickerest.appspot.com/o/images%2Favatar%2Fdefault_avatar_image_group.png?alt=media&token=80995a6c-d664-448e-80e5-fddb36e28fa7';
+
 class StorageService extends GetxService {
   static StorageService get to => Get.find();
 
